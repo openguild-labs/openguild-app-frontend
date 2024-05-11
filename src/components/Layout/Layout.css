@@ -1,0 +1,17 @@
+#navbar a {
+  height: 100%;
+  display: block;
+  display: flex;
+  align-items: center;
+  padding-inline: 16px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+#navbar a:hover {
+  border-bottom-color: #d7cec9;
+}
+
+#navbar a.active {
+  border-bottom-color: #191015;
+}
