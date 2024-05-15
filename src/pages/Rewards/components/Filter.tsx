@@ -1,12 +1,11 @@
-import { Checkbox, Menu, MenuButton, MenuItem, MenuItems, Transition } from "@headlessui/react";
+import MenuButton from "@/components/MenuButton/MenuButton";
+import { Checkbox, Menu, MenuItems, Transition } from "@headlessui/react";
 import { FaCheck } from "react-icons/fa6";
 
 export default function Filter() {
   return (
     <Menu __demoMode>
-      <MenuButton className="w-[300px] h-[50px] items-center gap-2 rounded-md bg-white/5 py-1.5 px-3 text-sm/6 font-semibold text-white  focus:outline-none data-[hover]:bg-white/10 data-[open]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white">
-        Sort & Filter
-      </MenuButton>
+      <MenuButton label="Sort & Filter" />
       <Transition
         enter="transition ease-out duration-75"
         enterFrom="opacity-0 scale-95"

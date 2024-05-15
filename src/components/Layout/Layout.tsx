@@ -20,9 +20,9 @@ function Layout() {
   const isHomePath = location.pathname === HOME_PATH;
 
   return (
-    <main className="bg-black pb-12">
+    <main className="bg-black min-h-screen pb-12">
       <header
-        className="flex items-center px-9 fixed top-0 right-0 left-0 bg-black shadow-xs shadow-neutral-100 z-10"
+        className="flex items-center px-9 fixed top-0 right-0 left-0 bg-neutral-950 shadow-xs shadow-neutral-100 z-10"
         style={{
           height: HEADER_HEIGHT,
           justifyContent: isHomePath ? "center" : "space-between",
@@ -53,14 +53,14 @@ function Layout() {
               </ul>
             </nav>
 
-            <Button as="button" className="border rounded-lg border-neutral-400 px-4 py-1">
+            <Button as="button" className="bg-[#0fdbd1] text-black text-sm font-bold rounded-lg px-4 py-2">
               Login
             </Button>
           </>
         )}
       </header>
       <article
-        className="container mx-auto px-9"
+        className="container mx-auto max-w-[1140px] px-9"
         style={{
           paddingTop: HEADER_HEIGHT,
         }}

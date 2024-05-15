@@ -5,7 +5,7 @@
   align-items: center;
   padding-inline: 16px;
   border-bottom: 2px solid transparent;
-  transition: all 0.3s ease;
+  transition: all 0.4s ease;
 }
 
 #navbar a:hover {

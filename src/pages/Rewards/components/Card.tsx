@@ -1,3 +1,4 @@
+import Tag from "@/components/Tag/Tag";
 import CardImg from "@assets/images/card-img.webp";
 function Card() {
   return (
@@ -9,12 +10,8 @@ function Card() {
       <div className="my-2 ml-2">Archloot AdventurerPass</div>
       <div className="bg-[#1c2023] mt-3 mb-5 w-full h-[1px]" />
       <div className="flex items-center mb-3 ml-2 gap-1">
-        <div className="flex gap-1 rounded-md border border-white/20 w-auto px-3 py-1 text-sm">
-          <span className="text-[#0fdbd1] inline-block">EP</span> 15
-        </div>
-        <div className="flex gap-1 rounded-md border border-white/20 w-auto px-3 py-1 text-sm">
-          <span className="text-[#0fdbd1] inline-block">Badge</span> Archloot
-        </div>
+        <Tag value="EP 15" />
+        <Tag value="Badge Archloot" />
       </div>
     </div>
   );
