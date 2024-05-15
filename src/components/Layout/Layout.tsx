@@ -20,16 +20,16 @@ function Layout() {
   const isHomePath = location.pathname === HOME_PATH;
 
   return (
-    <main>
+    <main className="bg-black pb-12">
       <header
-        className="flex items-center px-9 fixed top-0 right-0 left-0 bg-white shadow-lg shadow-neutral-100"
+        className="flex items-center px-9 fixed top-0 right-0 left-0 bg-black shadow-xs shadow-neutral-100 z-10"
         style={{
           height: HEADER_HEIGHT,
           justifyContent: isHomePath ? "center" : "space-between",
         }}
       >
         <Link to={MISSIONS_PATH}>
-          <h1 className="font-bold text-xl">ChainCohort</h1>
+          <h1 className="font-bold text-xl ">ChainCohort</h1>
         </Link>
         {!isHomePath && (
           <>
@@ -53,10 +53,7 @@ function Layout() {
               </ul>
             </nav>
 
-            <Button
-              as="button"
-              className="border rounded-lg border-neutral-400 px-4 py-1"
-            >
+            <Button as="button" className="border rounded-lg border-neutral-400 px-4 py-1">
               Login
             </Button>
           </>
