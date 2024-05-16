@@ -1,6 +1,10 @@
 import { Button, Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from "@headlessui/react";
 import { Dispatch, SetStateAction } from "react";
 import SearchInput from "../SearchInput/SearchInput";
+import googleImg from "@assets/images/google.webp";
+import metamaskImg from "@assets/images/metamask.webp";
+import twitterImg from "@assets/images/twitter.webp";
+import coinbaseImg from "@assets/images/coinbase.webp";
 
 interface CustomDialogProps {
   isOpen: boolean;
@@ -16,7 +20,7 @@ const CustomDialog: React.FC<CustomDialogProps> = ({ isOpen, setIsOpen }) => {
     <>
       <Transition appear show={isOpen}>
         <Dialog as="div" className="relative z-50 focus:outline-none" onClose={close}>
-          <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+          <div className="fixed inset-0 bg-black/40" aria-hidden="true" />
           <div className="fixed inset-0  w-screen overflow-y-auto">
             <div className="flex min-h-full items-center justify-center p-4">
               <TransitionChild
@@ -39,18 +43,25 @@ const CustomDialog: React.FC<CustomDialogProps> = ({ isOpen, setIsOpen }) => {
                   <div className="flex items-center gap-2 mt-4">
                     <div className="bg-white/10  w-full h-[1px]" />
                     <div className="text-xs text-white/50 w-[100px] shrink-0">or Sign in with</div>
-
                     <div className="bg-white/10  w-full h-[1px]" />
                   </div>
-
-                  <div className="mt-4">
-                    <Button
-                      className="inline-flex items-center gap-2 rounded-md bg-gray-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white"
-                      onClick={close}
-                    >
-                      Got it, thanks!
-                    </Button>
+                  <div className="text-sm mt-6 mb-4"> Social Account</div>
+                  <div className="flex justify-between max-w-[270px] mx-auto">
+                    {[0, 1, 2, 3].map((_, index) => (
+                      <div className=" rounded-full bg-[#121719] w-10 h-10 flex items-center justify-center">
+                        <img src={index % 2 == 0 ? twitterImg : googleImg} alt="ggImg" className="w-6 h-6" />
+                      </div>
+                    ))}
                   </div>
+                  <div className="text-sm mt-6 mb-4"> Crypto Wallet</div>
+                  <div className="flex justify-between max-w-[270px] mx-auto mb-8">
+                    {[0, 1, 2, 3].map((_, index) => (
+                      <div className=" rounded-full bg-[#121719] w-10 h-10 flex items-center justify-center">
+                        <img src={index % 2 == 0 ? coinbaseImg : metamaskImg} alt="ggImg" className="w-6 h-6" />
+                      </div>
+                    ))}
+                  </div>{" "}
+                  <div className="text-xs text-white/50 mb-2">Self-custodial log in by Web3Auth</div>
                 </DialogPanel>
               </TransitionChild>
             </div>
