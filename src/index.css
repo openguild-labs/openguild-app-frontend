@@ -16,3 +16,9 @@
 .transition-effect {
   transition: all 0.4s ease;
 }
+
+* {
+  scrollbar-width: thin;
+  scrollbar-gutter: both-edges;
+  scrollbar-color: #0fdbd199 #0fdbd11a;
+}

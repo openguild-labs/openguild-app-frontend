@@ -3,6 +3,8 @@ import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { HEADER_HEIGHT } from "../../constants/dimensions";
 import "./Layout.css";
 import { HOME_PATH, MISSIONS_PATH, REWARDS_PATH } from "../../constants/links";
+import CustomDialog from "../CustomDialog/CustomDialog";
+import { useState } from "react";
 
 const linkItems = [
   {
@@ -18,6 +20,7 @@ const linkItems = [
 function Layout() {
   const location = useLocation();
   const isHomePath = location.pathname === HOME_PATH;
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   return (
     <main className="bg-black min-h-screen pb-12">
@@ -26,6 +29,7 @@ function Layout() {
         style={{
           height: HEADER_HEIGHT,
           justifyContent: isHomePath ? "center" : "space-between",
+          marginRight: isDialogOpen ? "14px" : "0",
         }}
       >
         <Link to={MISSIONS_PATH}>
@@ -52,8 +56,15 @@ function Layout() {
                 })}
               </ul>
             </nav>
-
-            <Button as="button" className="bg-[#0fdbd1] text-black text-sm font-bold rounded-lg px-4 py-2">
+            <CustomDialog isOpen={isDialogOpen} setIsOpen={setIsDialogOpen} />
+            <Button
+              as="button"
+              className="bg-[#0fdbd1] text-black text-sm font-bold rounded-lg px-4 py-2"
+              onClick={() => setIsDialogOpen(!isDialogOpen)}
+              style={{
+                marginRight: isDialogOpen ? "-2px" : "0",
+              }}
+            >
               Login
             </Button>
           </>

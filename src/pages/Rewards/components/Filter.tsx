@@ -4,7 +4,7 @@ import { FaCheck } from "react-icons/fa6";
 
 export default function Filter() {
   return (
-    <Menu __demoMode>
+    <Menu>
       <MenuButton label="Sort & Filter" />
       <Transition
         enter="transition ease-out duration-75"
