@@ -25,7 +25,7 @@ function Layout() {
   return (
     <main className="bg-black min-h-screen pb-12">
       <header
-        className="flex items-center px-9 fixed top-0 right-0 left-0 bg-neutral-950 shadow-xs shadow-neutral-100 z-10"
+        className="flex items-center px-9 fixed top-0 right-0 left-0 bg-[#141417] shadow-xs shadow-neutral-100 z-10"
         style={{
           height: HEADER_HEIGHT,
           justifyContent: isHomePath ? "center" : "space-between",
@@ -59,7 +59,7 @@ function Layout() {
             <CustomDialog isOpen={isDialogOpen} setIsOpen={setIsDialogOpen} />
             <Button
               as="button"
-              className="bg-[#0fdbd1] text-black text-sm font-bold rounded-lg px-4 py-2"
+              className="bg-primary-color text-black text-sm font-bold rounded-lg px-4 py-2"
               onClick={() => setIsDialogOpen(!isDialogOpen)}
               style={{
                 marginRight: isDialogOpen ? "-2px" : "0",

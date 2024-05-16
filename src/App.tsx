@@ -4,6 +4,7 @@ import Missions from "./pages/Missions";
 import NotFound from "./pages/NotFound";
 import Rewards from "./pages/Rewards";
 import Home from "./pages/Home";
+import MissionDetails from "./pages/MissionDetails";
 
 function App() {
   const routes: RouteObject[] = [
@@ -13,6 +14,7 @@ function App() {
       children: [
         { path: "/", element: <Home /> },
         { path: "/missions", element: <Missions /> },
+        { path: "/missions/:id", element: <MissionDetails /> },
         { path: "/rewards", element: <Rewards /> },
         { path: "*", element: <NotFound /> },
       ],

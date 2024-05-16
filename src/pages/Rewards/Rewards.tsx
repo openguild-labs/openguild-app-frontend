@@ -1,10 +1,10 @@
-import CustomTab from "@/components/CustomTab/CustomTab";
+import CustomTab from "@/components/CustomTab";
 import ActivityList from "./components/ActivityList";
 import Banner from "./components/Banner";
 import CardContainer from "./components/CardContainer";
 import Filter from "./components/Filter";
-import Pagination from "@/components/Pagination/Pagination";
-import SearchInput from "@/components/SearchInput/SearchInput";
+import Pagination from "@/components/Pagination";
+import SearchInput from "@/components/SearchInput";
 
 const categories: TCategory[] = [
   {
@@ -31,7 +31,7 @@ function Rewards() {
   return (
     <div className="h-auto mt-3 mb-8">
       <Banner />
-      <div className="mt-3 text-[40px] font-semibold text-[#0fdbd1]">Reward Center</div>
+      <div className="mt-3 text-[40px] font-semibold text-primary-color">Reward Center</div>
       <CustomTab categories={categories} />
       <div className="flex gap-2 items-center mt-3 gap-x-10">
         <SearchInput placeholder="Search by reward, community, badge ..." />

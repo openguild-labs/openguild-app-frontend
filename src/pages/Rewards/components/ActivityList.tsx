@@ -6,7 +6,7 @@ function ActivityList() {
   });
   return (
     <div className="bg-[#0d0f11] rounded-md p-4 w-[280px] shrink-0	">
-      <div className="text-[#0fdbd1]">Activity List</div>
+      <div className="text-primary-color">Activity List</div>
       <div className="grid grid-cols-6 gap-4 mx-auto pt-3 ">
         <div className="col-span-1 text-sm text-white/40">Time</div>
         <div className="col-span-4 text-sm text-white/40">Item</div>

@@ -1,17 +1,19 @@
 import thumbnail from "@assets/images/game-thumbnail.webp";
 import avatar from "@assets/images/game-avatar.png";
-import Tag from "@/components/Tag/Tag";
+import Tag from "@/components/Tag";
 import { Link } from "react-router-dom";
+import { MISSIONS_PATH } from "@/constants/links";
 
 const MISSION_CARD_HEIGHT = 365;
-const THUMBNAIL_HEIGHT = 160;
+const THUMBNAIL_HEIGHT = 184;
 
 function Mission() {
   return (
     <div className="px-2 shrink-0 w-[25%]">
       <Link
-        to="#"
-        className="transition-effect block bg-[#121416] rounded-2xl w-full border border-transparent hover:border-[#0fdbd1]"
+        to={`${MISSIONS_PATH}/1`}
+        reloadDocument
+        className="transition-effect block bg-[#121416] rounded-2xl w-full border border-transparent hover:border-primary-color"
         style={{
           height: MISSION_CARD_HEIGHT,
         }}
@@ -22,7 +24,7 @@ function Mission() {
             height: THUMBNAIL_HEIGHT,
           }}
         >
-          <div className="px-2 py-1 rounded-md bg-[#0fdbd1] text-xs absolute top-4 left-5 text-black">Social</div>
+          <div className="px-2 py-1 rounded-md bg-primary-color text-xs absolute top-4 left-5 text-black">Social</div>
           <img alt="thumbnail" src={thumbnail} className="w-full h-full rounded-t-2xl" />
           <img alt="avatar" src={avatar} className="w-[46px] h-[46px] rounded-full absolute left-[28px] bottom-6 translate-y-1/2" />
         </div>

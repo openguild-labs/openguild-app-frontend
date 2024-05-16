@@ -1,4 +1,4 @@
-import Tag from "@/components/Tag/Tag";
+import Tag from "@/components/Tag";
 import CardImg from "@assets/images/card-img.webp";
 function Card() {
   return (

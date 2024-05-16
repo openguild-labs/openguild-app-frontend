@@ -1,4 +1,4 @@
-import MenuButton from "@/components/MenuButton/MenuButton";
+import MenuButton from "@/components/MenuButton";
 import { Checkbox, Menu, MenuItems, Transition } from "@headlessui/react";
 import { FaCheck } from "react-icons/fa6";
 

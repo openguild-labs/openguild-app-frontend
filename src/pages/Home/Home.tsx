@@ -11,13 +11,8 @@ function Home() {
       }}
     >
       <div>
-        <h2 className="text-3xl font-semibold mb-5">
-          Web3 Royalty Platform Proposal
-        </h2>
-        <Link
-          to={MISSIONS_PATH}
-          className="border rounded-lg bg-neutral-800 text-white px-4 py-3"
-        >
+        <h2 className="text-3xl font-semibold mb-5">Web3 Royalty Platform Proposal</h2>
+        <Link to={MISSIONS_PATH} className="rounded-lg bg-primary-color text-black px-4 py-3">
           Launch App
         </Link>
       </div>

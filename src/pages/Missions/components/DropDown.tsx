@@ -1,4 +1,4 @@
-import MenuButton from "@/components/MenuButton/MenuButton";
+import MenuButton from "@/components/MenuButton";
 import { Menu, MenuItem, MenuItems, Transition } from "@headlessui/react";
 
 interface IDropDownProps {
@@ -30,7 +30,7 @@ function DropDown({ options, value, onChange }: IDropDownProps) {
                   onClick={() => {
                     onChange(option.value);
                   }}
-                  className="group flex w-full items-center gap-2 rounded-lg py-3 px-4 data-[focus]:bg-[#0fdbd1]/10"
+                  className="group flex w-full items-center gap-2 rounded-lg py-3 px-4 data-[focus]:bg-primary-color/10"
                   style={{
                     backgroundColor: value === option.value ? "#112626" : "transparent",
                     color: value === option.value ? "#0fdbd1" : "inherit",

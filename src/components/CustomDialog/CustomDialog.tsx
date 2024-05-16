@@ -35,9 +35,9 @@ const CustomDialog: React.FC<CustomDialogProps> = ({ isOpen, setIsOpen }) => {
                   <DialogTitle as="h3" className="text-[42px] font-semibold text-white">
                     ChainCohort
                   </DialogTitle>
-                  <p className="text-xl font-semibold text-[#0fdbd1] mb-3">SIGN IN</p>
+                  <p className="text-xl font-semibold text-primary-color mb-3">SIGN IN</p>
                   <SearchInput placeholder="name@example.com" />
-                  <Button as="button" className="bg-[#0fdbd1] text-black text-md font-bold rounded-lg px-4 py-3 mt-3 w-full">
+                  <Button as="button" className="bg-primary-color text-black text-md font-bold rounded-lg px-4 py-3 mt-3 w-full">
                     Continue with Email
                   </Button>
                   <div className="flex items-center gap-2 mt-4">

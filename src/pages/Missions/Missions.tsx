@@ -1,10 +1,10 @@
 import DropDown from "./components/DropDown";
 import { useState } from "react";
-import CustomTab from "@/components/CustomTab/CustomTab";
-import SearchInput from "@/components/SearchInput/SearchInput";
+import CustomTab from "@/components/CustomTab";
+import SearchInput from "@/components/SearchInput";
 import Banner from "./components/Banner";
-import Mission from "./components/Mission";
-import Pagination from "@/components/Pagination/Pagination";
+import Mission from "../../components/Mission";
+import Pagination from "@/components/Pagination";
 
 const missionCategories: TCategory[] = [
   {
@@ -37,7 +37,7 @@ function Missions() {
   return (
     <div className="mt-3">
       <Banner />
-      <h1 className="text-[40px] text-[#0fdbd1] font-bold mt-6">Missions</h1>
+      <h1 className="text-[40px] text-primary-color font-bold mt-6">Missions</h1>
       <CustomTab categories={missionCategories} />
       <div className="flex justify-center items-center mt-3 gap-x-10">
         <SearchInput placeholder="Search by community, tag, badge, name, ..." />
