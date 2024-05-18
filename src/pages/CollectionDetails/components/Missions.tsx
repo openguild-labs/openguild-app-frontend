@@ -1,25 +1,7 @@
-import DropDown from "./components/DropDown";
-import { useState } from "react";
-import CustomTab from "@/components/CustomTab";
-import SearchInput from "@/components/SearchInput";
-import Banner from "./components/Banner";
-import Pagination from "@/components/Pagination";
 import MissionCard from "@/components/MissionCard";
-
-const missionCategories: TOption[] = [
-  {
-    name: "All",
-  },
-  {
-    name: "Social Media",
-  },
-  {
-    name: "In-game",
-  },
-  {
-    name: "Ended",
-  },
-];
+import SearchInput from "@/components/SearchInput";
+import DropDown from "@/pages/Missions/components/DropDown";
+import { useState } from "react";
 
 const options: TOptions[] = [
   {
@@ -34,11 +16,9 @@ const options: TOptions[] = [
 
 function Missions() {
   const [selectedOption, setSelectedOption] = useState(options[0].value);
+
   return (
-    <div className="mt-3">
-      <Banner />
-      <h1 className="text-[40px] text-primary-color font-bold mt-6">Missions</h1>
-      <CustomTab options={missionCategories} />
+    <div>
       <div className="flex justify-center items-center mt-3 gap-x-10">
         <SearchInput placeholder="Search by community, tag, badge, name, ..." />
         <DropDown
@@ -58,7 +38,6 @@ function Missions() {
           );
         })}
       </div>
-      <Pagination />
     </div>
   );
 }

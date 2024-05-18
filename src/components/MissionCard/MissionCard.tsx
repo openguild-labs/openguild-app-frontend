@@ -7,9 +7,9 @@ import { MISSIONS_PATH } from "@/constants/links";
 const MISSION_CARD_HEIGHT = 365;
 const THUMBNAIL_HEIGHT = 184;
 
-function Mission() {
+function MissionCard() {
   return (
-    <div className="px-2 shrink-0 w-[25%]">
+    <div className="shrink-0 w-full">
       <Link
         to={`${MISSIONS_PATH}/1`}
         reloadDocument
@@ -59,4 +59,4 @@ function Mission() {
   );
 }
 
-export default Mission;
+export default MissionCard;

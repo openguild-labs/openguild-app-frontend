@@ -6,7 +6,7 @@ import Filter from "./components/Filter";
 import Pagination from "@/components/Pagination";
 import SearchInput from "@/components/SearchInput";
 
-const categories: TCategory[] = [
+const categories: TOption[] = [
   {
     name: "All",
   },
@@ -32,7 +32,7 @@ function Rewards() {
     <div className="h-auto mt-3 mb-8">
       <Banner />
       <div className="mt-3 text-[40px] font-semibold text-primary-color">Reward Center</div>
-      <CustomTab categories={categories} />
+      <CustomTab options={categories} />
       <div className="flex gap-2 items-center mt-3 gap-x-10">
         <SearchInput placeholder="Search by reward, community, badge ..." />
         <Filter />

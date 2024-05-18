@@ -1,8 +1,8 @@
 import Tag from "@/components/Tag";
 import CardImg from "@assets/images/card-img.webp";
-function Card() {
+function RewardCard() {
   return (
-    <div className="w-[31%] bg-white/10 border border-white/20 rounded-lg shadow relative cursor-pointer hover:border hover:border-[#ff7300] max-h-[300px]">
+    <div className="w-full bg-white/10 border border-white/20 rounded-lg shadow relative cursor-pointer hover:border hover:border-[#ff7300] max-h-[300px]">
       <div className="absolute top-3 left-3 bg-[#ff7300] text-sm px-3 py-1 rounded-md text-black">NFT</div>
       <div className="h-[160px]">
         <img className="rounded-t-lg opacity-10 w-full h-full " src={CardImg} alt="CardImg" />
@@ -17,4 +17,4 @@ function Card() {
   );
 }
 
-export default Card;
+export default RewardCard;

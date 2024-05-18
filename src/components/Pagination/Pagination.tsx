@@ -9,7 +9,7 @@ function Pagination() {
             </div>
           </li>
           {[1, 2, 3, 4, 5].map((item) => (
-            <li>
+            <li key={item}>
               <div className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white/10 border border-white/5 hover:bg-white/5 hover:text-white cursor-pointer">
                 {item}
               </div>

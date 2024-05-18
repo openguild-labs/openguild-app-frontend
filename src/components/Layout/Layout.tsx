@@ -2,7 +2,7 @@ import { Button } from "@headlessui/react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { HEADER_HEIGHT } from "../../constants/dimensions";
 import "./Layout.css";
-import { HOME_PATH, MISSIONS_PATH, REWARDS_PATH } from "../../constants/links";
+import { COLLECTIONS_PATH, HOME_PATH, MISSIONS_PATH, REWARDS_PATH } from "../../constants/links";
 import CustomDialog from "../CustomDialog/CustomDialog";
 import { useState } from "react";
 
@@ -14,6 +14,10 @@ const linkItems = [
   {
     label: "Rewards",
     to: REWARDS_PATH,
+  },
+  {
+    label: "Collections",
+    to: COLLECTIONS_PATH,
   },
 ];
 

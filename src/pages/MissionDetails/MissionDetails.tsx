@@ -2,8 +2,8 @@ import Header from "./components/Header";
 import Tasks from "./components/Tasks";
 import Description from "./components/Description";
 import CommonInfo from "../Rewards/components/CommonInfo";
-import Mission from "@/components/Mission";
-import { Button } from "@headlessui/react";
+import MissionCard from "@/components/MissionCard";
+import ViewMoreButton from "@/components/ViewMoreButton";
 
 function MissionDetails() {
   return (
@@ -21,14 +21,16 @@ function MissionDetails() {
       <div className="mt-8">
         <span className="text-xl text-primary-color">Popular Mission</span>
         <div className="flex flex-wrap -mx-2 gap-y-4 mt-6">
-          {[1, 2, 3, 4, 5, 6, 7, 8].map(() => {
-            return <Mission />;
+          {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => {
+            return (
+              <div key={item} className="w-[25%] px-2">
+                <MissionCard />
+              </div>
+            );
           })}
         </div>
         <div className="flex justify-center">
-          <Button className="py-1 px-4 w-[160px] h-[44px] rounded-lg bg-black text-primary-color border border-neutral-800 font-bold text-sm mt-6 hover:border-primary-color transition-effect">
-            View More
-          </Button>
+          <ViewMoreButton />
         </div>
       </div>
     </div>
