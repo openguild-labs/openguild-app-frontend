@@ -26,3 +26,9 @@ body {
   scrollbar-gutter: both-edges;
   scrollbar-color: #0fdbd199 #0fdbd11a;
 }
+
+.particle-connect-wallet-btn {
+  background-color: #0fdbd1 !important;
+  color: black !important;
+  width: 200px !important;
+}

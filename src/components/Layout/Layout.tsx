@@ -5,6 +5,11 @@ import "./Layout.css";
 import { COLLECTIONS_PATH, HOME_PATH, MISSIONS_PATH, REWARDS_PATH } from "../../constants/links";
 import CustomDialog from "../CustomDialog/CustomDialog";
 import { useState } from "react";
+import profile from "@assets/images/profile.svg";
+import { useNavigate } from "react-router-dom";
+import { ConnectButton } from "@particle-network/connect-react-ui"; // @particle-network/connectkit to use Auth Core
+import "@particle-network/connect-react-ui/dist/index.css";
+import { useAccount } from "@particle-network/connect-react-ui";
 
 const linkItems = [
   {
@@ -25,6 +30,8 @@ function Layout() {
   const location = useLocation();
   const isHomePath = location.pathname === HOME_PATH;
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const navigate = useNavigate();
+  const account = useAccount();
 
   return (
     <main className="bg-black min-h-screen pb-12">
@@ -61,16 +68,10 @@ function Layout() {
               </ul>
             </nav>
             <CustomDialog isOpen={isDialogOpen} setIsOpen={setIsDialogOpen} />
-            <Button
-              as="button"
-              className="bg-primary-color text-black text-sm font-bold rounded-lg px-4 py-2"
-              onClick={() => setIsDialogOpen(!isDialogOpen)}
-              style={{
-                marginRight: isDialogOpen ? "-2px" : "0",
-              }}
-            >
-              Login
-            </Button>
+            <div className="flex gap-4 items-center">
+              <ConnectButton />
+              {account && <img src={profile} alt="profile" className="w-8 h-8 cursor-pointer" onClick={() => navigate("/profile")} />}
+            </div>
           </>
         )}
       </header>
