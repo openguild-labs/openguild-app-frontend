@@ -1,0 +1,3 @@
+type TError = {
+  message: string;
+};
