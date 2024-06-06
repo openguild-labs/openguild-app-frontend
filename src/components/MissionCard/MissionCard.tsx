@@ -7,26 +7,32 @@ import { MISSIONS_PATH } from "@/constants/links";
 const MISSION_CARD_HEIGHT = 365;
 const THUMBNAIL_HEIGHT = 184;
 
-function MissionCard() {
+function MissionCard({ isStudent }: any) {
   return (
-    <div className="shrink-0 w-full">
+    <div className="shrink-0 w-full border rounded-2xl shadow-lg">
       <Link
         to={`${MISSIONS_PATH}/1`}
         reloadDocument
-        className="transition-effect block bg-[#121416] rounded-2xl w-full border border-transparent hover:border-primary-color"
+        className="transition-effect block rounded-2xl bg-[#fff]  w-full  hover:border-primary-color"
         style={{
           height: MISSION_CARD_HEIGHT,
         }}
       >
         <div
-          className="p-[6px] rounded-t-2xl relative pb-6"
+          className=" relative pb-6 "
           style={{
             height: THUMBNAIL_HEIGHT,
           }}
         >
-          <div className="px-2 py-1 rounded-md bg-primary-color text-xs absolute top-4 left-5 text-black">Social</div>
+          <div className="px-2 py-1 rounded-md bg-primary-color text-xs absolute top-4 left-5 text-black">
+            {isStudent ? "Student" : "Social"}
+          </div>
           <img alt="thumbnail" src={thumbnail} className="w-full h-full rounded-t-2xl" />
-          <img alt="avatar" src={avatar} className="w-[46px] h-[46px] rounded-full absolute left-[28px] bottom-6 translate-y-1/2" />
+          <img
+            alt="avatar"
+            src={avatar}
+            className="w-[46px] h-[46px] rounded-full absolute left-[28px] bottom-6 translate-y-1/2 text-black"
+          />
         </div>
         <div
           className="flex flex-col w-full"
@@ -34,13 +40,13 @@ function MissionCard() {
             height: MISSION_CARD_HEIGHT - THUMBNAIL_HEIGHT,
           }}
         >
-          <div className="py-2 px-4 h-1/3 w-full border-b-[0.5px] border-neutral-800">
-            <h3>Onboarding to Nakame Social</h3>
+          <div className="py-2 px-4 h-1/3 w-full border-b-[0.5px] border-neutral-800 text-black">
+            <h3>{isStudent ? "Student Only Mission" : "Onboarding to Nakame Social"}</h3>
           </div>
-          <div className="py-2 px-4 h-1/3 w-full border-b-[0.5px] border-neutral-800 flex">
+          <div className="py-2 px-4 h-1/3 w-full border-b-[0.5px] border-neutral-800 flex text-black">
             <div className="w-1/2 h-full">
               <div className="h-1/2 flex items-center justify-start">
-                <span className="w-full text-xs text-neutral-300">Finish in</span>
+                <span className="w-full text-xs  text-black">Finish in</span>
               </div>
               <div className="h-1/2 flex items-center justify-start">
                 <span className="w-full">22d 3h 16m</span>

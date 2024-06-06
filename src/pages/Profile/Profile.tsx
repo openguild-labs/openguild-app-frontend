@@ -36,7 +36,7 @@ function Profile() {
             }}
           >
             <TabList className="flex gap-2">
-              {categories.map(({ name }, index) => (
+              {categories.map(({ name }) => (
                 <Tab
                   key={name}
                   className="rounded-full py-1 px-5 text-md/6 font-semibold text-white focus:outline-none data-[selected]:text-primary-color data-[selected]:bg-white/10 data-[hover]:bg-white/5 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white"

@@ -1,1 +1,1 @@
-export { default } from "./MissionDetails";
+export { default } from "./RewardDetail";

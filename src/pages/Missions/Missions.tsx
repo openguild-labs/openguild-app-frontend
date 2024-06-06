@@ -5,7 +5,8 @@ import SearchInput from "@/components/SearchInput";
 import Banner from "./components/Banner";
 import Pagination from "@/components/Pagination";
 import MissionCard from "@/components/MissionCard";
-
+import { useContext } from "react";
+import MyContext from "@/context/MyContext";
 const missionCategories: TOption[] = [
   {
     name: "All",
@@ -33,6 +34,10 @@ const options: TOptions[] = [
 ];
 
 function Missions() {
+  const context = useContext(MyContext as any);
+
+  const { value }: any = context;
+  const isStudent = !value?.is_student;
   const [selectedOption, setSelectedOption] = useState(options[0].value);
   return (
     <div className="mt-3">
@@ -53,7 +58,7 @@ function Missions() {
         {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => {
           return (
             <div key={item} className="w-[25%] px-2">
-              <MissionCard />
+              <MissionCard isStudent={isStudent} />
             </div>
           );
         })}

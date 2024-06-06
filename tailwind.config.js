@@ -9,7 +9,7 @@ export default {
     colors: {
       ...colors,
       black: "#060708",
-      "primary-color": "#0fdbd1",
+      "primary-color": "#6b3ffd",
     },
   },
   plugins: [],

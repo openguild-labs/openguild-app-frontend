@@ -1,9 +1,9 @@
-import Header from "./components/Header";
-import Tasks from "./components/Tasks";
-import Description from "./components/Description";
-import CommonInfo from "../Rewards/components/CommonInfo";
 import MissionCard from "@/components/MissionCard";
 import ViewMoreButton from "@/components/ViewMoreButton";
+import CommonInfo from "../Rewards/components/CommonInfo";
+import Description from "./components/Description";
+import Header from "./components/Header";
+import Tasks from "./components/Tasks";
 
 function MissionDetails() {
   return (

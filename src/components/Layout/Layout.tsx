@@ -1,15 +1,14 @@
-import { Button } from "@headlessui/react";
-import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
+import { useCreateUser, useGetUser } from "@/supabase/api/user/services";
+import profile from "@assets/images/profile.svg";
+import { ConnectButton, useAccount, useConnectKit } from "@particle-network/connect-react-ui"; // @particle-network/connectkit to use Auth Core
+import "@particle-network/connect-react-ui/dist/index.css";
+import { useContext, useEffect, useState } from "react";
+import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { HEADER_HEIGHT } from "../../constants/dimensions";
-import "./Layout.css";
 import { COLLECTIONS_PATH, HOME_PATH, MISSIONS_PATH, REWARDS_PATH } from "../../constants/links";
 import CustomDialog from "../CustomDialog/CustomDialog";
-import { useState } from "react";
-import profile from "@assets/images/profile.svg";
-import { useNavigate } from "react-router-dom";
-import { ConnectButton } from "@particle-network/connect-react-ui"; // @particle-network/connectkit to use Auth Core
-import "@particle-network/connect-react-ui/dist/index.css";
-import { useAccount } from "@particle-network/connect-react-ui";
+import "./Layout.css";
+import MyContext from "@/context/MyContext";
 
 const linkItems = [
   {
@@ -31,12 +30,34 @@ function Layout() {
   const isHomePath = location.pathname === HOME_PATH;
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const navigate = useNavigate();
+  const connectKit = useConnectKit();
+  const userInfo = connectKit.particle.auth.getUserInfo();
   const account = useAccount();
+  const { mutate: createUser } = useCreateUser();
+  const { data, isFetching } = useGetUser(account || "");
+  const context = useContext(MyContext as any);
+
+  const addUserToDB = async () => {
+    await createUser({
+      email: userInfo?.email || userInfo?.google_email || "",
+      wallet_address: userInfo?.wallets[0]?.public_address || "",
+      first_name: "",
+      last_name: "",
+    });
+  };
+  useEffect(() => {
+    if (!data && !isFetching) addUserToDB();
+  }, [account]);
+  const { setValue }: any = context;
+
+  useEffect(() => {
+    setValue(data);
+  }, [data]);
 
   return (
-    <main className="bg-black min-h-screen pb-12">
+    <main className="bg-[#28123E] min-h-screen pb-12">
       <header
-        className="flex items-center px-9 fixed top-0 right-0 left-0 bg-[#141417] shadow-xs shadow-neutral-100 z-10"
+        className="flex items-center px-9 fixed top-0 right-0 left-0 bg-[#fff] shadow-xs shadow-neutral-100 z-10 text-black"
         style={{
           height: HEADER_HEIGHT,
           justifyContent: isHomePath ? "center" : "space-between",

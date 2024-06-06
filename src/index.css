@@ -13,10 +13,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-body {
-  background-color: #060708;
+html {
+  background-color: #fff;
 }
-
+body {
+  background-color: #fff;
+}
 .transition-effect {
   transition: all 0.4s ease;
 }
@@ -24,11 +26,11 @@ body {
 * {
   scrollbar-width: thin;
   scrollbar-gutter: both-edges;
-  scrollbar-color: #0fdbd199 #0fdbd11a;
+  scrollbar-color: #6b3ffd99 #6b3ffd1a;
 }
 
 .particle-connect-wallet-btn {
-  background-color: #0fdbd1 !important;
+  background-color: #6b3ffd !important;
   color: black !important;
   width: 200px !important;
 }

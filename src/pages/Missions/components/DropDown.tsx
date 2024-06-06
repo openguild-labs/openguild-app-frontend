@@ -21,7 +21,7 @@ function DropDown({ options, value, onChange }: IDropDownProps) {
       >
         <MenuItems
           anchor="bottom end"
-          className="w-52 bg-black origin-top-right rounded-xl border border-neutral-700 p-1 text-sm/6 text-white [--anchor-gap:var(--spacing-1)] focus:outline-none"
+          className="w-52 bg-[#374151] origin-top-right rounded-xl border border-neutral-700 p-1 text-sm/6 text-white [--anchor-gap:var(--spacing-1)] focus:outline-none"
         >
           {options.map((option) => {
             return (
@@ -33,7 +33,7 @@ function DropDown({ options, value, onChange }: IDropDownProps) {
                   className="group flex w-full items-center gap-2 rounded-lg py-3 px-4 data-[focus]:bg-primary-color/10"
                   style={{
                     backgroundColor: value === option.value ? "#112626" : "transparent",
-                    color: value === option.value ? "#0fdbd1" : "inherit",
+                    color: value === option.value ? "#6b3ffd" : "inherit",
                   }}
                 >
                   {option.label}

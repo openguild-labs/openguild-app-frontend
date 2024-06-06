@@ -7,7 +7,7 @@ export const createUser = async (userCreation: TUserCreation) => {
   }
 
   let isStudent = false;
-  if (userCreation.email !== undefined && !studentEmailRegex.test(userCreation.email)) {
+  if (userCreation.email !== undefined && studentEmailRegex.test(userCreation.email)) {
     isStudent = true;
   }
 

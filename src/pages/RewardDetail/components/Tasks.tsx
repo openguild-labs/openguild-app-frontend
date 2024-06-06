@@ -17,7 +17,7 @@ function Tasks() {
       <div className="w-full h-[1px] bg-neutral-800 mt-6" />{" "}
       <div className="flex items-center gap-16 mt-4">
         <div className="text-white text-md font-bold w-[163px]">NFT Whitelist:</div>
-        <div className="px-8 font-semibold py-1 text-black text-lg bg-[#0fdbd1] rounded-md">Ancient list</div>
+        <div className="px-8 font-semibold py-1 text-black text-lg bg-[#6b3ffd] rounded-md">Ancient list</div>
       </div>
       <div className="w-full h-[1px] bg-neutral-800 mt-6" />
       <div className="flex justify-center">
