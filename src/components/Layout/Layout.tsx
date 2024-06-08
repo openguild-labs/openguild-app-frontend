@@ -89,8 +89,8 @@ function Layout() {
               </ul>
             </nav>
             <CustomDialog isOpen={isDialogOpen} setIsOpen={setIsDialogOpen} />
-            <div className="flex gap-4 items-center">
-              <ConnectButton />
+            <div className="flex gap-4 items-center [&_.particle-connect-wallet-btn]:bg-gradientPrimary">
+              <ConnectButton/>
               {account && <img src={profile} alt="profile" className="w-8 h-8 cursor-pointer" onClick={() => navigate("/profile")} />}
             </div>
           </>

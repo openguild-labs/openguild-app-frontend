@@ -9,11 +9,11 @@ const THUMBNAIL_HEIGHT = 184;
 
 function MissionCard({ isStudent }: any) {
   return (
-    <div className="shrink-0 w-full border rounded-2xl shadow-lg">
+    <div className="shrink-0 w-full">
       <Link
         to={`${MISSIONS_PATH}/1`}
         reloadDocument
-        className="transition-effect block rounded-2xl bg-[#fff]  w-full  hover:border-primary-color"
+        className="block rounded-2xl bg-indigo-600 w-full border border-white/10  hover:border-orange-500"
         style={{
           height: MISSION_CARD_HEIGHT,
         }}
@@ -24,7 +24,7 @@ function MissionCard({ isStudent }: any) {
             height: THUMBNAIL_HEIGHT,
           }}
         >
-          <div className="px-2 py-1 rounded-md bg-primary-color text-xs absolute top-4 left-5 text-black">
+          <div className="px-2 py-1 rounded-md bg-primary-color text-xs absolute top-4 left-5 text-white">
             {isStudent ? "Student" : "Social"}
           </div>
           <img alt="thumbnail" src={thumbnail} className="w-full h-full rounded-t-2xl" />
@@ -40,16 +40,16 @@ function MissionCard({ isStudent }: any) {
             height: MISSION_CARD_HEIGHT - THUMBNAIL_HEIGHT,
           }}
         >
-          <div className="py-2 px-4 h-1/3 w-full border-b-[0.5px] border-neutral-800 text-black">
+          <div className="py-2 px-4 h-1/3 w-full border-b-[0.5px] border-neutral-800 text-white">
             <h3>{isStudent ? "Student Only Mission" : "Onboarding to Nakame Social"}</h3>
           </div>
           <div className="py-2 px-4 h-1/3 w-full border-b-[0.5px] border-neutral-800 flex text-black">
             <div className="w-1/2 h-full">
               <div className="h-1/2 flex items-center justify-start">
-                <span className="w-full text-xs  text-black">Finish in</span>
+                <span className="w-full text-xs text-white">Finish in</span>
               </div>
               <div className="h-1/2 flex items-center justify-start">
-                <span className="w-full">22d 3h 16m</span>
+                <span className="w-full text-white">22d 3h 16m</span>
               </div>
             </div>
           </div>

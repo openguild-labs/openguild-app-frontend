@@ -20,10 +20,10 @@ function MissionDetails() {
       </div>
       <div className="mt-8">
         <span className="text-xl text-primary-color">Popular Mission</span>
-        <div className="flex flex-wrap -mx-2 gap-y-4 mt-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
           {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => {
             return (
-              <div key={item} className="w-[25%] px-2">
+              <div key={item}>
                 <MissionCard />
               </div>
             );

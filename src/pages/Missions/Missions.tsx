@@ -54,10 +54,10 @@ function Missions() {
           options={options}
         />
       </div>
-      <div className="flex flex-wrap -mx-2 gap-y-4 mt-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-4 mt-3">
         {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => {
           return (
-            <div key={item} className="w-[25%] px-2">
+            <div key={item}>
               <MissionCard isStudent={isStudent} />
             </div>
           );

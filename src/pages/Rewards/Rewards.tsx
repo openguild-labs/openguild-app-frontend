@@ -37,7 +37,7 @@ function Rewards() {
         <SearchInput placeholder="Search by reward, community, badge ..." />
         <Filter />
       </div>
-      <div className="flex mt-4 items-start">
+      <div className="flex mt-4 items-start gap-4">
         <CardContainer />
         <ActivityList />
       </div>
