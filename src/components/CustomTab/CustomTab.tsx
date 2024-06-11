@@ -9,8 +9,7 @@ export default function CustomTab({ options, onChange }: TTabProps) {
   return (
     <>
       <div className="flex w-full pt-4 ">
-        <div className="w-full ">
-          <TabGroup className="w-fit overflow-hidden">
+          <TabGroup className="w-full overflow-hidden">
             <TabList className="flex gap-2 max-[450px]:animate-marquee">
               {options.map(({ name }, index) => (
                 <Tab
@@ -23,7 +22,6 @@ export default function CustomTab({ options, onChange }: TTabProps) {
               ))}
             </TabList>
           </TabGroup>
-        </div>
       </div>
       <div className="bg-[#1c2023] mt-3 w-full h-[1px]" />
     </>

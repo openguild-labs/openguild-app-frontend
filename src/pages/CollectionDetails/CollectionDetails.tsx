@@ -25,7 +25,7 @@ function CollectionDetails() {
   const [currentTab, setCurrentTab] = useState<number>(0);
   return (
     <div>
-      <img className="w-full h-[356px]" src={collectionBanner} alt="banner" />
+      <img className="w-full h-[186px]  lg:h-[356px]" src={collectionBanner} alt="banner" />
       <Header />
       <CustomTab
         options={options}
