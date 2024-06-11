@@ -12,7 +12,7 @@ const Banner = () => {
         <img className="w-40 h-40 rounded-xl object-cover" src={profile} alt="reward-banner" />
       </div>
 
-      <img className="h-[462px] rounded-xl object-cover" src={RewardBannerImg} alt="reward-banner" />
+      <img className="h-[262px] md:h-[362px] lg:h-[462px] rounded-xl object-cover" src={RewardBannerImg} alt="reward-banner" />
     </div>
   );
 };

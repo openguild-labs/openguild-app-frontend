@@ -11,7 +11,7 @@ function Header() {
         </div>
         <ShareButton />
       </div>
-      <h1 className="text-[50px] leading-11 mt-4">Lucky Ticket to Share 100 Guaranteed Whitelists to FREE-MINT </h1>
+      <h1 className="text-[2rem] lg:text-[40px] leading-11 mt-4">Lucky Ticket to Share 100 Guaranteed Whitelists to FREE-MINT </h1>
     </div>
   );
 }

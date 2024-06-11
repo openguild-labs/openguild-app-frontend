@@ -10,13 +10,13 @@ export default function CustomTab({ options, onChange }: TTabProps) {
     <>
       <div className="flex w-full pt-4 ">
         <div className="w-full ">
-          <TabGroup>
-            <TabList className="flex gap-2">
+          <TabGroup className="w-fit overflow-hidden">
+            <TabList className="flex gap-2 max-[450px]:animate-marquee">
               {options.map(({ name }, index) => (
                 <Tab
                   key={name}
                   onClick={() => onChange && onChange(index)}
-                  className="rounded-full py-1 px-5 text-md/6 font-semibold text-white focus:outline-none data-[selected]:text-primary-color data-[selected]:bg-white/10 data-[hover]:bg-white/5 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white"
+                  className="shrink-0 rounded-full py-1 px-5 text-md/6 font-semibold text-white focus:outline-none data-[selected]:text-primary-color data-[selected]:bg-white/10 data-[hover]:bg-white/5 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white"
                 >
                   {name}
                 </Tab>

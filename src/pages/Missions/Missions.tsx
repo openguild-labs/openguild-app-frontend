@@ -44,15 +44,17 @@ function Missions() {
       <Banner />
       <h1 className="text-[40px] text-primary-color font-bold mt-6">Missions</h1>
       <CustomTab options={missionCategories} />
-      <div className="flex justify-center items-center mt-3 gap-x-10">
+      <div className="block md:flex justify-center items-center mt-3 gap-x-8">
         <SearchInput placeholder="Search by community, tag, badge, name, ..." />
-        <DropDown
-          value={selectedOption}
-          onChange={(value) => {
-            setSelectedOption(value);
-          }}
-          options={options}
-        />
+        <div className="mt-4 md:mt-0 text-end">
+          <DropDown
+            value={selectedOption}
+            onChange={(value) => {
+              setSelectedOption(value);
+            }}
+            options={options}
+          />
+        </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-4 mt-3">
         {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => {

@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.0.3",
+    "@mantine/core": "^7.10.1",
+    "@mantine/hooks": "^7.10.1",
     "@particle-network/connect": "^1.2.1",
     "@particle-network/connect-react-ui": "^1.2.1",
     "@solana/web3.js": "^1.91.8",
@@ -31,6 +33,7 @@
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.19",
+    "clsx": "^2.1.1",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",

@@ -4,16 +4,22 @@ import CommonInfo from "../Rewards/components/CommonInfo";
 import Description from "./components/Description";
 import Header from "./components/Header";
 import Tasks from "./components/Tasks";
+import { useMediaQuery } from "@mantine/hooks";
 
 function MissionDetails() {
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
+
+
   return (
     <div className="mt-[30px] pb-10">
-      <div className="flex gap-x-8">
-        <div className="w-[40%] shrink-0">
+      <div className="flex gap-8 flex-col lg:flex-row">
+        {!isDesktop && <Header />}
+
+        <div className="w-full md:w-[40%] shrink-0">
           <CommonInfo />
         </div>
         <div className="flex flex-col gap-y-8">
-          <Header />
+          {isDesktop && <Header />}
           <Tasks />
           <Description />
         </div>

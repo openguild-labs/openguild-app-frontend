@@ -5,19 +5,29 @@ import CommonInfo from "../Rewards/components/CommonInfo";
 import MissionCard from "@/components/MissionCard";
 import ViewMoreButton from "@/components/ViewMoreButton";
 import { useEffect } from "react";
+import { useMediaQuery } from "@mantine/hooks";
 
 function RewardDetail() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
+
+
+
+
+
+
   return (
     <div className="mt-[30px] pb-10">
-      <div className="flex gap-x-8">
-        <div className="w-[40%] shrink-0">
+      <div className="flex gap-8 flex-col lg:flex-row">
+        {!isDesktop && <Header />}
+        <div className="w-full md:w-[40%] shrink-0">
           <CommonInfo />
         </div>
-        <div className="flex flex-col gap-y-8">
-          <Header />
+        <div className="flex flex-col gap-y-8 order-1">
+          {isDesktop && <Header />}
           <Tasks />
           <Description />
         </div>

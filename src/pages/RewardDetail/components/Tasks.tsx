@@ -21,7 +21,7 @@ function Tasks() {
       </div>
       <div className="w-full h-[1px] bg-neutral-800 mt-6" />
       <div className="flex justify-center">
-        <Button className="py-1 px-4 w-[160px] h-[44px] rounded-lg bg-white/10 text-[#db4646] font-bold text-sm mt-6">Sold out</Button>
+        <Button className="py-1 px-4 w-[160px] h-[44px] w-full rounded-lg bg-white/10 text-[#db4646] font-bold text-sm mt-6">Sold out</Button>
       </div>
       <div className="w-full h-[1px] bg-neutral-800 mt-6" />
     </div>

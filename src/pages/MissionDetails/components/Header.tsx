@@ -11,7 +11,7 @@ function Header() {
         </div>
         <ShareButton />
       </div>
-      <h1 className="text-[38px] mt-4">Onboarding to Nakame Social</h1>
+      <h1 className="text-[2rem] text-[40px] mt-4">Onboarding to Nakame Social</h1>
     </div>
   );
 }

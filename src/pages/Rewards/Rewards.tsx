@@ -33,9 +33,12 @@ function Rewards() {
       <Banner />
       <div className="mt-3 text-[40px] font-semibold text-primary-color">Reward Center</div>
       <CustomTab options={categories} />
-      <div className="flex gap-2 items-center mt-3 gap-x-10">
+      <div className="block md:flex gap-2 items-center mt-3 gap-x-10">
         <SearchInput placeholder="Search by reward, community, badge ..." />
-        <Filter />
+        <div className="mt-4 md:mt-0 text-end">
+          <Filter />
+
+        </div>
       </div>
       <div className="flex mt-4 items-start gap-4">
         <CardContainer />
