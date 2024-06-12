@@ -40,7 +40,7 @@ function Layout() {
   const { data, isFetching } = useGetUser(account || "");
   const context = useContext(MyContext as any);
   const [isSideMenuOpened, { toggle: toggleSideMenu }] = useDisclosure(false);
-
+  console.log(userInfo);
   const addUserToDB = async () => {
     await createUser({
       email: userInfo?.email || userInfo?.google_email || "",
@@ -65,7 +65,7 @@ function Layout() {
         style={{
           height: HEADER_HEIGHT,
           justifyContent: isHomePath ? "center" : "space-between",
-          marginRight: isDialogOpen ? "14px" : "0"
+          marginRight: isDialogOpen ? "14px" : "0",
         }}
       >
         <div className="flex items-center">
@@ -85,7 +85,7 @@ function Layout() {
                     <li key={item.to}>
                       <NavLink
                         style={{
-                          height: HEADER_HEIGHT
+                          height: HEADER_HEIGHT,
                         }}
                         className={({ isActive }) => (isActive ? "active" : "")}
                         to={item.to}
@@ -107,7 +107,11 @@ function Layout() {
 
         {isSideMenuOpened && <div className="h-screen w-screen absolute top-0 left-0 bg-indigo-600/30" onClick={toggleSideMenu}></div>}
         <div
-          className={clsx("z-10 fixed top-0 z-40 h-screen p-4 overflow-y-auto transition-transform  bg-white w-[350px] left-0", !isSideMenuOpened && '-translate-x-full')}>
+          className={clsx(
+            "z-10 fixed top-0 z-40 h-screen p-4 overflow-y-auto transition-transform  bg-white w-[350px] left-0",
+            !isSideMenuOpened && "-translate-x-full",
+          )}
+        >
           <Link to={MISSIONS_PATH}>
             <h1 className="font-bold text-xl p-4">ChainCohort</h1>
           </Link>
@@ -116,10 +120,7 @@ function Layout() {
               {linkItems.map((item) => {
                 return (
                   <li key={item.to} className="w-fit !px-0 !mx-0">
-                    <NavLink
-                      className={({ isActive }) => (isActive ? "active !px-0" : "!px-0")}
-                      to={item.to}
-                    >
+                    <NavLink className={({ isActive }) => (isActive ? "active !px-0" : "!px-0")} to={item.to}>
                       {item.label}
                     </NavLink>
                   </li>

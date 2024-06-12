@@ -44,6 +44,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           //optional:display particle auth items and order
           "email",
           "google",
+          "discord",
+          "twitter",
         ]}
       >
         <Providers>
