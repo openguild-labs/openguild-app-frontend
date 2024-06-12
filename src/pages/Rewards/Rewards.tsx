@@ -35,7 +35,7 @@ function Rewards() {
       <CustomTab options={categories} />
       <div className="block md:flex gap-2 items-center mt-3 gap-x-10">
         <SearchInput placeholder="Search by reward, community, badge ..." />
-        <div className="mt-4 md:mt-0 text-end">
+        <div className="mt-4 md:mt-0 text-end max-[767px]:[&_>_button]:w-full">
           <Filter />
 
         </div>

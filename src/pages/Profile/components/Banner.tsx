@@ -5,7 +5,7 @@ import { MdPhotoCamera } from "react-icons/md";
 const Banner = () => {
   return (
     <div className="relative">
-      <div className=" absolute bottom-[-70px] left-[42%]">
+      <div className=" absolute bottom-0 left-0 right-0 m-auto size-fit translate-y-1/2">
         <div className="flex items-center justify-center bg-[#56595C] rounded-full w-8 h-8 absolute bottom-2 right-2 cursor-pointer">
           <MdPhotoCamera />
         </div>

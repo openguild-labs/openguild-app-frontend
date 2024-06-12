@@ -46,7 +46,7 @@ function Missions() {
       <CustomTab options={missionCategories} />
       <div className="block md:flex justify-center items-center mt-3 gap-x-8">
         <SearchInput placeholder="Search by community, tag, badge, name, ..." />
-        <div className="mt-4 md:mt-0 text-end">
+        <div className="mt-4 md:mt-0 text-end max-[767px]:[&_>_button]:w-full">
           <DropDown
             value={selectedOption}
             onChange={(value) => {

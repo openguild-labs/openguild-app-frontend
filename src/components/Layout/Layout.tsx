@@ -98,7 +98,7 @@ function Layout() {
               </ul>
             </nav>
             <CustomDialog isOpen={isDialogOpen} setIsOpen={setIsDialogOpen} />
-            <div className="flex gap-4 items-center [&_.particle-connect-wallet-btn]:bg-gradientPrimary">
+            <div className="flex gap-4 items-center [&_.particle-connect-wallet-btn]:bg-gradientPrimary max-[1000px]:[&_.particle-account-info_>_span]:hidden">
               <ConnectButton />
               {account && <img src={profile} alt="profile" className="w-8 h-8 cursor-pointer" onClick={() => navigate("/profile")} />}
             </div>
@@ -107,7 +107,7 @@ function Layout() {
 
         {isSideMenuOpened && <div className="h-screen w-screen absolute top-0 left-0 bg-indigo-600/30" onClick={toggleSideMenu}></div>}
         <div
-          className={clsx("z-10 fixed top-0 z-40 h-screen p-4 overflow-y-auto transition-transform  bg-white w-[350px] dark:bg-gray-800 left-0", !isSideMenuOpened && '-translate-x-full')}>
+          className={clsx("z-10 fixed top-0 z-40 h-screen p-4 overflow-y-auto transition-transform  bg-white w-[350px] left-0", !isSideMenuOpened && '-translate-x-full')}>
           <Link to={MISSIONS_PATH}>
             <h1 className="font-bold text-xl p-4">ChainCohort</h1>
           </Link>
