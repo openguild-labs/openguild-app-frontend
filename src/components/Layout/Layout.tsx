@@ -74,9 +74,9 @@ function Layout() {
             <FiMenu className="size-6" />
           </button>
 
-          <img src={logo} className="size-12 mr-3"/>
-          <Link to={MISSIONS_PATH}>
-            <h1 className="font-bold text-xl ">OpenGuild</h1>
+          <Link to={MISSIONS_PATH} className="flex items-center">
+            <img src={logo} className="size-12 mr-3"/>
+            <h1 className="font-bold text-xl hidden min-[500px]:block">OpenGuild</h1>
           </Link>
         </div>
         {!isHomePath && (
