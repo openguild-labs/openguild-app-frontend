@@ -5,7 +5,7 @@ const Banner = () => {
     <div className="relative">
       <div className="absolute m-auto inset-0 text-center size-fit">
         <div className="text-white text-[48px]">
-          <span className="text-[#ff7300]">Reward</span> Center
+          <span className="text-primary-color">Reward</span> Center
         </div>
         <div className="text-white text-[24px]">Game On, Get Award!</div>
       </div>

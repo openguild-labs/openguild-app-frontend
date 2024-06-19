@@ -8,7 +8,7 @@ function RewardCard() {
       <div className="w-full bg-white text-black rounded-lg shadow-lg pb-[3px] relative cursor-pointer hover:scale-[102%] duration-200 transition">
         <div className="h-[240px] md:h-[160px]">
           <img className="rounded-t-lg w-full h-full object-fill" src={CardImg} alt="CardImg" />
-          <div className="absolute top-3 left-3 bg-[#ff7300] text-sm px-3 py-1 rounded-md text-black">NFT</div>
+          <div className="absolute top-3 left-3 bg-primary-color text-sm px-3 py-1 rounded-md text-white">NFT</div>
 
         </div>
         <div className="my-2 ml-2">Archloot AdventurerPass</div>

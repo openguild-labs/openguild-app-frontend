@@ -17,19 +17,19 @@ function Overview() {
       </div>
       <h2 className="text-2xl text-primary-color my-12">Official Links</h2>
       <div className="flex flex-col gap-y-4">
-        <div className="p-8 rounded-xl bg-[#0d0f11] flex items-center justify-between font-semibold">
+        <div className="p-8 rounded-xl shadow-lg flex items-center justify-between font-semibold">
           Website
           <a href="#">https://openguild.wtf/</a>
         </div>
-        <div className="p-8 rounded-xl bg-[#0d0f11] flex items-center justify-between font-semibold">
+        <div className="p-8 rounded-xl shadow-lg flex items-center justify-between font-semibold">
           Website
           <a href="#">https://openguild.wtf/</a>
         </div>
-        <div className="p-8 rounded-xl bg-[#0d0f11] flex items-center justify-between font-semibold">
+        <div className="p-8 rounded-xl shadow-lg flex items-center justify-between font-semibold">
           Website
           <a href="#">https://openguild.wtf/</a>
         </div>
-        <div className="p-8 rounded-xl bg-[#0d0f11] flex items-center justify-between font-semibold">
+        <div className="p-8 rounded-xl shadow-lg flex items-center justify-between font-semibold">
           Website
           <a href="#">https://openguild.wtf/</a>
         </div>

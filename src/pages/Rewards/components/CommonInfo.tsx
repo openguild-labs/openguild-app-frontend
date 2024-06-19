@@ -5,8 +5,8 @@ function CommonInfo() {
   return (
     <div className="flex flex-col gap-y-6">
       <span className="text-xl text-primary-color">Reward</span>
-      <div className="rounded-xl border border-neutral-700 bg-indigo-600 p-3 w-full flex flex-col gap-y-3 relative">
-        <div className="absolute top-8 left-8 bg-[#ff7300] text-sm px-5 py-2 rounded-md text-black">Lucky Ticket</div>
+      <div className="rounded-xl shadow-lg bg-white p-3 w-full flex flex-col gap-y-3 relative">
+        <div className="absolute top-8 left-8 bg-primary-color text-white text-md px-5 py-1.5 rounded-md">Lucky Ticket</div>
         <img src={thumbnail} alt="thumbnail" className="object-cover aspect-square rounded-lg" />
         <Tag size="large" value="EP 5" className="w-fit" />
       </div>
