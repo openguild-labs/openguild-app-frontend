@@ -28,7 +28,7 @@ function Profile() {
   return (
     <div className="h-auto mt-3 mb-8">
       <Banner />
-      <div className="text-[1rem] md:text-[1.5rem] lg:text-[40px] text-white mt-24 text-center font-bold flex items-center justify-center gap-2 md:gap-4">
+      <div className="text-[1rem] md:text-[1.5rem] lg:text-[40px] mt-24 text-center font-bold flex items-center justify-center gap-2 md:gap-4">
         <span>
           {shortenAddressOrEns(account as string, 16)}
         </span>
@@ -46,7 +46,7 @@ function Profile() {
               {categories.map(({ name }) => (
                 <Tab
                   key={name}
-                  className="rounded-full py-1 px-5 text-md/6 font-semibold text-white focus:outline-none data-[selected]:text-primary-color data-[selected]:bg-white/10 data-[hover]:bg-white/5 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white text-nowrap"
+                  className="rounded-full py-1 px-5 text-md/6 font-semibold focus:outline-none data-[selected]:text-primary-color data-[selected]:bg-white/10 data-[hover]:bg-white/5 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white text-nowrap"
                 >
                   {name}
                 </Tab>

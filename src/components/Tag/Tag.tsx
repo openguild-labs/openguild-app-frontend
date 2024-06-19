@@ -12,7 +12,7 @@ function Tag({ value, size = "medium", className, ...props }: ITagProps) {
   const restWords = words.slice(1).join(" ");
   return (
     <div
-      className={clsx("flex gap-1 rounded-md border border-white/20 w-auto px-3 py-[6px] leading-6", className)}
+      className={clsx("flex gap-1 rounded-md border border-gray-300 w-auto px-3 py-[6px] leading-6", className)}
       {...props}
       style={{
         fontSize: size === "large" ? "1.25rem" : "0.875rem",

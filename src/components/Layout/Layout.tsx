@@ -3,6 +3,7 @@ import profile from "@assets/images/profile.svg";
 import { ConnectButton, useAccount, useConnectKit } from "@particle-network/connect-react-ui"; // @particle-network/connectkit to use Auth Core
 import "@particle-network/connect-react-ui/dist/index.css";
 import { useContext, useEffect, useState } from "react";
+import logo from "@assets/images/logo.png";
 import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { HEADER_HEIGHT } from "../../constants/dimensions";
 import { COLLECTIONS_PATH, HOME_PATH, MISSIONS_PATH, REWARDS_PATH } from "../../constants/links";
@@ -59,9 +60,9 @@ function Layout() {
   }, [data]);
 
   return (
-    <main className="bg-[#28123E] min-h-screen pb-12">
+    <main className="bg-white min-h-screen pb-12">
       <header
-        className="flex items-center px-4 md:px-9 fixed top-0 right-0 left-0 bg-[#fff] shadow-xs shadow-neutral-100 z-10 text-black"
+        className="backdrop-blur-md bg-white/80 flex items-center px-4 md:px-9 fixed top-0 right-0 left-0 shadow-xs shadow-neutral-100 z-10 text-black"
         style={{
           height: HEADER_HEIGHT,
           justifyContent: isHomePath ? "center" : "space-between",
@@ -72,8 +73,10 @@ function Layout() {
           <button className="inline-block md:hidden size-10" type="button" onClick={toggleSideMenu}>
             <FiMenu className="size-6" />
           </button>
+
+          <img src={logo} className="size-12 mr-3"/>
           <Link to={MISSIONS_PATH}>
-            <h1 className="font-bold text-xl ">ChainCohort</h1>
+            <h1 className="font-bold text-xl ">OpenGuild</h1>
           </Link>
         </div>
         {!isHomePath && (
@@ -87,7 +90,7 @@ function Layout() {
                         style={{
                           height: HEADER_HEIGHT,
                         }}
-                        className={({ isActive }) => (isActive ? "active" : "")}
+                        className={({ isActive }) =>  clsx("font-medium text-[1.1rem]", isActive && "active") }
                         to={item.to}
                       >
                         {item.label}
@@ -98,7 +101,7 @@ function Layout() {
               </ul>
             </nav>
             <CustomDialog isOpen={isDialogOpen} setIsOpen={setIsDialogOpen} />
-            <div className="flex gap-4 items-center [&_.particle-connect-wallet-btn]:bg-gradientPrimary max-[1000px]:[&_.particle-account-info_>_span]:hidden">
+            <div className="flex gap-4 items-center max-[1000px]:[&_.particle-account-info_>_span]:hidden">
               <ConnectButton />
               {account && <img src={profile} alt="profile" className="w-8 h-8 cursor-pointer" onClick={() => navigate("/profile")} />}
             </div>
@@ -113,7 +116,7 @@ function Layout() {
           )}
         >
           <Link to={MISSIONS_PATH}>
-            <h1 className="font-bold text-xl p-4">ChainCohort</h1>
+            <h1 className="font-bold text-xl p-4">OpenGuild</h1>
           </Link>
           <nav id="navbar">
             <ul className="flex flex-col gap-4 pl-6 pt-2">

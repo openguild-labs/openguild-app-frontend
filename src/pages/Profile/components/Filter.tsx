@@ -20,16 +20,16 @@ export default function Filter() {
         >
           <div className="text-md font-semibold text-white/30 mt-1 ml-2">Sort</div>
           <div>
-            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
-              <Checkbox className="group size-5 rounded-md bg-white/10 p-1 ring-1 ring-white/15 ring-inset data-[checked]:bg-white">
+            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-gray-500">
+              <Checkbox className="group size-5 rounded-md bg-white/10 p-1 ring-1 ring-black ring-inset data-[checked]:bg-white">
                 <FaCheck className="hidden fill-black group-data-[checked]:block" />
               </Checkbox>
               Latest
             </button>
           </div>
           <div>
-            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
-              <Checkbox className="group size-5 rounded-md bg-white/10 p-1 ring-1 ring-white/15 ring-inset data-[checked]:bg-white">
+            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-gray-500">
+              <Checkbox className="group size-5 rounded-md bg-white/10 p-1 ring-1 ring-black ring-inset data-[checked]:bg-white">
                 <FaCheck className="hidden fill-black group-data-[checked]:block" />
               </Checkbox>
               Top Trending{" "}
@@ -39,56 +39,56 @@ export default function Filter() {
           <div className="text-md font-semibold text-white/30 mt-2 ml-2">Blockchain</div>
 
           <div>
-            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
-              <Checkbox className="group size-5 rounded-md bg-white/10 p-1 ring-1 ring-white/15 ring-inset data-[checked]:bg-white">
+            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-gray-500">
+              <Checkbox className="group size-5 rounded-md bg-white/10 p-1 ring-1 ring-black ring-inset data-[checked]:bg-white">
                 <FaCheck className="hidden fill-black group-data-[checked]:block" />
               </Checkbox>
               Ethereum{" "}
             </button>
           </div>
           <div>
-            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
-              <Checkbox className="group size-5 rounded-md bg-white/10 p-1 ring-1 ring-white/15 ring-inset data-[checked]:bg-white">
+            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-gray-500">
+              <Checkbox className="group size-5 rounded-md bg-white/10 p-1 ring-1 ring-black ring-inset data-[checked]:bg-white">
                 <FaCheck className="hidden fill-black group-data-[checked]:block" />
               </Checkbox>
               Solana{" "}
             </button>
           </div>
           <div>
-            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
-              <Checkbox className="group size-5 rounded-md bg-white/10 p-1 ring-1 ring-white/15 ring-inset data-[checked]:bg-white">
+            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-gray-500">
+              <Checkbox className="group size-5 rounded-md bg-white/10 p-1 ring-1 ring-black ring-inset data-[checked]:bg-white">
                 <FaCheck className="hidden fill-black group-data-[checked]:block" />
               </Checkbox>
               BNB{" "}
             </button>
           </div>
           <div>
-            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
-              <Checkbox className="group size-5 rounded-md bg-white/10 p-1 ring-1 ring-white/15 ring-inset data-[checked]:bg-white">
+            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-gray-500">
+              <Checkbox className="group size-5 rounded-md bg-white/10 p-1 ring-1 ring-black ring-inset data-[checked]:bg-white">
                 <FaCheck className="hidden fill-black group-data-[checked]:block" />
               </Checkbox>
               Polygon{" "}
             </button>
           </div>
           <div>
-            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
-              <Checkbox className="group size-5 rounded-md bg-white/10 p-1 ring-1 ring-white/15 ring-inset data-[checked]:bg-white">
+            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-gray-500">
+              <Checkbox className="group size-5 rounded-md bg-white/10 p-1 ring-1 ring-black ring-inset data-[checked]:bg-white">
                 <FaCheck className="hidden fill-black group-data-[checked]:block" />
               </Checkbox>
               Polkadot{" "}
             </button>
           </div>
           <div>
-            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
-              <Checkbox className="group size-5 rounded-md bg-white/10 p-1 ring-1 ring-white/15 ring-inset data-[checked]:bg-white">
+            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-gray-500">
+              <Checkbox className="group size-5 rounded-md bg-white/10 p-1 ring-1 ring-black ring-inset data-[checked]:bg-white">
                 <FaCheck className="hidden fill-black group-data-[checked]:block" />
               </Checkbox>
               Base{" "}
             </button>
           </div>
           <div>
-            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
-              <Checkbox className="group size-5 rounded-md bg-white/10 p-1 ring-1 ring-white/15 ring-inset data-[checked]:bg-white">
+            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-gray-500">
+              <Checkbox className="group size-5 rounded-md bg-white/10 p-1 ring-1 ring-black ring-inset data-[checked]:bg-white">
                 <FaCheck className="hidden fill-black group-data-[checked]:block" />
               </Checkbox>
               Optimism{" "}

@@ -14,7 +14,7 @@ function Tasks() {
       <div className="flex justify-center">
         <Button className="py-1 px-4 w-[160px] h-[44px] w-full rounded-lg bg-primary-color text-black font-bold text-sm mt-6">Login</Button>
       </div>
-      <div className="w-full h-[1px] bg-neutral-800 mt-6" />
+      <div className="w-full h-[1px] bg-gray-300 mt-6" />
     </div>
   );
 }

@@ -8,7 +8,7 @@ function ViewMoreButton({ className, ...props }: IViewMoreButtonProps) {
     <Button
       {...props}
       className={clsx(
-        "py-1 px-4 w-[160px] h-[44px] rounded-lg bg-black text-primary-color border border-neutral-800 font-bold text-sm mt-6 hover:border-primary-color transition-effect",
+        "py-1 px-4 w-[160px] h-[44px] rounded-lg bg-white text-primary-color border border-primary-color font-bold text-sm mt-6 hover:text-pink-500 hover:border-pink-500 transition-effect",
         className
       )}
     >

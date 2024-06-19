@@ -19,19 +19,19 @@ function Overview() {
       <div className="flex flex-col gap-y-4">
         <div className="p-8 rounded-xl bg-[#0d0f11] flex items-center justify-between font-semibold">
           Website
-          <a href="#">https://chaincohort.com/</a>
+          <a href="#">https://openguild.wtf/</a>
         </div>
         <div className="p-8 rounded-xl bg-[#0d0f11] flex items-center justify-between font-semibold">
           Website
-          <a href="#">https://chaincohort.com/</a>
+          <a href="#">https://openguild.wtf/</a>
         </div>
         <div className="p-8 rounded-xl bg-[#0d0f11] flex items-center justify-between font-semibold">
           Website
-          <a href="#">https://chaincohort.com/</a>
+          <a href="#">https://openguild.wtf/</a>
         </div>
         <div className="p-8 rounded-xl bg-[#0d0f11] flex items-center justify-between font-semibold">
           Website
-          <a href="#">https://chaincohort.com/</a>
+          <a href="#">https://openguild.wtf/</a>
         </div>
       </div>
     </div>

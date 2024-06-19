@@ -3,10 +3,10 @@ import { BiSolidRightArrow } from "react-icons/bi";
 
 function Disclosure() {
   return (
-    <HeadlessDisclosure as="div" className="p-3 border border-neutral-800 rounded-xl bg-[#0d0f11]" defaultOpen={false}>
+    <HeadlessDisclosure as="div" className="p-3 border border-gray-500/20 rounded-xl bg-white shadow-lg text-black" defaultOpen={false}>
       <DisclosureButton className="group flex w-full items-center">
         <BiSolidRightArrow className="transition-effect size-3 fill-primary-color group-data-[open]:rotate-90" />
-        <span className="text-base font-bold ml-2 text-white">Complete Nakame’s Onboarding Platform (Earn 100 CHEESE)</span>
+        <span className="text-base font-bold ml-2">Complete Nakame’s Onboarding Platform (Earn 100 CHEESE)</span>
       </DisclosureButton>
       <DisclosurePanel className="origin-top transition">
         <div className="p-[6px] pt-3 text-sm border-t border-neutral-800 mt-3">

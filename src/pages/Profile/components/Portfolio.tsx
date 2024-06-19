@@ -7,66 +7,66 @@ function Portfolio() {
     <div>
       <div className="text-primary-color text-2xl font-bold mt-12 mb-6">Points</div>
       <div className="hidden md:grid grid-cols-7 w-full">
-        <div className="text-[#ffffff73] text-semibold col-span-2">Name</div>
-        <div className="text-[#ffffff73] text-semibold col-span-1">Ticket</div>
-        <div className="text-[#ffffff73] text-semibold col-span-1">Balance</div>
-        <div className="text-[#ffffff73] text-semibold col-span-1">Expiring Balance</div>
-        <div className="text-[#ffffff73] text-semibold col-span-2">Community Issue</div>
+        <div className="text-semibold col-span-2">Name</div>
+        <div className="text-semibold col-span-1">Ticket</div>
+        <div className="text-semibold col-span-1">Balance</div>
+        <div className="text-semibold col-span-1">Expiring Balance</div>
+        <div className="text-semibold col-span-2">Community Issue</div>
       </div>
       <div className="hidden md:block">
-        <div className="bg-white/10  w-full h-[1px] my-4" />
+        <div className="bg-gray-200  w-full h-[1px] my-4" />
         <div className="grid grid-cols-7 w-full">
-          <div className="text-[#fff] col-span-2">Energy Point</div>
-          <div className="text-[#fff] col-span-1">EP</div>
-          <div className="text-[#fff] col-span-1">1</div>
-          <div className="text-[#fff] col-span-1">1</div>
-          <div className="text-[#fff] col-span-2">Space3 Issue</div>
+          <div className="col-span-2">Energy Point</div>
+          <div className="col-span-1">EP</div>
+          <div className="col-span-1">1</div>
+          <div className="col-span-1">1</div>
+          <div className="col-span-2">Space3 Issue</div>
         </div>
-        <div className="bg-white/10  w-full h-[1px] my-4" />
+        <div className="bg-gray-200 w-full h-[1px] my-4" />
         <div className="grid grid-cols-7 w-full">
-          <div className="text-[#fff] col-span-2">Energy Point</div>
-          <div className="text-[#fff] col-span-1">EP</div>
-          <div className="text-[#fff] col-span-1">1</div>
-          <div className="text-[#fff] col-span-1">1</div>
-          <div className="text-[#fff] col-span-2">Space3 Issue</div>
+          <div className="col-span-2">Energy Point</div>
+          <div className="col-span-1">EP</div>
+          <div className="col-span-1">1</div>
+          <div className="col-span-1">1</div>
+          <div className="col-span-2">Space3 Issue</div>
         </div>
         <div className="bg-white/10  w-full h-[1px] mt-4" />
       </div>
       <div className="block md:hidden [&_:not(:first-child)]:!border-none">
-        <div className="py-3 border-b-[1px] border-white/10">
+        <div className="py-3 border-b-[1px] border-gray-200">
           <div className="flex w-full justify-between">
-            <div className="text-[#fff]">Energy Point</div>
+            <div>Energy Point</div>
             <div className="text-primary-color">EP</div>
           </div>
           <div className="flex w-full justify-between">
-            <div className="text-[#ffffff73] text-semibold">Balance</div>
-            <div className="text-[#fff]">1</div>
+            <div className="text-gray-500 text-semibold">Balance</div>
+            <div>1</div>
           </div>
           <div className="flex w-full justify-between">
-            <div className="text-[#ffffff73] text-semibold">Expiring Balance</div>
-            <div className="text-[#fff]">1</div>
+            <div className="text-gray-500 text-semibold">Expiring Balance</div>
+            <div>1</div>
           </div>
           <div className="flex w-full justify-between">
-            <div className="text-[#ffffff73] text-semibold">Community Issue</div>
-            <div className="text-[#fff]">Space3 Issue</div>
+            <div className="text-gray-500 text-semibold">Community Issue</div>
+            <div>Space3 Issue</div>
           </div>
         </div>
-        <div className="py-3 border-b-[1px] border-white/10">
+        <div className="py-3 border-b-[1px] border-gray-200">
           <div className="flex w-full justify-between">
-            <div className="text-[#fff]">Energy Point</div>
+            <div>Energy Point</div>
             <div className="text-primary-color">EP</div>
           </div>
           <div className="flex w-full justify-between">
-            <div className="text-[#ffffff73] text-semibold">Balance</div>
-            <div className="text-[#fff]">1</div>
+            <div className="text-gray-500 text-semibold">Balance</div>
+            <div>1</div>
           </div>
           <div className="flex w-full justify-between">
-            <div className="text-[#ffffff73] text-semibold">Expiring Balance</div>
-            <div className="text-[#fff]">1</div>
+            <div className="text-gray-500 text-semibold">Expiring Balance</div>
+            <div>1</div>
           </div>
           <div className="flex w-full justify-between">
-            <div className="text-[#ffffff73] text-semibold">Community Issue</div>
-            <div className="text-[#fff]">Space3 Issue</div>
+            <div className="text-gray-500 text-semibold">Community Issue</div>
+            <div>Space3 Issue</div>
           </div>
         </div>
 

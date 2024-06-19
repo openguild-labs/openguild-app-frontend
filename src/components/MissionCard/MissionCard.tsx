@@ -13,7 +13,7 @@ function MissionCard({ isStudent }: any) {
       <Link
         to={`${MISSIONS_PATH}/1`}
         reloadDocument
-        className="block rounded-2xl bg-indigo-600 w-full border border-white/10  hover:border-orange-500"
+        className="block rounded-lg bg-white w-full shadow-lg hover:scale-[102%] duration-200 transition"
         style={{
           height: MISSION_CARD_HEIGHT,
         }}
@@ -27,11 +27,11 @@ function MissionCard({ isStudent }: any) {
           <div className="px-2 py-1 rounded-md bg-primary-color text-xs absolute top-4 left-5 text-white">
             {isStudent ? "Student" : "Social"}
           </div>
-          <img alt="thumbnail" src={thumbnail} className="w-full h-full rounded-t-2xl" />
+          <img alt="thumbnail" src={thumbnail} className="w-full h-full rounded-t-lg" />
           <img
             alt="avatar"
             src={avatar}
-            className="w-[46px] h-[46px] rounded-full absolute left-[28px] bottom-6 translate-y-1/2 text-black"
+            className="w-[46px] h-[46px] rounded-full absolute left-[28px] bottom-6 translate-y-1/2"
           />
         </div>
         <div
@@ -40,21 +40,21 @@ function MissionCard({ isStudent }: any) {
             height: MISSION_CARD_HEIGHT - THUMBNAIL_HEIGHT,
           }}
         >
-          <div className="py-2 px-4 h-1/3 w-full border-b-[0.5px] border-neutral-800 text-white">
+          <div className="py-2 px-4 h-1/3 w-full border-b-[0.5px] border-gray-200 text-black">
             <h3>{isStudent ? "Student Only Mission" : "Onboarding to Nakame Social"}</h3>
           </div>
-          <div className="py-2 px-4 h-1/3 w-full border-b-[0.5px] border-neutral-800 flex text-black">
+          <div className="py-2 px-4 h-1/3 w-full border-b-[0.5px] border-gray-200 flex text-black">
             <div className="w-1/2 h-full">
               <div className="h-1/2 flex items-center justify-start">
-                <span className="w-full text-xs text-white">Finish in</span>
+                <span className="w-full text-xs">Finish in</span>
               </div>
               <div className="h-1/2 flex items-center justify-start">
-                <span className="w-full text-white">22d 3h 16m</span>
+                <span className="w-full text-black">22d 3h 16m</span>
               </div>
             </div>
           </div>
           <div className="py-2 px-4 h-1/3 w-full">
-            <div className="flex w-full overflow-hidden gap-x-1">
+            <div className="flex w-full overflow-hidden gap-x-1 text-black">
               <Tag value="EP 15" />
               <Tag value="Badge Archloot" />
             </div>

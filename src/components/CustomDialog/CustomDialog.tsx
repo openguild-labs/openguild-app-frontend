@@ -32,7 +32,7 @@ const CustomDialog: React.FC<CustomDialogProps> = ({ isOpen, setIsOpen }) => {
             >
               <DialogPanel className="w-full max-w-sm rounded-xl bg-[#070D0E] p-6 backdrop-blur-2xl text-center">
                 <DialogTitle as="h3" className="text-[42px] font-semibold text-white">
-                  ChainCohort
+                  OpenGuild
                 </DialogTitle>
                 <p className="text-xl font-semibold text-primary-color mb-3">SIGN IN</p>
                 <SearchInput placeholder="name@example.com" />
