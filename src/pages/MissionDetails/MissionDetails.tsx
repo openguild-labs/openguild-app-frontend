@@ -8,6 +8,7 @@ import { useGetMission } from "@/supabase/api/mission/services";
 import { getStatusMission } from "@/supabase/api/mission/utils";
 import MissionDetailsSkeleton from "./components/MissionDetailsSkeleton";
 import { HiOutlineInboxStack } from "react-icons/hi2";
+import { ENDING_STATUS } from "@/constants/mission";
 
 function MissionDetails() {
   const isDesktop = useMediaQuery("(min-width: 1024px)");
@@ -41,7 +42,7 @@ function MissionDetails() {
         </div>
         <div className="flex flex-col gap-y-8">
           {isDesktop && <Header title={data.title} />}
-          <Tasks tasks={data.tasks || []} />
+          <Tasks tasks={data.tasks || []} isEnded={statusMission === ENDING_STATUS} />
           <Description description={data.description} />
         </div>
       </div>

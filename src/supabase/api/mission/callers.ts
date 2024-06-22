@@ -97,3 +97,30 @@ export const getMission = async (id: string) => {
   const bannerURL = bannerData.signedUrl;
   return { ...mission, bannerURL, tasks: tasksData } as TMissionDetailResponse;
 };
+
+export const getCompletedTasks = async (userID: number, taskIDs: number[]) => {
+  const { data, error } = await supabase
+    .from("completed_task")
+    .select<string, TCompletedTaskModel>("*")
+    .eq("user_id", userID)
+    .in("task_id", taskIDs)
+    .is("deleted_at", null);
+
+  if (error !== null) {
+    console.error("Error fetching completed tasks");
+    return [];
+  }
+
+  return data;
+};
+
+export const completeTask = async (userID: number, taskID: number) => {
+  const { error } = await supabase.from("completed_task").insert({ user_id: userID, task_id: taskID, completed_at: new Date() });
+
+  if (error !== null) {
+    console.error("Error completing task");
+    return false;
+  }
+
+  return true;
+};

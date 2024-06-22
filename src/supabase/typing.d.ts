@@ -19,3 +19,9 @@ type TTaskModel = {
   description: string;
   action: string;
 };
+
+type TCompletedTaskModel = {
+  id: number;
+  user_id: number;
+  task_id: number;
+};

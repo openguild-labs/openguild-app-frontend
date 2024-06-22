@@ -1,3 +1,5 @@
+import { ENDING_STATUS } from "@/constants/mission";
+
 export const getStatusMission = (start_date: string, end_date: string) => {
   const now = new Date();
   const end = new Date(end_date);
@@ -16,7 +18,7 @@ export const getStatusMission = (start_date: string, end_date: string) => {
   }
 
   if (end <= now) {
-    return "Ends in|0d 0h 0m";
+    return ENDING_STATUS;
   }
 
   return "--";

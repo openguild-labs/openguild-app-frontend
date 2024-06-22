@@ -1,0 +1,26 @@
+.completion-btn {
+  cursor: pointer;
+}
+
+.completion-btn:hover {
+  background-color: #6b3ffd;
+  color: white;
+}
+
+.completion-btn.verified:hover {
+  background-color: white;
+  color: #060708;
+  cursor: default;
+}
+
+.verification-btn {
+  background-color: rgb(107 63 253 / 0.1);
+}
+
+.verification-btn:hover {
+  background-color: rgb(107 63 253 / 0.3);
+}
+
+.verification-btn.verified:hover {
+  background-color: rgb(107 63 253 / 0.1);
+}
