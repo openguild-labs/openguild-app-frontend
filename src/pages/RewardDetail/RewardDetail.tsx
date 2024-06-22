@@ -1,7 +1,7 @@
 import Header from "./components/Header";
 import Tasks from "./components/Tasks";
 import Description from "./components/Description";
-import CommonInfo from "../Rewards/components/CommonInfo";
+import CommonInfo from "../MissionDetails/components/CommonInfo";
 import MissionCard from "@/components/MissionCard";
 import ViewMoreButton from "@/components/ViewMoreButton";
 import { useEffect } from "react";
@@ -12,12 +12,7 @@ function RewardDetail() {
     window.scrollTo(0, 0);
   }, []);
 
-  const isDesktop = useMediaQuery('(min-width: 1024px)');
-
-
-
-
-
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
 
   return (
     <div className="mt-[30px] pb-10">

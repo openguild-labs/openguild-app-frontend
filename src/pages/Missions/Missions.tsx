@@ -3,20 +3,19 @@ import { useState } from "react";
 import CustomTab from "@/components/CustomTab";
 import SearchInput from "@/components/SearchInput";
 import Banner from "./components/Banner";
-import Pagination from "@/components/Pagination";
 import MissionCard from "@/components/MissionCard";
-import { useContext } from "react";
-import MyContext from "@/context/MyContext";
-import { useCountTotalMission, useGetMission, useListMission } from "@/supabase/api/mission/services";
+import { useCountTotalMission, useListMission } from "@/supabase/api/mission/services";
+import { useSearchParams } from "react-router-dom";
+import { LIMIT_DEFAULT, PAGE_DEFAULT } from "@/constants/pagination";
+import { Pagination } from "@mui/material";
+import MissionCardSkeleton from "@/components/MissionCardSkeleton";
+
 const missionCategories: TOption[] = [
   {
     name: "All",
   },
   {
-    name: "Social Media",
-  },
-  {
-    name: "In-game",
+    name: "In Progress",
   },
   {
     name: "Ended",
@@ -34,12 +33,33 @@ const options: TOptions[] = [
   },
 ];
 
-function Missions() {
-  const context = useContext(MyContext as any);
+const renderListMission = (data: TMissionResponse[], isLoading: boolean) => {
+  if (isLoading) {
+    return [1, 2, 3, 4].map((index) => {
+      return <MissionCardSkeleton key={index} />;
+    });
+  }
 
-  const { value }: any = context;
-  const isStudent = !value?.is_student;
+  return data.map((mission) => {
+    return <MissionCard key={mission.id} mission={mission} />;
+  });
+};
+
+function Missions() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const pParam = searchParams.get("p");
+  const p = pParam === null ? PAGE_DEFAULT + 1 : parseInt(pParam as string);
+
   const [selectedOption, setSelectedOption] = useState(options[0].value);
+  const [page, setPage] = useState(p);
+  const { data, isLoading } = useListMission(page - 1);
+  const { data: missionTotal } = useCountTotalMission();
+
+  const handleChangePage = (_: unknown, newPage: number) => {
+    setPage(newPage);
+    setSearchParams({ p: newPage.toString() });
+  };
+
   return (
     <div className="mt-3">
       <Banner />
@@ -58,15 +78,11 @@ function Missions() {
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-4 mt-3">
-        {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => {
-          return (
-            <div key={item}>
-              <MissionCard isStudent={isStudent} />
-            </div>
-          );
-        })}
+        {renderListMission(data || [], isLoading)}
       </div>
-      <Pagination />
+      <div className="flex justify-center mt-3">
+        <Pagination count={Math.ceil((missionTotal || 0) / LIMIT_DEFAULT)} color="primary" page={page} onChange={handleChangePage} />
+      </div>
     </div>
   );
 }

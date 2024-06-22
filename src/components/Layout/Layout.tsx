@@ -9,7 +9,7 @@ import { HEADER_HEIGHT } from "../../constants/dimensions";
 import { COLLECTIONS_PATH, HOME_PATH, MISSIONS_PATH, REWARDS_PATH } from "../../constants/links";
 import CustomDialog from "../CustomDialog/CustomDialog";
 import "./Layout.css";
-import MyContext from "@/context/MyContext";
+import MyContext, { MyContextType } from "@/context/MyContext";
 import { FiMenu } from "react-icons/fi";
 import { useDisclosure } from "@mantine/hooks";
 import clsx from "clsx";
@@ -39,9 +39,9 @@ function Layout() {
   const account = useAccount();
   const { mutate: createUser } = useCreateUser();
   const { data, isFetching } = useGetUser(account || "");
-  const context = useContext(MyContext as any);
+  const context = useContext(MyContext);
   const [isSideMenuOpened, { toggle: toggleSideMenu }] = useDisclosure(false);
-  console.log(userInfo);
+
   const addUserToDB = async () => {
     await createUser({
       email: userInfo?.email || userInfo?.google_email || "",
@@ -53,10 +53,13 @@ function Layout() {
   useEffect(() => {
     if (!data && !isFetching) addUserToDB();
   }, [account]);
-  const { setValue }: any = context;
+
+  const { setValue } = context as MyContextType;
 
   useEffect(() => {
-    setValue(data);
+    if (data !== undefined) {
+      setValue(data);
+    }
   }, [data]);
 
   return (
@@ -75,7 +78,7 @@ function Layout() {
           </button>
 
           <Link to={MISSIONS_PATH} className="flex items-center">
-            <img src={logo} className="size-12 mr-3"/>
+            <img src={logo} className="size-12 mr-3" />
             <h1 className="font-bold text-xl hidden min-[500px]:block">OpenGuild</h1>
           </Link>
         </div>
@@ -90,7 +93,7 @@ function Layout() {
                         style={{
                           height: HEADER_HEIGHT,
                         }}
-                        className={({ isActive }) =>  clsx("font-medium text-[1.1rem]", isActive && "active") }
+                        className={({ isActive }) => clsx("font-medium text-[1.1rem]", isActive && "active")}
                         to={item.to}
                       >
                         {item.label}
@@ -111,8 +114,8 @@ function Layout() {
         {isSideMenuOpened && <div className="h-screen w-screen absolute top-0 left-0 bg-indigo-600/30" onClick={toggleSideMenu}></div>}
         <div
           className={clsx(
-            "z-10 fixed top-0 z-40 h-screen p-4 overflow-y-auto transition-transform  bg-white w-[350px] left-0",
-            !isSideMenuOpened && "-translate-x-full",
+            "fixed top-0 z-40 h-screen p-4 overflow-y-auto transition-transform  bg-white w-[350px] left-0",
+            !isSideMenuOpened && "-translate-x-full"
           )}
         >
           <Link to={MISSIONS_PATH}>

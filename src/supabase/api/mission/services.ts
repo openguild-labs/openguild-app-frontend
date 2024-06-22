@@ -20,7 +20,7 @@ export const useCountTotalMission = () => {
   });
 };
 
-export const useGetMission = (id: number) => {
+export const useGetMission = (id: string) => {
   return useQuery({
     queryKey: [missionKey.mission, id],
     queryFn: () => getMission(id),

@@ -3,7 +3,8 @@ import { supabase } from "../..";
 
 export const createUser = async (userCreation: TUserCreation) => {
   if (userCreation.email !== undefined && !normalEmailRegex.test(userCreation.email)) {
-    return { message: "Invalid email" } as TError;
+    console.error("Invalid email");
+    return [];
   }
 
   let isStudent = false;
@@ -17,17 +18,23 @@ export const createUser = async (userCreation: TUserCreation) => {
     .select<string, TUserModel>();
 
   if (error !== null || data === null) {
-    return { message: error.message || "Error creating user" } as TError;
+    console.error(error.message || "Error creating user");
+    return [];
   }
 
   return data;
 };
 
 export const getUser = async (walletAddress: string) => {
-  const { data, error } = await supabase.from("user").select<string, TUserModel>().eq("wallet_address", walletAddress);
+  const { data, error } = await supabase
+    .from("user")
+    .select<string, TUserModel>()
+    .eq("wallet_address", walletAddress)
+    .is("deleted_at", null);
 
   if (error !== null || data === null) {
-    return { message: error.message || "Error getting user" } as TError;
+    console.error(error.message || "Error getting user");
+    return undefined;
   }
 
   return data[0];
@@ -35,11 +42,13 @@ export const getUser = async (walletAddress: string) => {
 
 export const updateUser = async (walletAddress: string, userUpdate: TUserUpdate) => {
   if (Object.keys(userUpdate).length === 0) {
-    return { message: "No data to update" } as TError;
+    console.error("No data to update");
+    return undefined;
   }
 
   if (userUpdate.email !== undefined && !normalEmailRegex.test(userUpdate.email)) {
-    return { message: "Invalid email" } as TError;
+    console.error("Invalid email");
+    return undefined;
   }
 
   let isStudent = false;
@@ -51,10 +60,12 @@ export const updateUser = async (walletAddress: string, userUpdate: TUserUpdate)
     .from("user")
     .update({ ...userUpdate, is_student: isStudent })
     .eq("wallet_address", walletAddress)
+    .is("deleted_at", null)
     .select<string, TUserModel>();
 
   if (error !== null || data === null) {
-    return { message: error.message || "Error updating user" } as TError;
+    console.error(error.message || "Error updating user");
+    return undefined;
   }
 
   return data[0];

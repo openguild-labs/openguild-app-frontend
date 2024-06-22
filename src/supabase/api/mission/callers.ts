@@ -58,7 +58,7 @@ export const countTotalMission = async () => {
   return data.length;
 };
 
-export const getMission = async (id: number) => {
+export const getMission = async (id: string) => {
   const { data, error } = await supabase
     .from("mission")
     .select<string, TMissionModel>()

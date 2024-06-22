@@ -1,10 +1,10 @@
 // MyContext.ts
-import { createContext } from 'react';
+import { createContext } from "react";
 
-interface MyContextType {
-    value: string;
-    setValue: (value: string) => void;
-}
+export type MyContextType = {
+  value: TUserModel;
+  setValue: (value: TUserModel) => void;
+};
 
 const MyContext = createContext<MyContextType | undefined>(undefined);
 

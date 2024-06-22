@@ -1,22 +1,12 @@
-import avatar from "@assets/images/logo.png";
-import Tag from "@/components/Tag";
-import { Link } from "react-router-dom";
-import { MISSIONS_PATH } from "@/constants/links";
+import { Skeleton } from "@mui/material";
 
 const MISSION_CARD_HEIGHT = 365;
 const THUMBNAIL_HEIGHT = 184;
 
-interface IMissionCardProps {
-  mission: TMissionResponse;
-}
-
-function MissionCard({ mission }: IMissionCardProps) {
-  const statusMap = mission.status.split("|");
+function MissionCardSkeleton() {
   return (
     <div className="shrink-0 w-full">
-      <Link
-        to={`${MISSIONS_PATH}/${mission.id}`}
-        reloadDocument
+      <div
         className="block rounded-lg bg-white w-full shadow-lg hover:scale-[102%] duration-200 transition"
         style={{
           height: MISSION_CARD_HEIGHT,
@@ -28,13 +18,17 @@ function MissionCard({ mission }: IMissionCardProps) {
             height: THUMBNAIL_HEIGHT,
           }}
         >
-          <div className="px-2 py-1 rounded-md bg-primary-color text-xs absolute top-4 left-5 text-white">Social</div>
-          <img alt="thumbnail" src={mission.bannerURL} className="w-full h-full rounded-t-lg object-cover" />
-          <img
-            alt="avatar"
-            src={avatar}
-            className="w-[46px] h-[46px] rounded-full absolute left-[28px] bottom-6 translate-y-1/2 border border-neutral-400 bg-white"
+          <Skeleton
+            variant="rectangular"
+            className="rounded-t-lg"
+            sx={{
+              width: "100%",
+              height: "100%",
+            }}
           />
+          <div className=" absolute left-[28px] bottom-6 translate-y-1/2">
+            <Skeleton variant="circular" width={46} height={46} />
+          </div>
         </div>
         <div
           className="flex flex-col w-full"
@@ -43,28 +37,29 @@ function MissionCard({ mission }: IMissionCardProps) {
           }}
         >
           <div className="py-2 px-4 h-1/3 w-full border-b-[0.5px] border-gray-200 text-black">
-            <h3 className="text-ellipsis line-clamp-2">{mission.title}</h3>
+            <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+            <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
           </div>
           <div className="py-2 px-4 h-1/3 w-full border-b-[0.5px] border-gray-200 flex text-black">
             <div className="w-1/2 h-full">
               <div className="h-1/2 flex items-center justify-start">
-                <span className="w-full text-xs">{statusMap[0]}</span>
+                <Skeleton variant="text" className="w-full" sx={{ fontSize: ".75rem" }} />
               </div>
               <div className="h-1/2 flex items-center justify-start">
-                <span className="w-full text-black">{statusMap[1]}</span>
+                <Skeleton variant="text" className="w-full" sx={{ fontSize: ".75rem" }} />
               </div>
             </div>
           </div>
           <div className="py-2 px-4 h-1/3 w-full">
             <div className="flex w-full overflow-hidden gap-x-1 text-black">
-              <Tag value="OG Labs" />
-              <Tag value="XP farming" />
+              <Skeleton variant="rounded" width={80} height={38} />
+              <Skeleton variant="rounded" width={80} height={38} />
             </div>
           </div>
         </div>
-      </Link>
+      </div>
     </div>
   );
 }
 
-export default MissionCard;
+export default MissionCardSkeleton;

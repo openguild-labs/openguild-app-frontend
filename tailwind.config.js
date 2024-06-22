@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        "gradientPrimary": "linear-gradient(180deg, rgba(242,38,239,1) 0%, rgba(85,41,218,1) 100%)",
+        gradientPrimary: "linear-gradient(180deg, rgba(242,38,239,1) 0%, rgba(85,41,218,1) 100%)",
       },
     },
     screens: {
@@ -24,27 +24,27 @@ export default {
         500: "#412062",
       },
       indigo: {
-        600: '#140723',
-        500: '#28123e'
+        600: "#140723",
+        500: "#28123e",
       },
       violet: {
-        500: '#6b3FFd',
+        500: "#6b3FFd",
       },
       pink: {
-        500: '#f226ef'
+        500: "#f226ef",
       },
       orange: {
-        500: '#f77300'
+        500: "#f77300",
       },
       "primary-color": "#6b3ffd",
     },
     animation: {
-      marquee: 'marquee 10s linear infinite',
+      marquee: "marquee 10s linear infinite",
     },
     keyframes: {
       marquee: {
-        '0%': { transform: 'translateX(0%)' },
-        '100%': { transform: 'translateX(-100%)' },
+        "0%": { transform: "translateX(0%)" },
+        "100%": { transform: "translateX(-100%)" },
       },
     },
   },
