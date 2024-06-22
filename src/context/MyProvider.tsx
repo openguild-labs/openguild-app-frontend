@@ -7,7 +7,7 @@ interface MyProviderProps {
 }
 
 const MyProvider: React.FC<MyProviderProps> = ({ children }) => {
-  const [value, setValue] = useState<string>("Hello, World!");
+  const [value, setValue] = useState<TUserModel | undefined>(undefined);
 
   return <MyContext.Provider value={{ value, setValue }}>{children}</MyContext.Provider>;
 };

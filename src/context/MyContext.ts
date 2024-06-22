@@ -2,7 +2,7 @@
 import { createContext } from "react";
 
 export type MyContextType = {
-  value: TUserModel;
+  value: TUserModel | undefined;
   setValue: (value: TUserModel) => void;
 };
 
