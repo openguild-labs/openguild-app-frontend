@@ -56,7 +56,7 @@ function Tasks({ tasks, isEnded }: ITasksProps) {
               title={
                 <div className="flex items-center justify-between w-full">
                   <span className="text-ellipsis line-clamp-1 text-start">{task.name}</span>
-                  {!isEnded && (
+                  {!isEnded && value !== undefined && (
                     <div className="flex items-center gap-x-2 shrink-0 ml-2">
                       <div
                         className={clsx(

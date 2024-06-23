@@ -18,10 +18,12 @@ function Disclosure({ title, description }: IDisclosureProps) {
         })}
       >
         <BiSolidRightArrow
-          className={clsx("transition-effect size-3 fill-primary-color", {
-            "fill-neutral-300": isEmptyDescription,
+          className={clsx("transition-effect size-3", {
             "group-data-[open]:rotate-90": !isEmptyDescription,
           })}
+          style={{
+            fill: isEmptyDescription ? "#d4d4d4" : "#6b3ffd",
+          }}
         />
         <div className="w-full flex items-center">{title}</div>
       </DisclosureButton>
