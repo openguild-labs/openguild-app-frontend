@@ -9,6 +9,7 @@ import { useSearchParams } from "react-router-dom";
 import { LIMIT_DEFAULT, PAGE_DEFAULT } from "@/constants/pagination";
 import { Pagination } from "@mui/material";
 import MissionCardSkeleton from "@/components/MissionCardSkeleton";
+import { useDebouncedValue } from "@mantine/hooks";
 
 const missionCategories: TOption[] = [
   {
@@ -52,8 +53,11 @@ function Missions() {
 
   const [selectedOption, setSelectedOption] = useState(options[0].value);
   const [page, setPage] = useState(p);
-  const { data, isLoading } = useListMission(page - 1);
-  const { data: missionTotal } = useCountTotalMission();
+  const [searchValue, setSearchValue] = useState("");
+  const [searchDebouncedValue] = useDebouncedValue(searchValue, 500);
+
+  const { data, isLoading } = useListMission(page - 1, searchDebouncedValue);
+  const { data: missionTotal } = useCountTotalMission(searchDebouncedValue);
 
   const handleChangePage = (_: unknown, newPage: number) => {
     setPage(newPage);
@@ -66,7 +70,13 @@ function Missions() {
       <h1 className="text-[40px] text-primary-color font-bold mt-6">Missions</h1>
       <CustomTab options={missionCategories} />
       <div className="block md:flex justify-center items-center mt-3 gap-x-8">
-        <SearchInput placeholder="Search by community, tag, badge, name, ..." />
+        <SearchInput
+          placeholder="Search by community, tag, badge, name, ..."
+          value={searchValue}
+          onChange={(event) => {
+            setSearchValue(event.target.value);
+          }}
+        />
         <div className="mt-4 md:mt-0 text-end max-[767px]:[&_>_button]:w-full">
           <DropDown
             value={selectedOption}

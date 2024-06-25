@@ -7,17 +7,17 @@ export const missionKey = {
   completedTasks: "completedTasks",
 };
 
-export const useListMission = (page: number) => {
+export const useListMission = (page: number, search: string) => {
   return useQuery({
-    queryKey: [missionKey.missions, page],
-    queryFn: () => listMissions(page),
+    queryKey: [missionKey.missions, page, search],
+    queryFn: () => listMissions(page, search),
   });
 };
 
-export const useCountTotalMission = () => {
+export const useCountTotalMission = (search: string) => {
   return useQuery({
-    queryKey: [missionKey.missions],
-    queryFn: () => countTotalMission(),
+    queryKey: [missionKey.missions, search],
+    queryFn: () => countTotalMission(search),
   });
 };
 

@@ -20,6 +20,7 @@ function MissionCardSkeleton() {
         >
           <Skeleton
             variant="rectangular"
+            animation="wave"
             className="rounded-t-lg"
             sx={{
               width: "100%",
@@ -27,7 +28,7 @@ function MissionCardSkeleton() {
             }}
           />
           <div className=" absolute left-[28px] bottom-6 translate-y-1/2">
-            <Skeleton variant="circular" width={46} height={46} />
+            <Skeleton variant="circular" width={46} height={46} animation="wave" />
           </div>
         </div>
         <div
@@ -37,23 +38,23 @@ function MissionCardSkeleton() {
           }}
         >
           <div className="py-2 px-4 h-1/3 w-full border-b-[0.5px] border-gray-200 text-black">
-            <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
-            <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+            <Skeleton variant="text" sx={{ fontSize: "1rem" }} animation="wave" />
+            <Skeleton variant="text" sx={{ fontSize: "1rem" }} animation="wave" />
           </div>
           <div className="py-2 px-4 h-1/3 w-full border-b-[0.5px] border-gray-200 flex text-black">
             <div className="w-1/2 h-full">
               <div className="h-1/2 flex items-center justify-start">
-                <Skeleton variant="text" className="w-full" sx={{ fontSize: ".75rem" }} />
+                <Skeleton variant="text" className="w-full" sx={{ fontSize: ".75rem" }} animation="wave" />
               </div>
               <div className="h-1/2 flex items-center justify-start">
-                <Skeleton variant="text" className="w-full" sx={{ fontSize: ".75rem" }} />
+                <Skeleton variant="text" className="w-full" sx={{ fontSize: ".75rem" }} animation="wave" />
               </div>
             </div>
           </div>
           <div className="py-2 px-4 h-1/3 w-full">
             <div className="flex w-full overflow-hidden gap-x-1 text-black">
-              <Skeleton variant="rounded" width={80} height={38} />
-              <Skeleton variant="rounded" width={80} height={38} />
+              <Skeleton variant="rounded" width={80} height={38} animation="wave" />
+              <Skeleton variant="rounded" width={80} height={38} animation="wave" />
             </div>
           </div>
         </div>

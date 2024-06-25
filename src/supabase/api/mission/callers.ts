@@ -8,15 +8,21 @@ const getBannerPromises = (bannerPath: string) => {
   return supabase.storage.from("banners").createSignedUrl(bannerPath, EXPIRED_TIME);
 };
 
-export const listMissions = async (page: number) => {
+export const listMissions = async (page: number, search: string) => {
   const start = page * PAGE_LIMIT;
 
-  const { data, error } = await supabase
+  let missionPromise = supabase
     .from("mission")
     .select<string, TMissionModel>()
     .is("deleted_at", null)
     .range(start, start + PAGE_LIMIT - 1)
-    .order("id", { ascending: true });
+    .order("created_at", { ascending: false });
+
+  if (search !== "") {
+    missionPromise = missionPromise.like("title", `%${search}%`);
+  }
+
+  const { data, error } = await missionPromise;
 
   if (error !== null) {
     console.error("Error fetching missions");
@@ -43,12 +49,18 @@ export const listMissions = async (page: number) => {
   return dataResponse;
 };
 
-export const countTotalMission = async () => {
-  const { data, error } = await supabase
+export const countTotalMission = async (search: string) => {
+  let countMissionPromise = supabase
     .from("mission")
     .select("id", { count: "exact" })
     .is("deleted_at", null)
-    .order("id", { ascending: true });
+    .order("created_at", { ascending: false });
+
+  if (search !== "") {
+    countMissionPromise = countMissionPromise.like("title", `%${search}%`);
+  }
+
+  const { data, error } = await countMissionPromise;
 
   if (error !== null) {
     console.error("Error fetching missions");
