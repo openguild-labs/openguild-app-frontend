@@ -15,12 +15,12 @@ interface IMissionCardProps {
 }
 
 function MissionCard({ mission }: IMissionCardProps) {
-  const statusMap = mission.status.split("|");
+  const statusMap = mission?.status?.split("|");
   const [isLoadingImage, setIsLoadingImage] = useState(false);
   return (
     <div className="shrink-0 w-full">
       <Link
-        to={`${MISSIONS_PATH}/${mission.id}`}
+        to={`${MISSIONS_PATH}/${mission?.id}`}
         reloadDocument
         className="block rounded-lg bg-white w-full shadow-lg hover:scale-[102%] duration-200 transition"
         style={{
@@ -36,7 +36,7 @@ function MissionCard({ mission }: IMissionCardProps) {
           <div className="px-2 py-1 rounded-md bg-primary-color text-xs absolute top-4 left-5 text-white">Social</div>
           <LazyLoadImage
             alt="thumbnail"
-            src={mission.bannerURL}
+            src={mission?.bannerURL}
             className="w-full h-full rounded-t-lg object-cover"
             beforeLoad={() => {
               setIsLoadingImage(true);

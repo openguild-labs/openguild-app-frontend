@@ -7,7 +7,7 @@ interface ITagProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 function Tag({ value, size = "medium", className, ...props }: ITagProps) {
-  const words = value.split(" ");
+  const words = value?.split(" ");
   const firstWord = words[0];
   const restWords = words.slice(1).join(" ");
   return (

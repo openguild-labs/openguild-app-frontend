@@ -9,6 +9,8 @@ import { WalletEntryPosition } from "@particle-network/auth";
 import { Moonbeam } from "@particle-network/chains";
 import { evmWallets } from "@particle-network/connect";
 import MyProvider from "./context/MyProvider";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <MyProvider>
@@ -51,6 +53,20 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Providers>
           <BrowserRouter>
             <App />
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
+            {/* Same as */}
+            <ToastContainer />
           </BrowserRouter>
         </Providers>
       </ModalProvider>

@@ -28,6 +28,7 @@
     "react-lazy-load-image-component": "^1.6.2",
     "react-resize-detector": "^11.0.1",
     "react-router-dom": "^6.23.1",
+    "react-toastify": "^10.0.5",
     "viem": "^2.10.3",
     "wagmi": "^2.8.6"
   },

@@ -1,17 +1,14 @@
+import PixelEditor from "@/components/Pixel/PixelEditor";
 import RewardBannerImg from "@assets/images/reward-banner.jpg";
-import profile from "@assets/images/profile.svg";
-import { MdPhotoCamera } from "react-icons/md";
 
 const Banner = () => {
   return (
     <div className="relative">
       <div className=" absolute bottom-0 left-0 right-0 m-auto size-fit translate-y-1/2">
-        <div className="flex items-center justify-center bg-[#56595C] rounded-full w-8 h-8 absolute bottom-2 right-2 cursor-pointer">
-          <MdPhotoCamera />
+        <div className="w-32 h-32 rounded-full overflow-hidden relative z-0">
+          <PixelEditor rows={14} cols={14} />;
         </div>
-        <img className="w-40 h-40 rounded-xl object-cover" src={profile} alt="reward-banner" />
       </div>
-
       <img className="h-[262px] md:h-[362px] lg:h-[462px] rounded-xl object-cover" src={RewardBannerImg} alt="reward-banner" />
     </div>
   );

@@ -7,7 +7,7 @@ interface ICommonInfoProps {
 }
 
 function CommonInfo({ imgSrc, status, participants }: ICommonInfoProps) {
-  const statusElem = status.split("|");
+  const statusElem = status?.split("|");
   return (
     <div className="flex flex-col gap-y-6">
       <div className="rounded-xl shadow-lg bg-white p-3 w-full flex flex-col gap-y-3 relative">
@@ -19,10 +19,10 @@ function CommonInfo({ imgSrc, status, participants }: ICommonInfoProps) {
       </div>
       <div className="flex items-end">
         <div className="w-[40%]">
-          <span>{statusElem[0]}</span>
+          <span>{statusElem ? statusElem[0] : ""}</span>
         </div>
         <div className="w-[60%]">
-          <span className="text-2xl text-primary-color">{statusElem[1]}</span>
+          <span className="text-2xl text-primary-color">{statusElem ? statusElem[1] : ""}</span>
         </div>
       </div>
       <div className="flex items-end">
