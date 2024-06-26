@@ -1,6 +1,8 @@
 import { studentEmailRegex, normalEmailRegex } from "@/constants/regex";
 import { supabase } from "../..";
 
+const EXPIRED_TIME = 60 * 60; // 1 hour
+
 export const createUser = async (userCreation: TUserCreation) => {
   if (userCreation.email !== undefined && !normalEmailRegex.test(userCreation.email)) {
     console.error("Invalid email");
@@ -69,4 +71,32 @@ export const updateUser = async (walletAddress: string, userUpdate: TUserUpdate)
   }
 
   return data[0];
+};
+
+export const uploadAvatar = async (userID: number, filename: string, file: Blob) => {
+  const { data, error: uploadingError } = await supabase.storage.from("avatars").upload(`${userID}/${filename}`, file);
+  if (uploadingError !== null || data === null) {
+    console.error("Error uploading image: ", uploadingError.message);
+    return "";
+  }
+
+  const { error: updatingError } = await supabase.from("user").update({ avatar: data.path }).eq("id", userID);
+  if (updatingError !== null) {
+    console.error("Error updating user avatar: ", updatingError.message);
+  }
+};
+
+export const getAvatarURL = async (avatar: string) => {
+  if (avatar === "") {
+    console.error("avatar is invalid");
+    return "";
+  }
+
+  const { data, error } = await supabase.storage.from("banners").createSignedUrl(avatar, EXPIRED_TIME);
+  if (error !== null || data === null) {
+    console.error("Error fetching avatar: ", error.message);
+    return "";
+  }
+
+  return data.signedUrl;
 };

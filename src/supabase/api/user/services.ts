@@ -1,8 +1,9 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { createUser, getUser, updateUser } from "./callers";
+import { createUser, getAvatarURL, getUser, updateUser, uploadAvatar } from "./callers";
 
 export const userKey = {
-  user: (walletAddress: string) => ["user", walletAddress],
+  user: "user",
+  avatar: "avatar",
 };
 
 export const useCreateUser = () => {
@@ -16,7 +17,7 @@ export const useCreateUser = () => {
 
 export const useGetUser = (walletAddress: string) => {
   return useQuery({
-    queryKey: userKey.user(walletAddress),
+    queryKey: [userKey.user, walletAddress],
     queryFn: () => getUser(walletAddress),
   });
 };
@@ -26,6 +27,23 @@ export const useUpdateUser = (walletAddress: string) => {
     mutationFn: (userUpdate: TUserUpdate) => updateUser(walletAddress, userUpdate),
     onSuccess: (resp) => {
       console.log(resp);
+    },
+  });
+};
+
+export const useUploadAvatar = () => {
+  return useMutation({
+    mutationFn: (req: TUploadAvatarRequest) => {
+      return uploadAvatar(req.userID, req.filename, req.file);
+    },
+  });
+};
+
+export const useGetAvatarURL = (avatar: string) => {
+  return useQuery({
+    queryKey: [userKey.avatar, avatar],
+    queryFn: () => {
+      return getAvatarURL(avatar);
     },
   });
 };
