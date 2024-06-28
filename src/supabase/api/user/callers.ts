@@ -43,7 +43,7 @@ export const getUser = async (walletAddress: string) => {
 };
 
 export const updateUser = async (walletAddress: string, userUpdate: TUserUpdate) => {
-  console.log(walletAddress, userUpdate)
+  console.log(walletAddress, userUpdate);
   if (Object.keys(userUpdate).length === 0) {
     console.error("No data to update");
     return undefined;
