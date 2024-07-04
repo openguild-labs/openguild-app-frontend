@@ -1,15 +1,22 @@
 import PixelEditor from "@/components/Pixel/PixelEditor";
-import RewardBannerImg from "@assets/images/reward-banner.jpg";
+import RewardBannerImg from "@assets/images/banner.webp";
 
 const Banner = () => {
   return (
-    <div className="relative">
-      <div className=" absolute bottom-0 left-0 right-0 m-auto size-fit translate-y-1/2">
-        <div className="w-32 h-32 rounded-full overflow-hidden relative z-0">
+    <div className="relative mt8 mb-12 z-0">
+      <div className=" absolute bottom-0 left-0 right-0 m-auto size-fit translate-y-1/2 z-10">
+        <div className="w-[135px]  h-[137px] rounded-full overflow-hidden relative z-100">
           <PixelEditor rows={14} cols={14} />;
         </div>
       </div>
-      <img className="h-[262px] md:h-[362px] lg:h-[462px] rounded-xl object-cover" src={RewardBannerImg} alt="reward-banner" />
+      <img
+        className="h-[300px] md:h-[300px] lg:h-[300px]  object-cover z-0 w-full relative"
+        src={RewardBannerImg}
+        style={{
+          backgroundPosition: "center",
+        }}
+        alt="reward-banner"
+      />
     </div>
   );
 };

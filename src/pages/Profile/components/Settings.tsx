@@ -24,26 +24,28 @@ function Settings({ userInfo }: any) {
   const { mutate: updateUser } = useUpdateUser(account as any);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [username, setUsername] = useState("");
+
   useEffect(() => {
     setFirstName(data?.first_name as any);
     setLastName(data?.last_name as any);
+    setUsername(data?.username as any);
   }, [data]);
   const handleUpdate = () => {
-    updateUser({ first_name: firstName, last_name: lastName, email: data?.email } as any);
+    updateUser({ first_name: firstName, last_name: lastName, email: data?.email, username: username } as any);
     toast.success("Update user successfully!");
   };
-  console.log({ data });
   return (
     <div>
       <div className="text-primary-color text-2xl font-bold mt-12 mb-6">General</div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="w-full">
           <div className="font-bold my-2">User ID</div>
-          <SearchInput value={userInfo?.uuid} />
+          <SearchInput value={userInfo?.uuid} disabled className="cursor-not-allowed" />
         </div>
         <div className="w-full">
           <div className="font-bold my-2">Username</div>
-          <SearchInput />
+          <SearchInput value={username} onChange={(e) => setUsername(e.target.value)} />
         </div>
         <div className="w-full">
           <div className="font-bold my-2">First Name</div>
@@ -54,13 +56,8 @@ function Settings({ userInfo }: any) {
           <SearchInput value={lastName} onChange={(e) => setLastName(e.target.value)} />
         </div>
       </div>
-      <Button
-        className="py-1 px-4 h-[44px] w-full rounded-lg border border-primary-color text-primary-color font-bold text-sm mt-6"
-        onClick={() => handleUpdate()}
-      >
-        Update
-      </Button>
-      <div className="bg-white/10  w-full h-[1px] mt-8" />
+
+      <div className="bg-white/10  w-full h-[1px] mt-0" />
       <div className="text-primary-color text-2xl font-bold mt-12 mb-6">Social Accounts</div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
@@ -95,6 +92,12 @@ function Settings({ userInfo }: any) {
           @ Connect with Telegram
         </div>
       </div>
+      <Button
+        className="py-1 px-4 h-[44px] w-full rounded-lg bg-primary-color text-white font-bold text-sm mt-10"
+        onClick={() => handleUpdate()}
+      >
+        Update
+      </Button>
       <div className="bg-white/10  w-full h-[1px] my-12" />
       <div className="text-primary-color text-2xl font-bold mt-12 mb-6">Wallet List</div>
       <div className="p-4 border border-gray-100 bg-white rounded-lg shadow-lg">

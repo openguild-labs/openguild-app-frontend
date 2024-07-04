@@ -1,6 +1,6 @@
 import { useAccount } from "@particle-network/connect-react-ui";
 import React, { useEffect, useRef, useState } from "react";
-import Pixel from "./Pixel";
+import Pixel2 from "./Pixel2";
 import { BitmapMethod, NFT_BITMAP, TINY_CAT_NFT_COLOR_KIT } from "./bitmap/nft";
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 
 export const emptyArray = (size: number, defaultValue?: any) => new Array(size).fill(defaultValue !== undefined ? defaultValue : undefined);
 
-const PixelEditor = ({ cols }: Props) => {
+const PixelEditor2 = ({ cols }: Props) => {
   const [nfts, setNfts] = useState<React.ReactNode[]>([]);
   const buildGridFromMethod = (layerMethod: string, generatedLayer: Record<string, any>, index: any) => {
     const methods = (NFT_BITMAP as any)[layerMethod] as BitmapMethod[];
@@ -44,7 +44,7 @@ const PixelEditor = ({ cols }: Props) => {
                 {emptyArray(cols).map((_, colIndex) => {
                   return (
                     <div>
-                      <Pixel color={trackedCells[`${rowIndex}:${colIndex}`] as string} style={{ fontSize: "2px" }}></Pixel>
+                      <Pixel2 color={trackedCells[`${rowIndex}:${colIndex}`] as string} style={{ fontSize: "2px" }}></Pixel2>
                     </div>
                   );
                 })}
@@ -75,7 +75,20 @@ const PixelEditor = ({ cols }: Props) => {
   }, [account]);
   const printRef = useRef(null);
 
-  return <div ref={printRef}>{nfts}</div>;
+  const handleDownloadImage = async () => {
+    const element = printRef.current;
+    if (!element) return;
+  };
+
+  useEffect(() => {
+    handleDownloadImage();
+  }, [nfts]);
+
+  return (
+    <div ref={printRef} className="w-[42px] h-[42px] rounded-full overflow-hidden cursor-pointer">
+      {nfts}
+    </div>
+  );
 };
 
-export default PixelEditor;
+export default PixelEditor2;

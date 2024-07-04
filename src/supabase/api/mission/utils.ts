@@ -1,4 +1,4 @@
-import { ENDING_STATUS } from "@/constants/mission";
+import { ENDING_STATUS, MISSION_STATUS__TYPE } from "@/constants/mission";
 
 export const getStatusMission = (start_date: string, end_date: string) => {
   const now = new Date();
@@ -22,4 +22,21 @@ export const getStatusMission = (start_date: string, end_date: string) => {
   }
 
   return "--";
+};
+export const getStatusTypeMission = (start_date: string, end_date: string) => {
+  const now = new Date();
+  const end = new Date(end_date);
+  const start = new Date(start_date);
+
+  if (start > now) {
+    return MISSION_STATUS__TYPE.NOT_START
+  }
+
+  if (start <= now && end > now) {
+    return MISSION_STATUS__TYPE.IN_PROGRESS
+  }
+
+  return MISSION_STATUS__TYPE.ENDED
+
+
 };

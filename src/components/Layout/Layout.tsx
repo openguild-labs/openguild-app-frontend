@@ -1,18 +1,18 @@
+import MyContext, { MyContextType } from "@/context/MyContext";
 import { useCreateUser, useGetUser } from "@/supabase/api/user/services";
-import profile from "@assets/images/profile.svg";
+import logo from "@assets/images/logo.png";
+import { useDisclosure } from "@mantine/hooks";
 import { ConnectButton, useAccount, useConnectKit } from "@particle-network/connect-react-ui"; // @particle-network/connectkit to use Auth Core
 import "@particle-network/connect-react-ui/dist/index.css";
-import { useContext, useEffect, useState } from "react";
-import logo from "@assets/images/logo.png";
-import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { HEADER_HEIGHT } from "../../constants/dimensions";
-import { COLLECTIONS_PATH, HOME_PATH, MISSIONS_PATH, REWARDS_PATH } from "../../constants/links";
-import CustomDialog from "../CustomDialog/CustomDialog";
-import "./Layout.css";
-import MyContext, { MyContextType } from "@/context/MyContext";
-import { FiMenu } from "react-icons/fi";
-import { useDisclosure } from "@mantine/hooks";
 import clsx from "clsx";
+import { useContext, useEffect, useState } from "react";
+import { FiMenu } from "react-icons/fi";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
+import { HEADER_HEIGHT } from "../../constants/dimensions";
+import { COLLECTIONS_PATH, MISSIONS_PATH, REWARDS_PATH } from "../../constants/links";
+import CustomDialog from "../CustomDialog/CustomDialog";
+import PixelEditor2 from "../Pixel/PixelEditor2";
+import "./Layout.css";
 
 const linkItems = [
   {
@@ -30,8 +30,6 @@ const linkItems = [
 ];
 
 function Layout() {
-  const location = useLocation();
-  const isHomePath = location.pathname === HOME_PATH;
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const navigate = useNavigate();
   const connectKit = useConnectKit();
@@ -51,8 +49,9 @@ function Layout() {
     });
   };
   useEffect(() => {
+    console.log(data, isFetching, "???");
     if (!data && !isFetching) addUserToDB();
-  }, [account]);
+  }, [account, isFetching]);
 
   const { setValue } = context as MyContextType;
 
@@ -68,7 +67,7 @@ function Layout() {
         className="backdrop-blur-md bg-white/80 flex items-center px-4 md:px-9 fixed top-0 right-0 left-0 shadow-xs shadow-neutral-100 z-10 text-black"
         style={{
           height: HEADER_HEIGHT,
-          justifyContent: isHomePath ? "center" : "space-between",
+          justifyContent: "space-between",
           marginRight: isDialogOpen ? "14px" : "0",
         }}
       >
@@ -82,34 +81,36 @@ function Layout() {
             <h1 className="font-bold text-xl hidden min-[500px]:block">OpenGuild</h1>
           </Link>
         </div>
-        {!isHomePath && (
-          <>
-            <nav id="navbar">
-              <ul className="hidden md:flex space-x-4">
-                {linkItems.map((item) => {
-                  return (
-                    <li key={item.to}>
-                      <NavLink
-                        style={{
-                          height: HEADER_HEIGHT,
-                        }}
-                        className={({ isActive }) => clsx("font-medium text-[1.1rem]", isActive && "active")}
-                        to={item.to}
-                      >
-                        {item.label}
-                      </NavLink>
-                    </li>
-                  );
-                })}
-              </ul>
-            </nav>
-            <CustomDialog isOpen={isDialogOpen} setIsOpen={setIsDialogOpen} />
-            <div className="flex gap-4 items-center max-[1000px]:[&_.particle-account-info_>_span]:hidden">
-              <ConnectButton />
-              {account && <img src={profile} alt="profile" className="w-8 h-8 cursor-pointer" onClick={() => navigate("/profile")} />}
-            </div>
-          </>
-        )}
+        <>
+          <nav id="navbar">
+            <ul className="hidden md:flex space-x-4">
+              {linkItems.map((item) => {
+                return (
+                  <li key={item.to}>
+                    <NavLink
+                      style={{
+                        height: HEADER_HEIGHT,
+                      }}
+                      className={({ isActive }) => clsx("font-medium text-[1.1rem]", isActive && "active")}
+                      to={item.to}
+                    >
+                      {item.label}
+                    </NavLink>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+          <CustomDialog isOpen={isDialogOpen} setIsOpen={setIsDialogOpen} />
+          <div className="flex gap-4 items-center max-[1000px]:[&_.particle-account-info_>_span]:hidden">
+            <ConnectButton />
+            {account && (
+              <div className="" onClick={() => navigate("/profile")}>
+                <PixelEditor2 rows={14} cols={14} />
+              </div>
+            )}
+          </div>
+        </>
 
         {isSideMenuOpened && <div className="h-screen w-screen absolute top-0 left-0 bg-indigo-600/30" onClick={toggleSideMenu}></div>}
         <div

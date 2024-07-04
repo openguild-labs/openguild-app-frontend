@@ -1,9 +1,8 @@
-import { emptyArray } from "../PixelEditor";
 import {
   generateLightColor,
   generateRandomColor,
-  // generateRandomDarkColor,
 } from "../../../utils";
+import { emptyArray } from "../PixelEditor";
 
 export type BitmapMethod = (color: string) => {
   grid: (string | number)[][];
@@ -14,16 +13,27 @@ export type BitmapMethod = (color: string) => {
 };
 
 export const TINY_CAT_NFT_SIZE = { rows: 14, cols: 14 };
-export const TINY_CAT_NFT_COLOR_KIT: Record<string, string | (() => string)> = {
-  generateBackground: generateLightColor,
-  generateBodyBase: generateLightColor,
-  generateBodyAccessories: generateLightColor,
-  generateEyes: generateRandomColor,
-  generateMouth: generateLightColor,
-  generateShirt: generateRandomColor,
-  generateHandAccessories: generateRandomColor,
+// export const TINY_CAT_NFT_COLOR_KIT: Record<string, string | (() => string)> = {
+//   generateBackground: generateLightColor,
+//   generateBodyBase: generateLightColor,
+//   generateBodyAccessories: generateLightColor,
+//   generateEyes: generateRandomColor,
+//   generateMouth: generateLightColor,
+//   generateShirt: generateRandomColor,
+//   generateHandAccessories: generateRandomColor,
+//   generateHand: "generateBodyBase",
+// };
+// console.log(TINY_CAT_NFT_COLOR_KIT)
+export const TINY_CAT_NFT_COLOR_KIT: any = (value?: any) => ({
+  generateBackground: () => generateLightColor(value, 2),
+  generateBodyBase: () => generateLightColor(value, 3),
+  generateBodyAccessories: () => generateLightColor(value),
+  generateEyes: () => generateRandomColor(value),
+  generateMouth: () => generateLightColor(value, 4),
+  generateShirt: () => generateRandomColor(value),
+  generateHandAccessories: () => generateRandomColor(value),
   generateHand: "generateBodyBase",
-};
+});
 
 export const NFT_BITMAP: Record<string, BitmapMethod[]> = {
   generateBackground: [

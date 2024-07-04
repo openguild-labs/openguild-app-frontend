@@ -6,12 +6,12 @@ type Props = {
   style?: React.CSSProperties;
 };
 
-const Pixel = ({ color, style, children }: Props) => {
+const Pixel2 = ({ color, style, children }: Props) => {
   return (
     <div
       style={{
-        width: 10,
-        height: 10,
+        width: 3,
+        height: 3,
         backgroundColor: color || "transparent",
         ...style,
       }}
@@ -22,4 +22,4 @@ const Pixel = ({ color, style, children }: Props) => {
   );
 };
 
-export default Pixel;
+export default Pixel2;

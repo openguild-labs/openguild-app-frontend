@@ -1,4 +1,22 @@
-export function generateLightColor() {
+import md5 from "md5";
+
+export function generateLightColor(value?: any, index?: any) {
+  if (value) {
+    const hash = md5(value + index);
+    // Extract parts of the hash to generate RGB values
+    const red = parseInt(hash.substring(0, 2), 16) % 156 + 100; // Ensure a light color by starting from 100 to 255
+    const green = parseInt(hash.substring(3, 5), 16) % 156 + 100;
+    const blue = parseInt(hash.substring(8, 10), 16) % 156 + 100;
+
+    // Convert the RGB values to hexadecimal format
+    const redHex = red.toString(16).padStart(2, "0");
+    const greenHex = green.toString(16).padStart(2, "0");
+    const blueHex = blue.toString(16).padStart(2, "0");
+
+    // Concatenate the hexadecimal values to form the color code
+    const colorCode = `#${redHex}${greenHex}${blueHex}`;
+    return colorCode;
+  }
   // Generate random values for the red, green, and blue components
   const red = Math.floor(Math.random() * 156) + 100; // Ensure a light color by starting from 100 to 255
   const green = Math.floor(Math.random() * 156) + 100;
@@ -15,7 +33,25 @@ export function generateLightColor() {
   return colorCode;
 }
 
-export function generateRandomColor() {
+export function generateRandomColor(value?: any) {
+  if (value) {
+    const hash = md5(value);
+
+    // Extract parts of the hash to generate RGB values
+    const red = parseInt(hash.substring(0, 2), 16);
+    const green = parseInt(hash.substring(2, 4), 16);
+    const blue = parseInt(hash.substring(4, 6), 16);
+
+    // Convert the RGB values to hexadecimal format
+    const redHex = red.toString(16).padStart(2, "0");
+    const greenHex = green.toString(16).padStart(2, "0");
+    const blueHex = blue.toString(16).padStart(2, "0");
+
+    // Concatenate the hexadecimal values to form the color code
+    const colorCode = `#${redHex}${greenHex}${blueHex}`;
+
+    return colorCode;
+  }
   // Generate random values for the red, green, and blue components
   const red = Math.floor(Math.random() * 256);
   const green = Math.floor(Math.random() * 256);

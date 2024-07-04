@@ -6,6 +6,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { CiImageOn } from "react-icons/ci";
 import { Skeleton } from "@mui/material";
 import { useState } from "react";
+import { MISSION_STATUS__TYPE } from "@/constants/mission";
 
 const MISSION_CARD_HEIGHT = 365;
 const THUMBNAIL_HEIGHT = 184;
@@ -14,9 +15,21 @@ interface IMissionCardProps {
   mission: TMissionResponse;
 }
 
+const renderTagStatus = (status: string) => {
+  switch (status) {
+    case MISSION_STATUS__TYPE.NOT_START:
+      return <Tag value={MISSION_STATUS__TYPE.NOT_START} isWholeWord className=" text-[#da2877]" />;
+    case MISSION_STATUS__TYPE.IN_PROGRESS:
+      return <Tag value={MISSION_STATUS__TYPE.IN_PROGRESS} isWholeWord className=" bg-[#6b3ffdae] text-white border-transparent" />;
+    default:
+      return <Tag value={MISSION_STATUS__TYPE.ENDED} isWholeWord className="bg-gray-200 text-gray-500" />;
+  }
+};
+
 function MissionCard({ mission }: IMissionCardProps) {
   const statusMap = mission?.status?.split("|");
   const [isLoadingImage, setIsLoadingImage] = useState(false);
+
   return (
     <div className="shrink-0 w-full">
       <Link
@@ -93,7 +106,7 @@ function MissionCard({ mission }: IMissionCardProps) {
           </div>
           <div className="py-2 px-4 h-1/3 w-full">
             <div className="flex w-full overflow-hidden gap-x-1 text-black">
-              <Tag value="OG Labs" />
+              {renderTagStatus(mission.statusType)}
               <Tag value="XP farming" />
             </div>
           </div>

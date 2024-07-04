@@ -55,11 +55,11 @@ function Profile() {
             setTab(index);
           }}
         >
-          <TabList className="flex gap-2 max-[450px]:animate-marquee">
+          <TabList className="flex gap-2 max-[450px] justify-center lg:justify-start">
             {categories.map(({ name }) => (
               <Tab
                 key={name}
-                className="rounded-full py-1 px-5 text-md/6 font-semibold focus:outline-none data-[selected]:text-primary-color data-[selected]:bg-white/10 data-[hover]:bg-white/5 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white text-nowrap"
+                className="rounded-full py-1 pr-4 lg:pr-10 font-semibold focus:outline-none data-[selected]:text-primary-color data-[selected]:bg-white/10 data-[hover]:bg-white/5 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white text-nowrap text-sm lg:text-lg "
               >
                 {name}
               </Tab>

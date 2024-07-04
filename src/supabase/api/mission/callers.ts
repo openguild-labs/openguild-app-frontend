@@ -1,5 +1,5 @@
 import { supabase } from "@/supabase";
-import { getStatusMission } from "./utils";
+import { getStatusMission, getStatusTypeMission } from "./utils";
 
 const PAGE_LIMIT = 8;
 const EXPIRED_TIME = 60 * 60; // 1 hour
@@ -42,6 +42,7 @@ export const listMissions = async (page: number, search: string) => {
       id: mission.id,
       title: mission.title,
       status: getStatusMission(mission.start_date, mission.end_date),
+      statusType: getStatusTypeMission(mission.start_date, mission.end_date),
       bannerURL: bannerListResponse[index].data?.signedUrl || "",
     };
   });

@@ -34,4 +34,5 @@ type TUserModel = {
   last_name: string;
   is_student: boolean;
   avatar: string;
+  username?: string
 };

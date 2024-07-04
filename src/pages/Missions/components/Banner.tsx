@@ -1,12 +1,19 @@
-import MissionBannerImg from "@assets/images/mission-banner.png";
+import BannerImg from "@assets/images/banner.webp";
 
 function Banner() {
   return (
-    <div className="relative">
+    <div className="relative mt-8 mb-12">
       <div className="absolute top-[35%] left-[10%] text-white text-[46px]">
         <span className="text-primary-color">Mission</span> System
       </div>
-      <img className="h-[262px] md:h-[362px] lg:h-[462px] rounded-xl object-cover" src={MissionBannerImg} alt="mission-banner" />
+      <img
+        className="h-[300px] md:h-[300px] lg:h-[300px]  object-cover z-0 w-full relative"
+        src={BannerImg}
+        style={{
+          backgroundPosition: "center",
+        }}
+        alt="reward-banner"
+      />
     </div>
   );
 }

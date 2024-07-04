@@ -1,12 +1,13 @@
-import { HTMLAttributes } from "react";
 import clsx from "clsx";
+import { HTMLAttributes } from "react";
 
 interface ITagProps extends HTMLAttributes<HTMLDivElement> {
   value: string;
   size?: "medium" | "large";
+  isWholeWord?: boolean;
 }
 
-function Tag({ value, size = "medium", className, ...props }: ITagProps) {
+function Tag({ value, size = "medium", isWholeWord, className, ...props }: ITagProps) {
   const words = value?.split(" ");
   const firstWord = words[0];
   const restWords = words.slice(1).join(" ");
@@ -18,7 +19,13 @@ function Tag({ value, size = "medium", className, ...props }: ITagProps) {
         fontSize: size === "large" ? "1.25rem" : "0.875rem",
       }}
     >
-      <span className="text-primary-color inline-block">{firstWord}</span> {restWords}
+      {isWholeWord ? (
+        <span className=" inline-block">{value}</span>
+      ) : (
+        <>
+          <span className="text-primary-color inline-block">{firstWord}</span> {restWords}
+        </>
+      )}
     </div>
   );
 }

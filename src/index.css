@@ -15,9 +15,11 @@
 
 html {
   background-color: #fff;
+  overflow: visible !important;
 }
 body {
   background-color: #fff;
+  overflow: visible !important;
 }
 .transition-effect {
   transition: all 0.4s ease;
@@ -114,4 +116,12 @@ body {
 }
 .Toastify__close-button:hover,
 .Toastify__close-button:focus {
+}
+
+/* .particle-pwe-btn {
+  display: none !important;
+} */
+
+.particle-connect-wallet-btn {
+  margin-right: 10px !important;
 }

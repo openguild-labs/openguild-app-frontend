@@ -1,14 +1,14 @@
+import { ENDING_STATUS, MISSION_STATUS__TYPE } from "@/constants/mission";
+import { useGetMission } from "@/supabase/api/mission/services";
+import { getStatusMission, getStatusTypeMission } from "@/supabase/api/mission/utils";
+import { useMediaQuery } from "@mantine/hooks";
+import { HiOutlineInboxStack } from "react-icons/hi2";
+import { useParams } from "react-router-dom";
 import CommonInfo from "./components/CommonInfo";
 import Description from "./components/Description";
 import Header from "./components/Header";
-import Tasks from "./components/Tasks";
-import { useMediaQuery } from "@mantine/hooks";
-import { useParams } from "react-router-dom";
-import { useGetMission } from "@/supabase/api/mission/services";
-import { getStatusMission } from "@/supabase/api/mission/utils";
 import MissionDetailsSkeleton from "./components/MissionDetailsSkeleton";
-import { HiOutlineInboxStack } from "react-icons/hi2";
-import { ENDING_STATUS } from "@/constants/mission";
+import Tasks from "./components/Tasks";
 
 function MissionDetails() {
   const isDesktop = useMediaQuery("(min-width: 1024px)");
@@ -31,6 +31,7 @@ function MissionDetails() {
   }
 
   const statusMission = getStatusMission(data.start_date, data.end_date);
+  const statusTypeMission = getStatusTypeMission(data.start_date, data.end_date);
 
   return (
     <div className="mt-[30px] pb-10">
@@ -38,11 +39,15 @@ function MissionDetails() {
         {!isDesktop && <Header title={data.title} />}
 
         <div className="w-full md:w-[40%] shrink-0">
-          <CommonInfo imgSrc={data.bannerURL} status={statusMission} participants={0} />
+          <CommonInfo imgSrc={data.bannerURL} status={statusTypeMission} participants={0} />
         </div>
         <div className="flex flex-col gap-y-8">
           {isDesktop && <Header title={data.title} />}
-          <Tasks tasks={data.tasks || []} isEnded={statusMission === ENDING_STATUS} />
+          <Tasks
+            tasks={data.tasks || []}
+            isEnded={statusMission === ENDING_STATUS}
+            isNotStart={statusTypeMission === MISSION_STATUS__TYPE.NOT_START}
+          />
           <Description description={data.description} />
         </div>
       </div>
