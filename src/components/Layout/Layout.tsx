@@ -9,7 +9,7 @@ import { useContext, useEffect, useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { HEADER_HEIGHT } from "../../constants/dimensions";
-import { COLLECTIONS_PATH, MISSIONS_PATH, REWARDS_PATH } from "../../constants/links";
+import { MISSIONS_PATH, REWARDS_PATH } from "../../constants/links";
 import CustomDialog from "../CustomDialog/CustomDialog";
 import PixelEditor2 from "../Pixel/PixelEditor2";
 import "./Layout.css";
@@ -22,10 +22,6 @@ const linkItems = [
   {
     label: "Rewards",
     to: REWARDS_PATH,
-  },
-  {
-    label: "Collections",
-    to: COLLECTIONS_PATH,
   },
 ];
 

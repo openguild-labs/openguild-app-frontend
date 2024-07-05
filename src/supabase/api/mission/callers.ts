@@ -1,5 +1,6 @@
 import { supabase } from "@/supabase";
 import { getStatusMission, getStatusTypeMission } from "./utils";
+import { MISSION_STATUS__TYPE } from "@/constants/mission";
 
 const PAGE_LIMIT = 8;
 const EXPIRED_TIME = 60 * 60; // 1 hour
@@ -12,7 +13,7 @@ const getCategoryPromises = (id: string) => {
   return supabase.from("mission_category").select<string, TMissionCategoryModel>().eq("id", id).is("deleted_at", null);
 };
 
-export const listMissions = async (page: number, search: string) => {
+export const listMissions = async (page: number, search: string, missionType: string, categoryID: string) => {
   const start = page * PAGE_LIMIT;
 
   let missionPromise = supabase
@@ -24,6 +25,23 @@ export const listMissions = async (page: number, search: string) => {
 
   if (search !== "") {
     missionPromise = missionPromise.like("title", `%${search}%`);
+  }
+
+  const now = new Date().toISOString().split("T")[0];
+  switch (missionType) {
+    case MISSION_STATUS__TYPE.IN_PROGRESS:
+      missionPromise = missionPromise.gt("end_date", now).lte("start_date", now);
+      break;
+    case MISSION_STATUS__TYPE.ENDED:
+      missionPromise = missionPromise.lt("end_date", now);
+      break;
+    case MISSION_STATUS__TYPE.NOT_START:
+      missionPromise = missionPromise.gt("start_date", now);
+      break;
+  }
+
+  if (categoryID !== "") {
+    missionPromise = missionPromise.eq("mission_category_id", categoryID);
   }
 
   const { data, error } = await missionPromise;
@@ -63,7 +81,7 @@ export const listMissions = async (page: number, search: string) => {
   return dataResponse;
 };
 
-export const countTotalMission = async (search: string) => {
+export const countTotalMission = async (search: string, missionType: string, categoryID: string) => {
   let countMissionPromise = supabase
     .from("mission")
     .select("id", { count: "exact" })
@@ -72,6 +90,23 @@ export const countTotalMission = async (search: string) => {
 
   if (search !== "") {
     countMissionPromise = countMissionPromise.like("title", `%${search}%`);
+  }
+
+  const now = new Date().toISOString().split("T")[0];
+  switch (missionType) {
+    case MISSION_STATUS__TYPE.IN_PROGRESS:
+      countMissionPromise = countMissionPromise.gt("end_date", now).lte("start_date", now);
+      break;
+    case MISSION_STATUS__TYPE.ENDED:
+      countMissionPromise = countMissionPromise.lt("end_date", now);
+      break;
+    case MISSION_STATUS__TYPE.NOT_START:
+      countMissionPromise = countMissionPromise.gt("start_date", now);
+      break;
+  }
+
+  if (categoryID !== "") {
+    countMissionPromise = countMissionPromise.eq("mission_category_id", categoryID);
   }
 
   const { data, error } = await countMissionPromise;
@@ -170,4 +205,19 @@ export const createProofsOfWork = async (creation: TProofsOfWorkCreation) => {
   if (error !== null) {
     console.error("Error creating proofs of work");
   }
+};
+
+export const listMissionsCategories = async () => {
+  const { data, error } = await supabase
+    .from("mission_category")
+    .select<string, TMissionCategoryModel>()
+    .is("deleted_at", null)
+    .order("id", { ascending: true });
+
+  if (error !== null || data === null) {
+    console.error("Error fetching mission categories");
+    return [] as TMissionCategoryModel[];
+  }
+
+  return data;
 };

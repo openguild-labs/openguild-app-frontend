@@ -20,7 +20,7 @@ function Tag({ value, size = "medium", isWholeWord, className, ...props }: ITagP
       }}
     >
       {isWholeWord ? (
-        <span className=" inline-block">{value}</span>
+        <span className="inline-block text-nowrap">{value}</span>
       ) : (
         <>
           <span className="text-primary-color inline-block">{firstWord}</span> {restWords}

@@ -1,6 +1,6 @@
 import Disclosure from "@/components/Disclosure";
 import { INTENT_BASE_URL, socialMedia, WORKSHOP_TYPE } from "@/constants/mission";
-import { useCompleteTask, useCreateProofsOfWork, useGetCompletedTasks } from "@/supabase/api/mission/services";
+import { missionKey, useCompleteTask, useCreateProofsOfWork, useGetCompletedTasks } from "@/supabase/api/mission/services";
 import { Button, Input } from "@headlessui/react";
 import { CircularProgress, Modal, Button as ButtonMUI, Divider } from "@mui/material";
 import clsx from "clsx";
@@ -11,6 +11,8 @@ import "../style.css";
 import { useGetUser } from "@/supabase/api/user/services";
 import { toast } from "react-toastify";
 import { useAccount } from "@particle-network/connect-react-ui";
+import { useQueryClient } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
 interface ITasksProps {
   tasks: TTaskModel[];
   isEnded: boolean;
@@ -61,6 +63,8 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
   const isAllTasksCompleted = tasks.length === verifiedTasks.length;
 
   const { mutate: proofsMutate, isPending } = useCreateProofsOfWork();
+  const { id } = useParams<{ id: string }>();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (isVerifyingTaskID === 0) return;
@@ -72,12 +76,16 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
         onSuccess: (isCompleted) => {
           if (isCompleted) {
             refetch();
+            queryClient.invalidateQueries({
+              queryKey: [missionKey.mission, id],
+              exact: true,
+            });
           }
         },
       });
       setIsVerifyingTaskID(0);
     }, 1000);
-  }, [isVerifyingTaskID, isVerifying, mutate, refetch]);
+  }, [isVerifyingTaskID, mutate, refetch, id, queryClient]);
 
   const handleLogin = () => {
     (document.getElementsByClassName("particle-connect-wallet-btn")[0] as HTMLElement).click();
@@ -115,7 +123,7 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
               key={index}
               title={
                 <div className="flex items-center justify-between w-full">
-                  <span className="text-ellipsis line-clamp-1 text-start">{task.name}</span>
+                  <h3 className="text-ellipsis line-clamp-1 text-start font-bold">{task.name}</h3>
                   {!isEnded && !isNotStart && userInfo !== undefined && (
                     <div className="flex items-center gap-x-2 shrink-0 ml-2">
                       {/* completion button */}
@@ -198,7 +206,7 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
       ) : null}
       <div className="w-full h-[1px] bg-gray-300 mt-6" />
       <Modal open={openModal} onClose={onCloseModal} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
-        <div className="w-[480px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg p-3">
+        <div className="sm:w-[480px] w-[90%] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg p-3">
           <h2 className="text-lg font-bold text-primary-color mb-2">Proof of Work</h2>
           <Input
             placeholder="Submit a link to branding/reflecting post"

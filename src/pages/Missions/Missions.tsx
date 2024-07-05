@@ -1,97 +1,163 @@
 import DropDown from "./components/DropDown";
-import { useState } from "react";
-import CustomTab from "@/components/CustomTab";
+import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import SearchInput from "@/components/SearchInput";
 import Banner from "./components/Banner";
 import MissionCard from "@/components/MissionCard";
-import { useCountTotalMission, useListMission } from "@/supabase/api/mission/services";
+import { useCountTotalMission, useListMission, useListMissionCategory } from "@/supabase/api/mission/services";
 import { useSearchParams } from "react-router-dom";
 import { LIMIT_DEFAULT, PAGE_DEFAULT } from "@/constants/pagination";
-import { Pagination } from "@mui/material";
+import { Pagination, Tab, Tabs } from "@mui/material";
 import MissionCardSkeleton from "@/components/MissionCardSkeleton";
 import { useDebouncedValue } from "@mantine/hooks";
+import { MISSION_STATUS__TYPE } from "@/constants/mission";
+import { HiOutlineInbox } from "react-icons/hi2";
 
-const missionCategories: TOption[] = [
+const missionTypes: TOption[] = [
   {
-    name: "All",
+    label: MISSION_STATUS__TYPE.IN_PROGRESS,
+    value: MISSION_STATUS__TYPE.IN_PROGRESS,
   },
   {
-    name: "In Progress",
+    label: MISSION_STATUS__TYPE.NOT_START,
+    value: MISSION_STATUS__TYPE.NOT_START,
   },
   {
-    name: "Ended",
+    label: MISSION_STATUS__TYPE.ENDED,
+    value: MISSION_STATUS__TYPE.ENDED,
   },
 ];
 
-const options: TOptions[] = [
-  {
-    value: "Newest",
-    label: "Newest",
-  },
-  {
-    value: "Top/Trending",
-    label: "Top/Trending",
-  },
-];
+const categoryDefault: TOption = {
+  label: "All",
+  value: "",
+};
 
 const renderListMission = (data: TMissionResponse[], isLoading: boolean) => {
   if (isLoading) {
-    return [1, 2, 3, 4].map((index) => {
-      return <MissionCardSkeleton key={index} />;
-    });
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-4 mt-3">
+        {[1, 2, 3, 4].map((index) => {
+          return <MissionCardSkeleton key={index} />;
+        })}
+      </div>
+    );
   }
 
-  return data.map((mission) => {
-    return <MissionCard key={mission.id} mission={mission} />;
-  });
+  if (data.length === 0) {
+    return (
+      <div className="flex flex-col items-center">
+        <HiOutlineInbox size={28} className="mt-8" />
+        <span>Have no mission</span>
+      </div>
+    );
+  }
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-4 mt-3">
+      {data.map((mission) => {
+        return <MissionCard key={mission.id} mission={mission} />;
+      })}
+    </div>
+  );
+};
+
+const defaultQueryValue = {
+  type: 0,
+  categoryID: "",
+  page: PAGE_DEFAULT + 1,
+  searchValue: "",
 };
 
 function Missions() {
   const [searchParams, setSearchParams] = useSearchParams();
   const pParam = searchParams.get("p");
-  const p = pParam === null ? PAGE_DEFAULT + 1 : parseInt(pParam as string);
+  const tParam = searchParams.get("t");
+  const cParam = searchParams.get("c");
+  const sParam = searchParams.get("s");
+  const p = pParam === null ? PAGE_DEFAULT + 1 : Number.isNaN(parseInt(pParam)) ? PAGE_DEFAULT + 1 : parseInt(pParam);
+  const t = tParam === null ? 0 : Number.isNaN(parseInt(tParam)) ? 0 : parseInt(tParam);
+  const c = cParam === null ? "" : Number.isNaN(parseInt(cParam)) ? "" : cParam;
+  const s = sParam === null ? "" : sParam;
 
-  const [selectedOption, setSelectedOption] = useState(options[0].value);
-  const [page, setPage] = useState(p);
-  const [searchValue, setSearchValue] = useState("");
-  const [searchDebouncedValue] = useDebouncedValue(searchValue, 500);
+  const initQueryValue = useMemo(
+    () => ({
+      type: missionTypes[t].value,
+      categoryID: c,
+      page: p,
+      searchValue: s,
+    }),
+    [t, c, p, s]
+  );
+  const [missionQuery, setMissionQuery] = useState(initQueryValue);
+  const indexType = missionTypes.findIndex((type) => type.value === missionQuery.type);
+  const [searchDebouncedValue] = useDebouncedValue(missionQuery.searchValue, 500);
 
-  const { data, isLoading } = useListMission(page - 1, searchDebouncedValue);
-  const { data: missionTotal } = useCountTotalMission(searchDebouncedValue);
+  const { data, isLoading } = useListMission(missionQuery.page - 1, searchDebouncedValue, missionQuery.type, missionQuery.categoryID);
+  const { data: missionTotal } = useCountTotalMission(searchDebouncedValue, missionQuery.type, missionQuery.categoryID);
+  const { data: categoryList } = useListMissionCategory();
+
+  const categoryOptions =
+    categoryList?.map((category) => {
+      return { label: category.name, value: String(category.id) };
+    }) || ([] as TOption[]);
+
+  const handleChangeType = (_: React.SyntheticEvent, newValue: string) => {
+    setMissionQuery({ ...defaultQueryValue, type: newValue });
+  };
+
+  const handleChangeCategory = (value: string) => {
+    setMissionQuery({ ...missionQuery, categoryID: value, page: PAGE_DEFAULT + 1 });
+  };
+
+  const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
+    setMissionQuery({ ...missionQuery, searchValue: event.target.value, page: PAGE_DEFAULT + 1 });
+  };
 
   const handleChangePage = (_: unknown, newPage: number) => {
-    setPage(newPage);
-    setSearchParams({ p: newPage.toString() });
+    setMissionQuery({ ...missionQuery, page: newPage });
   };
+
+  const missionQueryStr = JSON.stringify(missionQuery);
+  useEffect(() => {
+    const newParams: { [key: string]: string } = { t: indexType.toString(), p: missionQuery.page.toString() };
+    if (missionQuery.categoryID !== "") {
+      newParams["c"] = missionQuery.categoryID;
+    }
+
+    if (missionQuery.searchValue !== "") {
+      newParams["s"] = missionQuery.searchValue;
+    }
+
+    setSearchParams(newParams, { replace: true });
+  }, [missionQueryStr, missionQuery, setSearchParams, indexType]);
+
   return (
     <div className="mt-3">
       <Banner />
       <h1 className="text-[40px] text-primary-color font-bold mt-6">Missions</h1>
-      <CustomTab options={missionCategories} />
+      <div className="border-b border-neutral-300">
+        <Tabs value={missionQuery.type} onChange={handleChangeType}>
+          {missionTypes.map((category, index) => {
+            return <Tab key={index} label={<span className="capitalize text-base">{category.label}</span>} value={category.value} />;
+          })}
+        </Tabs>
+      </div>
       <div className="block md:flex justify-center items-center mt-3 gap-x-8">
-        <SearchInput
-          placeholder="Search by community, tag, badge, name, ..."
-          value={searchValue}
-          onChange={(event) => {
-            setSearchValue(event.target.value);
-          }}
-        />
+        <SearchInput placeholder="Search by community, tag, badge, name, ..." value={missionQuery.searchValue} onChange={handleSearch} />
         <div className="mt-4 md:mt-0 text-end max-[767px]:[&_>_button]:w-full">
-          <DropDown
-            value={selectedOption}
-            onChange={(value) => {
-              setSelectedOption(value);
-            }}
-            options={options}
-          />
+          <DropDown value={missionQuery.categoryID} onChange={handleChangeCategory} options={[categoryDefault, ...categoryOptions]} />
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-4 mt-3">
-        {renderListMission(data || [], isLoading)}
-      </div>
-      <div className="flex justify-center mt-3">
-        <Pagination count={Math.ceil((missionTotal || 0) / LIMIT_DEFAULT)} color="primary" page={page} onChange={handleChangePage} />
-      </div>
+      {renderListMission(data || [], isLoading)}
+      {!isLoading && data && data?.length > 0 && (
+        <div className="flex justify-center mt-3">
+          <Pagination
+            count={Math.ceil((missionTotal || 0) / LIMIT_DEFAULT)}
+            color="primary"
+            page={missionQuery.page}
+            onChange={handleChangePage}
+          />
+        </div>
+      )}
     </div>
   );
 }

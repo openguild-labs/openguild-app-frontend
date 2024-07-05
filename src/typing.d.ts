@@ -1,4 +1,4 @@
-type TOptions = {
+type TOption = {
   label: string;
   value: string;
 };

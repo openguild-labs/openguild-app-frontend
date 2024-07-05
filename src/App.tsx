@@ -5,8 +5,6 @@ import NotFound from "./pages/NotFound";
 import Rewards from "./pages/Rewards";
 import Home from "./pages/Home";
 import MissionDetails from "./pages/MissionDetails";
-import Collections from "./pages/Collections";
-import CollectionDetails from "./pages/CollectionDetails";
 import RewardDetail from "./pages/RewardDetail/RewardDetail";
 import Profile from "./pages/Profile/Profile";
 
@@ -21,8 +19,6 @@ function App() {
         { path: "/missions/:id", element: <MissionDetails /> },
         { path: "/rewards", element: <Rewards /> },
         { path: "/rewards/:id", element: <RewardDetail /> },
-        { path: "/collections", element: <Collections /> },
-        { path: "/collections/:id", element: <CollectionDetails /> },
         { path: "/profile", element: <Profile /> },
 
         { path: "*", element: <NotFound /> },

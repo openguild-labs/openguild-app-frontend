@@ -10,7 +10,7 @@ const Banner = () => {
         <div className="text-white text-[24px]">Game On, Get Award!</div>
       </div>
       <img
-        className="h-[300px] md:h-[300px] lg:h-[300px]  object-cover z-0 w-full relative"
+        className="h-[300px] md:h-[300px] lg:h-[300px]  object-cover z-0 w-full relative rounded-lg"
         src={BannerImg}
         style={{
           backgroundPosition: "center",

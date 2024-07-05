@@ -4,13 +4,13 @@ import { Menu, MenuItem, MenuItems, Transition } from "@headlessui/react";
 interface IDropDownProps {
   value: string;
   onChange: (value: string) => void;
-  options: TOptions[];
+  options: TOption[];
 }
 
 function DropDown({ options, value, onChange }: IDropDownProps) {
   return (
     <Menu>
-      <MenuButton label={value} />
+      <MenuButton label={options.find((option) => option.value === value)?.label || ""} />
       <Transition
         enter="transition ease-out duration-75"
         enterFrom="opacity-0 scale-95"

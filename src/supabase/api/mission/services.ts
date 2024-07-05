@@ -1,23 +1,32 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { completeTask, countTotalMission, createProofsOfWork, getCompletedTasks, getMission, listMissions } from "./callers";
+import {
+  completeTask,
+  countTotalMission,
+  createProofsOfWork,
+  getCompletedTasks,
+  getMission,
+  listMissions,
+  listMissionsCategories,
+} from "./callers";
 
 export const missionKey = {
   missions: "missions",
   mission: "mission",
   completedTasks: "completedTasks",
+  missionCategory: "missionCategory",
 };
 
-export const useListMission = (page: number, search: string) => {
+export const useListMission = (page: number, search: string, missionType: string, categoryID: string) => {
   return useQuery({
-    queryKey: [missionKey.missions, page, search],
-    queryFn: () => listMissions(page, search),
+    queryKey: [missionKey.missions, page, search, missionType, categoryID],
+    queryFn: () => listMissions(page, search, missionType, categoryID),
   });
 };
 
-export const useCountTotalMission = (search: string) => {
+export const useCountTotalMission = (search: string, missionType: string, categoryID: string) => {
   return useQuery({
-    queryKey: [missionKey.missions, search],
-    queryFn: () => countTotalMission(search),
+    queryKey: [missionKey.missions, search, missionType, categoryID],
+    queryFn: () => countTotalMission(search, missionType, categoryID),
   });
 };
 
@@ -44,5 +53,12 @@ export const useCompleteTask = (userID: number) => {
 export const useCreateProofsOfWork = () => {
   return useMutation({
     mutationFn: (creation: TProofsOfWorkCreation) => createProofsOfWork(creation),
+  });
+};
+
+export const useListMissionCategory = () => {
+  return useQuery({
+    queryKey: [missionKey.missionCategory],
+    queryFn: () => listMissionsCategories(),
   });
 };
