@@ -46,7 +46,7 @@ function MissionCard({ mission }: IMissionCardProps) {
             height: THUMBNAIL_HEIGHT,
           }}
         >
-          <div className="px-2 py-1 rounded-md bg-primary-color text-xs absolute top-4 left-5 text-white">Social</div>
+          <div className="px-2 py-1 rounded-md bg-primary-color text-xs absolute top-4 left-5 text-white">{mission.category}</div>
           <LazyLoadImage
             alt="thumbnail"
             src={mission?.bannerURL}

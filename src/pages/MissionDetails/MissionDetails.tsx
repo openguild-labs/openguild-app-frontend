@@ -39,7 +39,7 @@ function MissionDetails() {
         {!isDesktop && <Header title={data.title} />}
 
         <div className="w-full md:w-[40%] shrink-0">
-          <CommonInfo imgSrc={data.bannerURL} status={statusTypeMission} participants={0} />
+          <CommonInfo imgSrc={data.bannerURL} status={statusTypeMission} participants={data.participants} />
         </div>
         <div className="flex flex-col gap-y-8 flex-1">
           {isDesktop && <Header title={data.title} />}

@@ -4,10 +4,12 @@ type TMissionResponse = {
   status: string;
   statusType: string;
   bannerURL: string;
+  category: string;
 };
 
 type TMissionDetailResponse = TMissionModel & {
   bannerURL: string;
+  participants: number;
   tasks: TTaskModel[];
 };
 
@@ -16,4 +18,9 @@ type TProofsOfWorkCreation = {
   task_id: number;
   link?: string;
   image?: string;
+};
+
+type TParticipantQuantityResponse = {
+  mission_id: number;
+  quantity: number;
 };

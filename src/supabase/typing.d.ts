@@ -10,6 +10,7 @@ type TMissionModel = {
   end_date: string;
   created_at: string;
   banner: string; // banner path
+  mission_category_id: string;
 };
 
 type TTaskModel = {
@@ -33,4 +34,10 @@ type TUserModel = {
   first_name: string;
   last_name: string;
   is_student: boolean;
+};
+
+type TMissionCategoryModel = {
+  id: number;
+  name: string;
+  description: string;
 };

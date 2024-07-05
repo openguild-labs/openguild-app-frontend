@@ -8,6 +8,10 @@ const getBannerPromises = (bannerPath: string) => {
   return supabase.storage.from("banners").createSignedUrl(bannerPath, EXPIRED_TIME);
 };
 
+const getCategoryPromises = (id: string) => {
+  return supabase.from("mission_category").select<string, TMissionCategoryModel>().eq("id", id).is("deleted_at", null);
+};
+
 export const listMissions = async (page: number, search: string) => {
   const start = page * PAGE_LIMIT;
 
@@ -23,7 +27,6 @@ export const listMissions = async (page: number, search: string) => {
   }
 
   const { data, error } = await missionPromise;
-
   if (error !== null) {
     console.error("Error fetching missions");
     return [] as TMissionResponse[];
@@ -31,19 +34,29 @@ export const listMissions = async (page: number, search: string) => {
 
   const bannerListResponse = await Promise.all(data.map((item) => getBannerPromises(item.banner)));
   bannerListResponse.forEach((resp) => {
-    if (resp.error !== null) {
+    if (resp.error !== null || resp.data === null) {
       console.error("Error when get banner url");
       return [];
     }
   });
 
+  const categoryListResponse = await Promise.all(data.map((item) => getCategoryPromises(item.mission_category_id)));
+  categoryListResponse.forEach((resp) => {
+    if (resp.error !== null || resp.data === null) {
+      console.error("Error when get category");
+      return [];
+    }
+  });
+
   const dataResponse: TMissionResponse[] = data.map((mission, index) => {
+    const categoryResult = categoryListResponse[index].data as TMissionCategoryModel[];
     return {
       id: mission.id,
       title: mission.title,
       status: getStatusMission(mission.start_date, mission.end_date),
       statusType: getStatusTypeMission(mission.start_date, mission.end_date),
       bannerURL: bannerListResponse[index].data?.signedUrl || "",
+      category: categoryResult[0].name || "",
     };
   });
 
@@ -96,19 +109,28 @@ export const getMission = async (id: string) => {
     .eq("mission_id", id)
     .is("deleted_at", null)
     .order("id", { ascending: true });
+  const getParticipantQuantityPromise = supabase.from("participant_quantity").select<string, TParticipantQuantityResponse>();
 
-  const [{ data: bannerData, error: fetchBannerError }, { data: tasksData, error: fetchTasksError }] = await Promise.all([
-    getBannerPromise,
-    getTasksPromise,
-  ]);
+  const [
+    { data: bannerData, error: fetchBannerError },
+    { data: tasksData, error: fetchTasksError },
+    { data: participantQuantityData, error: fetchParticipantQuantityError },
+  ] = await Promise.all([getBannerPromise, getTasksPromise, getParticipantQuantityPromise]);
 
-  if (fetchBannerError !== null || fetchTasksError !== null) {
+  const errorIsNotNull = fetchBannerError !== null || fetchTasksError !== null || fetchParticipantQuantityError !== null;
+  const dataIsNull = bannerData === null || tasksData === null || participantQuantityData === null;
+  if (errorIsNotNull || dataIsNull) {
     console.error("Error fetching data");
     return undefined;
   }
 
   const bannerURL = bannerData.signedUrl;
-  return { ...mission, bannerURL, tasks: tasksData } as TMissionDetailResponse;
+  return {
+    ...mission,
+    bannerURL,
+    tasks: tasksData,
+    participants: participantQuantityData.find((p) => p.mission_id === mission.id)?.quantity || 0,
+  } as TMissionDetailResponse;
 };
 
 export const getCompletedTasks = async (userID: number, taskIDs: number[]) => {
