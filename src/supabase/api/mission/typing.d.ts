@@ -10,3 +10,10 @@ type TMissionDetailResponse = TMissionModel & {
   bannerURL: string;
   tasks: TTaskModel[];
 };
+
+type TProofsOfWorkCreation = {
+  user_id: number;
+  task_id: number;
+  link?: string;
+  image?: string;
+};

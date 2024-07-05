@@ -49,7 +49,6 @@ function Layout() {
     });
   };
   useEffect(() => {
-    console.log(data, isFetching, "???");
     if (!data && !isFetching) addUserToDB();
   }, [account, isFetching]);
 
@@ -116,7 +115,7 @@ function Layout() {
         <div
           className={clsx(
             "fixed top-0 z-40 h-screen p-4 overflow-y-auto transition-transform  bg-white w-[350px] left-0",
-            !isSideMenuOpened && "-translate-x-full",
+            !isSideMenuOpened && "-translate-x-full"
           )}
         >
           <Link to={MISSIONS_PATH}>

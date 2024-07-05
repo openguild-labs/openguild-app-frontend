@@ -41,7 +41,7 @@ function MissionDetails() {
         <div className="w-full md:w-[40%] shrink-0">
           <CommonInfo imgSrc={data.bannerURL} status={statusTypeMission} participants={0} />
         </div>
-        <div className="flex flex-col gap-y-8">
+        <div className="flex flex-col gap-y-8 flex-1">
           {isDesktop && <Header title={data.title} />}
           <Tasks
             tasks={data.tasks || []}

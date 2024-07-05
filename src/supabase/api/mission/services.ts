@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { completeTask, countTotalMission, getCompletedTasks, getMission, listMissions } from "./callers";
+import { completeTask, countTotalMission, createProofsOfWork, getCompletedTasks, getMission, listMissions } from "./callers";
 
 export const missionKey = {
   missions: "missions",
@@ -38,5 +38,11 @@ export const useGetCompletedTasks = (userID: number, taskIDs: number[]) => {
 export const useCompleteTask = (userID: number) => {
   return useMutation({
     mutationFn: (taskID: number) => completeTask(userID, taskID),
+  });
+};
+
+export const useCreateProofsOfWork = () => {
+  return useMutation({
+    mutationFn: (creation: TProofsOfWorkCreation) => createProofsOfWork(creation),
   });
 };

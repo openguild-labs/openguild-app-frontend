@@ -63,7 +63,6 @@ function Missions() {
     setPage(newPage);
     setSearchParams({ p: newPage.toString() });
   };
-  console.log({ data });
   return (
     <div className="mt-3">
       <Banner />

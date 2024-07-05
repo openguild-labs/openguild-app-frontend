@@ -10,3 +10,4 @@ export const socialMedia = {
   discord: "Discord",
 };
 export const INTENT_BASE_URL = "https://x.com/intent";
+export const WORKSHOP_TYPE = "Workshop";

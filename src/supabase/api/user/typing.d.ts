@@ -15,9 +15,3 @@ type TUserUpdate = {
   telegram?: string;
   facebook?: string;
 };
-
-type TUploadAvatarRequest = {
-  userID: number;
-  filename: string;
-  file: Blob;
-};

@@ -34,16 +34,16 @@ const PixelEditor2 = ({ cols }: Props) => {
       const { trackedCells } = buildGridFromMethod(
         layerMethod,
         generatedLayers,
-        +"0x6A882122e955c689cD21F3447E208615b6faE005".replace(/\D/g, "").charAt(index),
+        +"0x6A882122e955c689cD21F3447E208615b6faE005".replace(/\D/g, "").charAt(index)
       );
       return (
-        <div style={{ position: "relative" }}>
+        <div key={index} style={{ position: "relative" }}>
           <div style={{ position: "absolute", top: 0 }}>
             {[1, 2, 3, 4, 5, 6, 7, 7, 7, 7, 7, 7, 7, 7].map((_, rowIndex) => (
-              <div className="flex">
+              <div key={rowIndex} className="flex">
                 {emptyArray(cols).map((_, colIndex) => {
                   return (
-                    <div>
+                    <div key={colIndex}>
                       <Pixel2 color={trackedCells[`${rowIndex}:${colIndex}`] as string} style={{ fontSize: "2px" }}></Pixel2>
                     </div>
                   );
@@ -58,7 +58,12 @@ const PixelEditor2 = ({ cols }: Props) => {
 
   const handleGenerate = () => {
     const component = renderOneNftLayers();
-    setNfts([...nfts, <div style={{ width: cols * 12, height: cols * 12 }}>{component}</div>]);
+    setNfts([
+      ...nfts,
+      <div key={nfts.length} style={{ width: cols * 12, height: cols * 12 }}>
+        {component}
+      </div>,
+    ]);
   };
 
   // const intervalRef = useInterval(() => {
