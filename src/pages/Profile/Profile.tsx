@@ -11,7 +11,7 @@ import { FaCopy } from "react-icons/fa6";
 import { toast } from "react-toastify";
 import Settings from "./components/Settings";
 
-const categories: TOption[] = [
+const categories: any = [
   {
     name: "Account settings",
   },
@@ -56,7 +56,7 @@ function Profile() {
           }}
         >
           <TabList className="flex gap-2 max-[450px] justify-center lg:justify-start">
-            {categories.map(({ name }) => (
+            {categories.map(({ name }: any) => (
               <Tab
                 key={name}
                 className="rounded-full py-1 pr-4 lg:pr-10 font-semibold focus:outline-none data-[selected]:text-primary-color data-[selected]:bg-white/10 data-[hover]:bg-white/5 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white text-nowrap text-sm lg:text-lg "

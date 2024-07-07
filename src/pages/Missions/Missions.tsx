@@ -1,16 +1,16 @@
-import DropDown from "./components/DropDown";
-import { ChangeEvent, useEffect, useMemo, useState } from "react";
-import SearchInput from "@/components/SearchInput";
-import Banner from "./components/Banner";
 import MissionCard from "@/components/MissionCard";
-import { useCountTotalMission, useListMission, useListMissionCategory } from "@/supabase/api/mission/services";
-import { useSearchParams } from "react-router-dom";
-import { LIMIT_DEFAULT, PAGE_DEFAULT } from "@/constants/pagination";
-import { Pagination, Tab, Tabs } from "@mui/material";
 import MissionCardSkeleton from "@/components/MissionCardSkeleton";
-import { useDebouncedValue } from "@mantine/hooks";
+import SearchInput from "@/components/SearchInput";
 import { MISSION_STATUS__TYPE } from "@/constants/mission";
+import { LIMIT_DEFAULT, PAGE_DEFAULT } from "@/constants/pagination";
+import { useCountTotalMission, useListMission, useListMissionCategory } from "@/supabase/api/mission/services";
+import { useDebouncedValue } from "@mantine/hooks";
+import { Pagination, Tab, Tabs } from "@mui/material";
+import { useState, useEffect, useMemo, ChangeEvent } from "react";
 import { HiOutlineInbox } from "react-icons/hi2";
+import { useSearchParams } from "react-router-dom";
+import Banner from "./components/Banner";
+import DropDown from "./components/DropDown";
 
 const missionTypes: TOption[] = [
   {
@@ -85,7 +85,7 @@ function Missions() {
       page: p,
       searchValue: s,
     }),
-    [t, c, p, s]
+    [t, c, p, s],
   );
   const [missionQuery, setMissionQuery] = useState(initQueryValue);
   const indexType = missionTypes.findIndex((type) => type.value === missionQuery.type);

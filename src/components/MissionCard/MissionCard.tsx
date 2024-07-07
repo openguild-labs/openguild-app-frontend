@@ -1,12 +1,12 @@
-import avatar from "@assets/images/logo.png";
 import Tag from "@/components/Tag";
-import { Link } from "react-router-dom";
 import { MISSIONS_PATH } from "@/constants/links";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import { CiImageOn } from "react-icons/ci";
+import { MISSION_STATUS__TYPE } from "@/constants/mission";
+import avatar from "@assets/images/logo.png";
 import { Skeleton } from "@mui/material";
 import { useState } from "react";
-import { MISSION_STATUS__TYPE } from "@/constants/mission";
+import { CiImageOn } from "react-icons/ci";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { Link } from "react-router-dom";
 
 const MISSION_CARD_HEIGHT = 365;
 const THUMBNAIL_HEIGHT = 184;

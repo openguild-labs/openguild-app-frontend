@@ -34,6 +34,10 @@ type TUserModel = {
   first_name: string;
   last_name: string;
   is_student: boolean;
+  username?: string;
+  twitter?: string;
+  discord?: string;
+  telegram?: string;
 };
 
 type TMissionCategoryModel = {

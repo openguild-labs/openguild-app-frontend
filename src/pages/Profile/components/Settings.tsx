@@ -25,14 +25,20 @@ function Settings({ userInfo }: any) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
+  const [twitter, setTwitter] = useState("");
+  const [discord, setDiscord] = useState("");
+  const [telegram, setTelegram] = useState("");
 
   useEffect(() => {
     setFirstName(data?.first_name as any);
     setLastName(data?.last_name as any);
     setUsername(data?.username as any);
+    setTwitter(data?.twitter as any);
+    setDiscord(data?.discord as any);
+    setTelegram(data?.telegram as any);
   }, [data]);
   const handleUpdate = () => {
-    updateUser({ first_name: firstName, last_name: lastName, email: data?.email, username: username } as any);
+    updateUser({ first_name: firstName, last_name: lastName, email: data?.email, username: username, discord, telegram, twitter } as any);
     toast.success("Update user successfully!");
   };
   return (
@@ -61,7 +67,7 @@ function Settings({ userInfo }: any) {
       <div className="text-primary-color text-2xl font-bold mt-12 mb-6">Social Accounts</div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
-        <div className="px-8 py-2 bg-white border border-primary-color text-center cursor-pointer font-semibold rounded-md mt-4">
+        <div className="px-8 py-3 bg-white border border-primary-color text-center cursor-pointer font-semibold rounded-md mt-4">
           {userInfo?.google_email ? (
             <div className="flex gap-2 items-center justify-center text-[#6b3ffd]">
               Email: @{userInfo?.google_email} <IoIosCheckmarkCircle color="#f226ef" />
@@ -70,26 +76,32 @@ function Settings({ userInfo }: any) {
             <>@ Connect with email</>
           )}
         </div>
-        <div className="px-8 py-2 bg-white border border-primary-color text-center cursor-pointer font-semibold rounded-md mt-4">
-          {userInfo?.discord_email ? (
+
+        {userInfo?.discord_email ? (
+          <div className="px-8 py-3 bg-white border border-primary-color text-center cursor-pointer font-semibold rounded-md mt-4">
             <div className="flex gap-2 items-center justify-center text-[#6b3ffd]">
               Discord: @{userInfo?.thirdparty_user_info?.user_info?.name} <IoIosCheckmarkCircle color="#f226ef" />
             </div>
-          ) : (
-            <>@ Connect with email</>
-          )}
-        </div>
-        <div className="px-8 py-2 bg-white border border-primary-color text-center cursor-pointer font-semibold rounded-md mt-4">
-          {userInfo?.twitter_id ? (
+          </div>
+        ) : (
+          <div className="w-full mt-4">
+            <SearchInput placeholder="Input your @Discord account" value={discord} onChange={(e) => setDiscord(e.target.value)} />
+          </div>
+        )}
+
+        {userInfo?.twitter_id ? (
+          <div className="px-8 py-3 bg-white border border-primary-color text-center cursor-pointer font-semibold rounded-md mt-4">
             <div className="flex gap-2 items-center justify-center text-[#6b3ffd]">
               Twitter: @{userInfo?.name} <IoIosCheckmarkCircle color="#f226ef" />
             </div>
-          ) : (
-            <>@ Connect with X</>
-          )}
-        </div>
-        <div className="px-8 py-2 bg-white border border-primary-color text-center cursor-pointer font-semibold rounded-md mt-4">
-          @ Connect with Telegram
+          </div>
+        ) : (
+          <div className="w-full mt-4">
+            <SearchInput placeholder="Input your @X account" value={twitter} onChange={(e) => setTwitter(e.target.value)} />
+          </div>
+        )}
+        <div className="w-full mt-4">
+          <SearchInput placeholder="Input your @Telegram account" value={telegram} onChange={(e) => setTelegram(e.target.value)} />
         </div>
       </div>
       <Button
