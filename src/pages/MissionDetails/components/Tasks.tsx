@@ -131,7 +131,7 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
                         className={clsx(
                           "transition-effect text-sm py-1 px-4 border border-primary-color rounded-md completion-btn",
                           "flex items-center gap-x-2",
-                          { verified: isVerified },
+                          { verified: isVerified }
                         )}
                         onClick={(event) => {
                           event.stopPropagation();
@@ -290,7 +290,7 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
                         setProofs({ link: "", image: "" });
                         setOpenModal(false);
                       },
-                    },
+                    }
                   );
                 }}
               >

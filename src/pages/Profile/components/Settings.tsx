@@ -38,8 +38,16 @@ function Settings({ userInfo }: any) {
     setTelegram(data?.telegram as any);
   }, [data]);
   const handleUpdate = () => {
-    updateUser({ first_name: firstName, last_name: lastName, email: data?.email, username: username, discord, telegram, twitter } as any);
-    toast.success("Update user successfully!");
+    updateUser(
+      { first_name: firstName, last_name: lastName, email: data?.email, username: username, discord, telegram, twitter },
+      {
+        onSuccess: (resp) => {
+          if (resp !== undefined) {
+            toast.success("Update user successfully!");
+          }
+        },
+      }
+    );
   };
   return (
     <div>

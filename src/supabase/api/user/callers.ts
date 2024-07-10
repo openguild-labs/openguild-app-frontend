@@ -1,5 +1,6 @@
 import { studentEmailRegex, normalEmailRegex } from "@/constants/regex";
 import { supabase } from "../..";
+import { toast } from "react-toastify";
 
 export const createUser = async (userCreation: TUserCreation) => {
   if (userCreation.email !== undefined && !normalEmailRegex.test(userCreation.email)) {
@@ -56,6 +57,23 @@ export const updateUser = async (walletAddress: string, userUpdate: TUserUpdate)
     isStudent = true;
   }
 
+  if (userUpdate.username !== undefined && userUpdate.username !== "") {
+    const { data, error } = await supabase
+      .from("user")
+      .select<string, TUserModel>()
+      .eq("username", userUpdate.username)
+      .is("deleted_at", null);
+    if (error !== null || data === null) {
+      console.error(error.message || "Error getting user");
+      return undefined;
+    }
+
+    if (data.length > 0 && data[0].wallet_address !== walletAddress) {
+      toast.error("Username already exists");
+      return undefined;
+    }
+  }
+
   const { data, error } = await supabase
     .from("user")
     .update({ ...userUpdate, is_student: isStudent })
@@ -65,6 +83,17 @@ export const updateUser = async (walletAddress: string, userUpdate: TUserUpdate)
 
   if (error !== null || data === null) {
     console.error(error.message || "Error updating user");
+    return undefined;
+  }
+
+  return data[0];
+};
+
+export const getUserByUsername = async (username: string) => {
+  const { data, error } = await supabase.from("user").select<string, TUserModel>().eq("username", username).is("deleted_at", null);
+
+  if (error !== null || data === null) {
+    console.error(error.message || "Error getting user");
     return undefined;
   }
 

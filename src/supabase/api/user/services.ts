@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { createUser, getUser, updateUser } from "./callers";
+import { createUser, getUser, getUserByUsername, updateUser } from "./callers";
 
 export const userKey = {
   user: "user",
@@ -22,5 +22,12 @@ export const useGetUser = (walletAddress: string) => {
 export const useUpdateUser = (walletAddress: string) => {
   return useMutation({
     mutationFn: (userUpdate: TUserUpdate) => updateUser(walletAddress, userUpdate),
+  });
+};
+
+export const useGetUserByUsername = (username: string) => {
+  return useQuery({
+    queryKey: [userKey.user, username],
+    queryFn: () => getUserByUsername(username),
   });
 };
