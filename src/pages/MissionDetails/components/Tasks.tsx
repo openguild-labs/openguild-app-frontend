@@ -152,7 +152,7 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
                           setCompletedTasks([...completedTasks, task.id]);
                         }}
                       >
-                        {!isVerified && getActionLabel(task.type)}
+                        {!isVerified && (task.button_placeholder ? task.button_placeholder : getActionLabel(task.type))}
                         {isVerified && (
                           <>
                             <IoCheckmark />

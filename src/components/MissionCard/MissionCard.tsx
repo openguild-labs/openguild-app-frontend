@@ -107,7 +107,7 @@ function MissionCard({ mission }: IMissionCardProps) {
           <div className="py-2 px-4 h-1/3 w-full">
             <div className="flex w-full overflow-hidden gap-x-1 text-black">
               {renderTagStatus(mission.statusType)}
-              <Tag value="XP farming" />
+              <Tag value={`${mission.xp} XP`} />
             </div>
           </div>
         </div>

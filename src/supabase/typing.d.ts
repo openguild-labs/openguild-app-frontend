@@ -17,8 +17,10 @@ type TTaskModel = {
   id: number;
   name: string;
   type: string;
+  xp: number;
   description: string;
   action: string;
+  button_placeholder: string;
 };
 
 type TCompletedTaskModel = {

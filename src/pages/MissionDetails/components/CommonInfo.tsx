@@ -5,6 +5,7 @@ interface ICommonInfoProps {
   imgSrc: string;
   status: string;
   participants: number;
+  totalXP: number;
 }
 const renderTagStatus = (status: string) => {
   switch (status) {
@@ -18,14 +19,14 @@ const renderTagStatus = (status: string) => {
       return <Tag size="large" value={MISSION_STATUS__TYPE.ENDED} isWholeWord className="bg-gray-200 text-gray-500" />;
   }
 };
-function CommonInfo({ imgSrc, status, participants }: ICommonInfoProps) {
+function CommonInfo({ imgSrc, status, participants, totalXP }: ICommonInfoProps) {
   return (
     <div className="flex flex-col gap-y-6">
       <div className="rounded-xl shadow-lg bg-white p-3 w-full flex flex-col gap-y-3 relative">
         <img loading="lazy" src={imgSrc} alt="thumbnail" className="object-cover aspect-square rounded-lg" />
         <div className="flex gap-x-2">
           {renderTagStatus(status)}
-          <Tag size="large" value="XP farming" className="w-fit" />
+          <Tag size="large" value={`${totalXP} XP`} className="w-fit" />
         </div>
       </div>
       <div className="flex items-end">

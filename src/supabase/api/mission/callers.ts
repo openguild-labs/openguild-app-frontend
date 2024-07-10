@@ -9,10 +9,6 @@ const getBannerPromises = (bannerPath: string) => {
   return supabase.storage.from("banners").createSignedUrl(bannerPath, EXPIRED_TIME);
 };
 
-const getCategoryPromises = (id: string) => {
-  return supabase.from("mission_category").select<string, TMissionCategoryModel>().eq("id", id).is("deleted_at", null);
-};
-
 export const listMissions = async (page: number, search: string, missionType: string, categoryID: string) => {
   const start = page * PAGE_LIMIT;
 
@@ -58,23 +54,26 @@ export const listMissions = async (page: number, search: string, missionType: st
     }
   });
 
-  const categoryListResponse = await Promise.all(data.map((item) => getCategoryPromises(item.mission_category_id)));
-  categoryListResponse.forEach((resp) => {
-    if (resp.error !== null || resp.data === null) {
-      console.error("Error when get category");
-      return [];
-    }
-  });
+  const { data: subInfoList, error: fetchSubInfoError } = await supabase
+    .from("mission_sub_info_view")
+    .select<string, TMissionSubInfoView>();
+  if (fetchSubInfoError !== null || subInfoList === null) {
+    console.error("Error when get sub info");
+    return [] as TMissionResponse[];
+  }
 
   const dataResponse: TMissionResponse[] = data.map((mission, index) => {
-    const categoryResult = categoryListResponse[index].data as TMissionCategoryModel[];
+    const subInfo = subInfoList.find((item) => item.mission_id === mission.id);
+    const category = subInfo?.category || "";
+    const xp = subInfo?.total_xp || 0;
     return {
       id: mission.id,
       title: mission.title,
       status: getStatusMission(mission.start_date, mission.end_date),
       statusType: getStatusTypeMission(mission.start_date, mission.end_date),
       bannerURL: bannerListResponse[index].data?.signedUrl || "",
-      category: categoryResult[0].name || "",
+      category,
+      xp,
     };
   });
 
@@ -144,7 +143,7 @@ export const getMission = async (id: string) => {
     .eq("mission_id", id)
     .is("deleted_at", null)
     .order("id", { ascending: true });
-  const getParticipantQuantityPromise = supabase.from("participant_quantity").select<string, TParticipantQuantityResponse>();
+  const getParticipantQuantityPromise = supabase.from("participant_quantity_view").select<string, TParticipantQuantityView>();
 
   const [
     { data: bannerData, error: fetchBannerError },

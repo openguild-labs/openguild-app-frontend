@@ -85,7 +85,7 @@ function Missions() {
       page: p,
       searchValue: s,
     }),
-    [t, c, p, s],
+    [t, c, p, s]
   );
   const [missionQuery, setMissionQuery] = useState(initQueryValue);
   const indexType = missionTypes.findIndex((type) => type.value === missionQuery.type);

@@ -5,6 +5,7 @@ type TMissionResponse = {
   statusType: string;
   bannerURL: string;
   category: string;
+  xp: number;
 };
 
 type TMissionDetailResponse = TMissionModel & {
@@ -20,7 +21,13 @@ type TProofsOfWorkCreation = {
   image?: string;
 };
 
-type TParticipantQuantityResponse = {
+type TParticipantQuantityView = {
   mission_id: number;
   quantity: number;
+};
+
+type TMissionSubInfoView = {
+  mission_id: number;
+  category: string;
+  total_xp: number;
 };
