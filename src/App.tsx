@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import MissionDetails from "./pages/MissionDetails";
 import RewardDetail from "./pages/RewardDetail/RewardDetail";
 import Profile from "./pages/Profile/Profile";
+import "./tiptap.css";
 
 function App() {
   const routes: RouteObject[] = [

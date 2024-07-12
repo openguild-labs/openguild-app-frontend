@@ -7,7 +7,7 @@ function Description({ description }: IDescriptionProps) {
     <div>
       {" "}
       <h3 className="text-xl mb-2">Description</h3>
-      <pre className="text-sm text-wrap">{description}</pre>
+      <pre className="text-sm text-wrap tiptap" dangerouslySetInnerHTML={{ __html: description }} />
     </div>
   );
 }

@@ -29,7 +29,10 @@ function Disclosure({ title, description }: IDisclosureProps) {
       </DisclosureButton>
       {!isEmptyDescription && (
         <DisclosurePanel className="origin-top transition">
-          <pre className="p-[6px] pt-3 text-sm text-wrap border-t border-neutral-800 mt-3">{description}</pre>
+          <div
+            className="p-[6px] pt-3 text-sm text-wrap border-t border-neutral-800 mt-3 tiptap"
+            dangerouslySetInnerHTML={{ __html: description }}
+          />
         </DisclosurePanel>
       )}
     </HeadlessDisclosure>
