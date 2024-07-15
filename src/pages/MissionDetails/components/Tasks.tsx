@@ -1,18 +1,19 @@
 import Disclosure from "@/components/Disclosure";
 import { INTENT_BASE_URL, socialMedia, WORKSHOP_TYPE } from "@/constants/mission";
 import { missionKey, useCompleteTask, useCreateProofsOfWork, useGetCompletedTasks } from "@/supabase/api/mission/services";
-import { Button, Input } from "@headlessui/react";
-import { CircularProgress, Modal, Button as ButtonMUI, Divider } from "@mui/material";
+import { Button } from "@headlessui/react";
+import { CircularProgress, Modal, Button as ButtonMUI } from "@mui/material";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
-import { IoCheckmark, IoTrashOutline } from "react-icons/io5";
-import { IoCloudUploadOutline } from "react-icons/io5";
+import { useEffect, useRef, useState } from "react";
+import { IoCheckmark } from "react-icons/io5";
 import "../style.css";
 import { useGetUser } from "@/supabase/api/user/services";
 import { toast } from "react-toastify";
 import { useAccount } from "@particle-network/connect-react-ui";
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
+import TipTap from "@/components/TipTap";
+import { TIPTAP_EMPTY_STRING, TTipTap } from "@/components/TipTap/TipTap";
 interface ITasksProps {
   tasks: TTaskModel[];
   isEnded: boolean;
@@ -34,14 +35,6 @@ const getActionLabel = (type: string) => {
   }
 };
 
-const getBase64 = (file: File): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
-
 function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
   const account = useAccount();
   const { data: userInfo } = useGetUser(account || "");
@@ -53,16 +46,14 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
 
   const [isVerifyingTaskID, setIsVerifyingTaskID] = useState(0);
   const [isVerifying, setIsVerifying] = useState(false);
-  const [proofs, setProofs] = useState<{ link: string; image: string }>({
-    link: "",
-    image: "",
-  });
+  const [proof, setProof] = useState<string>("");
+  const tiptapRef = useRef<TTipTap>(null);
 
   const { data, refetch } = useGetCompletedTasks(userInfo?.id || 0, taskIDs);
   const { mutate } = useCompleteTask(userInfo?.id || 0);
-  const isAllTasksCompleted = tasks.length === verifiedTasks.length;
+  const [isAllTasksCompleted, setIsAllTasksCompleted] = useState(false);
 
-  const { mutate: proofsMutate, isPending } = useCreateProofsOfWork();
+  const { mutate: proofMutate, isPending } = useCreateProofsOfWork();
   const { id } = useParams<{ id: string }>();
   const queryClient = useQueryClient();
 
@@ -80,6 +71,7 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
               queryKey: [missionKey.mission, id],
               exact: true,
             });
+            toast.success("Task is verified!");
           }
         },
       });
@@ -99,17 +91,21 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
     if (data) {
       setCompletedTasks([...new Set(data?.map((item) => item.task_id))]);
       setVerifiedTasks([...new Set(data?.map((item) => item.task_id))]);
+
+      if (data.length === tasks.length) {
+        setIsAllTasksCompleted(true);
+      }
     }
-  }, [data]);
+  }, [data, tasks.length]);
 
   const onCloseModal = () => {
     setOpenModal(false);
-    setProofs({ link: "", image: "" });
+    setProof("");
     setCompletedTasks((prev) => {
       if (prev.length === 0) return prev;
-
       return prev.slice(0, prev.length - 1);
     });
+    tiptapRef.current?.cancel("");
   };
 
   return (
@@ -205,64 +201,14 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
         </div>
       ) : null}
       <div className="w-full h-[1px] bg-gray-300 mt-6" />
+
       <Modal open={openModal} onClose={onCloseModal} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
         <div className="sm:w-[480px] w-[90%] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg p-3">
           <h2 className="text-lg font-bold text-primary-color mb-2">Proof of Work</h2>
-          <Input
-            placeholder="Submit a link to branding/reflecting post"
-            className="w-full px-2 py-1 border-2 border-neutral-300 rounded-md text-sm"
-            value={proofs.link}
-            onChange={(e) => {
-              setProofs((prev) => ({ link: e.target.value, image: prev.image }));
-            }}
-          />
-          <Divider
-            sx={{
-              marginBlock: "0.5rem",
-            }}
-          >
-            or
-          </Divider>
-          <div className="w-full h-[200px] border-2 border-neutral-300 border-dashed rounded-md flex flex-col items-center justify-center gap-y-2 p-3">
-            {proofs.image !== "" ? (
-              <div className="group w-full h-full relative">
-                <img src={proofs.image} alt="proof" className="w-full h-full object-contain" />
-                <div className="transition-effect absolute inset-0 group-hover:bg-neutral-800/40 rounded flex items-center justify-center">
-                  <div
-                    className="transition-effect hidden group-hover:flex text-white items-center justify-center px-3 py-1 rounded-full gap-x-1 border border-white bg-neutral-800/50 hover:cursor-pointer hover:bg-neutral-800"
-                    onClick={() => setProofs((prev) => ({ link: prev.link, image: "" }))}
-                  >
-                    <IoTrashOutline size={16} />
-                    <span className="text-sm">delete</span>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <>
-                <IoCloudUploadOutline size={24} />
-                <span className="text-sm">Upload a photo to prove your work</span>
-                <input
-                  accept="image/*"
-                  id="contained-button-file"
-                  type="file"
-                  className="hidden"
-                  onChange={(e) => {
-                    const files = e.target.files;
-                    if (files && files.length > 0) {
-                      getBase64(files[0]).then((base64) => {
-                        setProofs((prev) => ({ link: prev.link, image: base64 }));
-                      });
-                    }
-                  }}
-                />
-                <label htmlFor="contained-button-file">
-                  <ButtonMUI variant="contained" color="primary" component="span">
-                    <span className="capitalize">Choose file</span>
-                  </ButtonMUI>
-                </label>
-              </>
-            )}
+          <div className="w-full aspect-video">
+            <TipTap ref={tiptapRef} placeholder="Write something to prove your work" content={proof} setContent={setProof} />
           </div>
+
           <div className="mt-4 flex items-center justify-end gap-x-2">
             <ButtonMUI variant="outlined" color="primary" onClick={onCloseModal}>
               <span className="capitalize">Cancel</span>
@@ -271,24 +217,24 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
               <span
                 className="capitalize flex items-center gap-x-2"
                 onClick={() => {
-                  if (proofs.link === "" && proofs.image === "") {
+                  if (proof === "" || proof === TIPTAP_EMPTY_STRING) {
                     onCloseModal();
                     return;
                   }
                   const taskID = completedTasks[completedTasks.length - 1];
-                  proofsMutate(
+                  proofMutate(
                     {
                       user_id: userInfo?.id || 0,
                       task_id: taskID,
-                      link: proofs.link,
-                      image: proofs.image,
+                      proof,
                     },
                     {
                       onSuccess: () => {
                         setIsVerifyingTaskID(taskID);
                         setVerifiedTasks([...verifiedTasks, taskID]);
-                        setProofs({ link: "", image: "" });
+                        setProof("");
                         setOpenModal(false);
+                        tiptapRef.current?.cancel("");
                       },
                     }
                   );

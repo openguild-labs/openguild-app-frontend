@@ -198,8 +198,7 @@ export const createProofsOfWork = async (creation: TProofsOfWorkCreation) => {
   const { error } = await supabase.from("proofs_of_work").insert({
     user_id: creation.user_id,
     task_id: creation.task_id,
-    link: creation.link ? creation.link : "",
-    image: creation.image ? creation.image : "",
+    proof: creation.proof,
   });
   if (error !== null) {
     console.error("Error creating proofs of work");

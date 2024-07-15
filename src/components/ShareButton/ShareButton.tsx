@@ -6,8 +6,15 @@ interface IShareButtonProps extends ButtonProps {}
 
 function ShareButton({ className, ...props }: IShareButtonProps) {
   return (
-    <Button {...props} className={clsx("text-black py-[10px] px-[14px] bg-white border-primary-500 border rounded-lg text-xs flex items-center hover:text-pink-500 hover:border-pink-500", className)}>
-      <IoMdShare className="mr-2 text-base text-black" />
+    <Button
+      {...props}
+      className={clsx(
+        "transition-effect group text-black py-[10px] px-[14px] border rounded-lg text-xs flex items-center",
+        "bg-white border-primary-500 hover:text-primary-color hover:border-primary-color",
+        className
+      )}
+    >
+      <IoMdShare className="mr-2 text-base text-black group-hover:text-primary-color" />
       <div className="text">Share</div>
     </Button>
   );

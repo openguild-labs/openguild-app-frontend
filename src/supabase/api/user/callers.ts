@@ -13,6 +13,20 @@ export const createUser = async (userCreation: TUserCreation) => {
     isStudent = true;
   }
 
+  // check email is unique
+  const { data: emailExists, error: emailExistsError } = await supabase
+    .from("user")
+    .select<string, TUserModel>()
+    .eq("email", userCreation.email);
+  if (emailExistsError !== null || emailExists === null) {
+    console.error(emailExistsError.message || "Error checking email");
+  }
+
+  if (emailExists?.length !== 0) {
+    console.warn("Email already exists");
+    return [];
+  }
+
   const { data, error } = await supabase
     .from("user")
     .insert([{ ...userCreation, is_student: isStudent }])

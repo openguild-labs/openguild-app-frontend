@@ -1,41 +1,63 @@
-import { Disclosure as HeadlessDisclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react";
-import React from "react";
+import React, { useState } from "react";
 import { BiSolidRightArrow } from "react-icons/bi";
-import clsx from "clsx";
+import MuiAccordion, { AccordionProps } from "@mui/material/Accordion";
+import MuiAccordionSummary from "@mui/material/AccordionSummary";
+import MuiAccordionDetails from "@mui/material/AccordionDetails";
+import { styled } from "@mui/material";
 
 interface IDisclosureProps {
   title: React.ReactNode;
   description: string;
 }
 
+const Accordion = styled((props: AccordionProps) => <MuiAccordion disableGutters elevation={0} square {...props} />)(() => ({
+  border: `1px solid rgb(107 114 128 / 0.2)`,
+  zIndex: 0,
+  borderRadius: "12px",
+  "&::before": {
+    display: "none",
+  },
+}));
+
+const AccordionSummary = styled(MuiAccordionSummary)(({ theme }) => ({
+  flexDirection: "row-reverse",
+  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
+    transform: "rotate(90deg)",
+  },
+  "& .MuiAccordionSummary-content": {
+    marginLeft: theme.spacing(1),
+  },
+}));
+
+const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+  padding: theme.spacing(2),
+  borderTop: "1px solid rgba(0, 0, 0, .125)",
+}));
+
 function Disclosure({ title, description }: IDisclosureProps) {
-  const isEmptyDescription = description === "";
+  const [expanded, setExpanded] = useState(false);
+  const haveDescription = description !== "";
+
   return (
-    <HeadlessDisclosure as="div" className="p-3 border border-gray-500/20 rounded-xl bg-white shadow-lg text-black" defaultOpen={false}>
-      <DisclosureButton
-        className={clsx("group flex w-full items-center gap-x-2", {
-          "cursor-default": isEmptyDescription,
-        })}
-      >
-        <BiSolidRightArrow
-          className={clsx("transition-effect size-3", {
-            "group-data-[open]:rotate-90": !isEmptyDescription,
-          })}
-          style={{
-            fill: isEmptyDescription ? "#d4d4d4" : "#6b3ffd",
-          }}
-        />
-        <div className="w-full flex items-center">{title}</div>
-      </DisclosureButton>
-      {!isEmptyDescription && (
-        <DisclosurePanel className="origin-top transition">
-          <div
-            className="p-[6px] pt-3 text-sm text-wrap border-t border-neutral-800 mt-3 tiptap"
-            dangerouslySetInnerHTML={{ __html: description }}
-          />
-        </DisclosurePanel>
+    <Accordion
+      expanded={expanded}
+      onChange={() => {
+        if (haveDescription) {
+          setExpanded(!expanded);
+        }
+      }}
+    >
+      <AccordionSummary expandIcon={haveDescription && <BiSolidRightArrow size={12} className="text-base text-primary-color" />}>
+        <div className="flex items-center justify-between w-full">
+          <span className="text-start text-ellipsis line-clamp-1 w-full">{title}</span>
+        </div>
+      </AccordionSummary>
+      {haveDescription && (
+        <AccordionDetails>
+          <div className="p-1 text-sm text-wrap tiptap" dangerouslySetInnerHTML={{ __html: description }} />
+        </AccordionDetails>
       )}
-    </HeadlessDisclosure>
+    </Accordion>
   );
 }
 

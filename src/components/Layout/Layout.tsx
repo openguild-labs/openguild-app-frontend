@@ -5,12 +5,11 @@ import { useDisclosure } from "@mantine/hooks";
 import { ConnectButton, useAccount, useConnectKit } from "@particle-network/connect-react-ui"; // @particle-network/connectkit to use Auth Core
 import "@particle-network/connect-react-ui/dist/index.css";
 import clsx from "clsx";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { FiMenu } from "react-icons/fi";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { HEADER_HEIGHT } from "../../constants/dimensions";
 import { MISSIONS_PATH, REWARDS_PATH } from "../../constants/links";
-import CustomDialog from "../CustomDialog/CustomDialog";
 import PixelEditor2 from "../Pixel/PixelEditor2";
 import "./Layout.css";
 
@@ -26,15 +25,15 @@ const linkItems = [
 ];
 
 function Layout() {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const navigate = useNavigate();
   const connectKit = useConnectKit();
   const userInfo = connectKit.particle.auth.getUserInfo();
   const account = useAccount();
   const { mutate: createUser } = useCreateUser();
-  const { data, isFetching } = useGetUser(account || "");
+  const { data, isFetched } = useGetUser(account || "");
   const context = useContext(MyContext);
   const [isSideMenuOpened, { toggle: toggleSideMenu }] = useDisclosure(false);
+  const { setValue } = context as MyContextType;
 
   const addUserToDB = async () => {
     await createUser({
@@ -44,17 +43,20 @@ function Layout() {
       last_name: "",
     });
   };
-  useEffect(() => {
-    if (!data && !isFetching) addUserToDB();
-  }, [account, isFetching]);
-
-  const { setValue } = context as MyContextType;
 
   useEffect(() => {
     if (data !== undefined) {
       setValue(data);
     }
-  }, [data]);
+
+    if (data === undefined && isFetched) {
+      addUserToDB();
+    }
+  }, [account, data]);
+
+  connectKit.on("disconnect", () => {
+    navigate(MISSIONS_PATH);
+  });
 
   return (
     <main className="bg-white min-h-screen pb-12">
@@ -63,7 +65,6 @@ function Layout() {
         style={{
           height: HEADER_HEIGHT,
           justifyContent: "space-between",
-          marginRight: isDialogOpen ? "14px" : "0",
         }}
       >
         <div className="flex items-center">
@@ -96,7 +97,6 @@ function Layout() {
               })}
             </ul>
           </nav>
-          <CustomDialog isOpen={isDialogOpen} setIsOpen={setIsDialogOpen} />
           <div className="flex gap-4 items-center max-[1000px]:[&_.particle-account-info_>_span]:hidden">
             <ConnectButton />
             {account && (
