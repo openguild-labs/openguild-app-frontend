@@ -9,6 +9,7 @@ import Description from "./components/Description";
 import Header from "./components/Header";
 import MissionDetailsSkeleton from "./components/MissionDetailsSkeleton";
 import Tasks from "./components/Tasks";
+import { Helmet } from "react-helmet-async";
 
 function MissionDetails() {
   const isDesktop = useMediaQuery("(min-width: 1024px)");
@@ -37,9 +38,18 @@ function MissionDetails() {
 
   return (
     <div className="mt-[30px] pb-10">
+      <Helmet>
+        <title>{data.title}</title>
+        <meta property="og:title" content={data.title} />
+        <meta property="og:site_name" content={data.title} />
+        <meta property="og:image" content={data.bannerURL} />
+        <meta property="og:image:width" content="372" />
+        <meta property="og:image:height" content="372" />
+        <meta property="og:type" content="website" />
+      </Helmet>
+
       <div className="flex gap-8 flex-col lg:flex-row">
         {!isDesktop && <Header title={data.title} />}
-
         <div className="w-full md:w-[40%] shrink-0">
           <CommonInfo imgSrc={data.bannerURL} status={statusTypeMission} participants={data.participants} totalXP={totalXP} />
         </div>
