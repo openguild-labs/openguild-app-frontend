@@ -1,4 +1,3 @@
-import { useAccount } from "@particle-network/connect-react-ui";
 import React, { useEffect, useRef, useState } from "react";
 import Pixel from "./Pixel";
 import { BitmapMethod, NFT_BITMAP, TINY_CAT_NFT_COLOR_KIT } from "./bitmap/nft";
@@ -10,12 +9,12 @@ type Props = {
 
 export const emptyArray = (size: number, defaultValue?: any) => new Array(size).fill(defaultValue !== undefined ? defaultValue : undefined);
 
-const PixelEditor = ({ cols }: Props) => {
+const PixelEditor3 = ({ cols }: Props) => {
   const [nfts, setNfts] = useState<React.ReactNode[]>([]);
   const buildGridFromMethod = (layerMethod: string, generatedLayer: Record<string, any>, index: any) => {
     const methods = (NFT_BITMAP as any)[layerMethod] as BitmapMethod[];
     const method = methods[index > methods.length - 1 ? methods.length - 1 : index] as BitmapMethod;
-    const layerColorKit = (TINY_CAT_NFT_COLOR_KIT as any)(account as any)[layerMethod];
+    const layerColorKit = (TINY_CAT_NFT_COLOR_KIT as any)(res as any)[layerMethod];
     generatedLayer[layerMethod] = typeof layerColorKit === "string" ? generatedLayer[layerColorKit] : layerColorKit();
     const { grid, startAt } = method(generatedLayer[layerMethod]);
     const trackedCells: Record<string, string | number> = {};
@@ -68,13 +67,13 @@ const PixelEditor = ({ cols }: Props) => {
   //     window.clearInterval(intervalRef.current);
   //   }
   // }, 600);
-  const account = useAccount();
+  const res = localStorage.getItem("wallet");
   useEffect(() => {
-    if (account) handleGenerate();
-  }, [account]);
+    if (res) handleGenerate();
+  }, [res]);
   const printRef = useRef(null);
 
   return <div ref={printRef}>{nfts}</div>;
 };
 
-export default PixelEditor;
+export default PixelEditor3;

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { CiImageOn } from "react-icons/ci";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const MISSION_CARD_HEIGHT = 365;
 const THUMBNAIL_HEIGHT = 184;
@@ -29,9 +30,16 @@ const renderTagStatus = (status: string) => {
 function MissionCard({ mission }: IMissionCardProps) {
   const statusMap = mission?.status?.split("|");
   const [isLoadingImage, setIsLoadingImage] = useState(false);
-
   return (
     <div className="shrink-0 w-full">
+      <Helmet>
+        <meta property="og:title" content={mission.title} data-react-helmet="true" />
+        <meta property="og:image" content={mission?.bannerURL} data-react-helmet="true" />
+        <meta property="og:image:secure_url" content={mission?.bannerURL} data-react-helmet="true" />
+        <meta name="og:title" content={mission.title} data-react-helmet="true" />
+        <meta name="og:image" content={mission?.bannerURL} data-react-helmet="true" />
+        <meta name="og:image:secure_url" content={mission?.bannerURL} data-react-helmet="true" />
+      </Helmet>
       <Link
         to={`${MISSIONS_PATH}/${mission?.id}`}
         reloadDocument

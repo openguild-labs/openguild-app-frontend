@@ -8,6 +8,7 @@ import MissionDetails from "./pages/MissionDetails";
 import RewardDetail from "./pages/RewardDetail/RewardDetail";
 import Profile from "./pages/Profile/Profile";
 import "./tiptap.css";
+import ProfileUser from "./pages/Profile/ProfileUser";
 
 function App() {
   const routes: RouteObject[] = [
@@ -21,6 +22,7 @@ function App() {
         { path: "/rewards", element: <Rewards /> },
         { path: "/rewards/:id", element: <RewardDetail /> },
         { path: "/profile", element: <Profile /> },
+        { path: "/user", element: <ProfileUser /> },
 
         { path: "*", element: <NotFound /> },
       ],

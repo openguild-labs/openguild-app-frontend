@@ -23,7 +23,6 @@ export const TINY_CAT_NFT_SIZE = { rows: 14, cols: 14 };
 //   generateHandAccessories: generateRandomColor,
 //   generateHand: "generateBodyBase",
 // };
-// console.log(TINY_CAT_NFT_COLOR_KIT)
 export const TINY_CAT_NFT_COLOR_KIT: any = (value?: any) => ({
   generateBackground: () => generateLightColor(value, 2),
   generateBodyBase: () => generateLightColor(value, 3),

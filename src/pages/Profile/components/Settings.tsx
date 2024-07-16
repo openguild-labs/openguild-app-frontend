@@ -8,7 +8,27 @@ import { useEffect, useState } from "react";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { IoCopyOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
+function validateUsername(username: any) {
+  const minLength = 0;
+  const maxLength = 20;
+  const regex = /^[a-zA-Z0-9_]+$/;
 
+  if (username?.length === 0) return { isValid: true, message: "Username is valid" };
+
+  if (typeof username !== "string") {
+    return { isValid: false, message: "Username must be a string" };
+  }
+
+  if (username.length < minLength || username.length > maxLength) {
+    return { isValid: false, message: `Username must be less than ${maxLength} characters` };
+  }
+
+  if (!regex.test(username)) {
+    return { isValid: false, message: "Username can only contain alphanumeric characters and underscores" };
+  }
+
+  return { isValid: true, message: "Username is valid" };
+}
 function Settings({ userInfo }: any) {
   const account = useAccount();
   const handleCopy = () => {
@@ -37,6 +57,13 @@ function Settings({ userInfo }: any) {
     setDiscord(data?.discord as any);
     setTelegram(data?.telegram as any);
   }, [data]);
+
+  useEffect(() => {
+    if (!data?.twitter && userInfo?.twitter_id) {
+      handleUpdateTwitter(userInfo?.name);
+      setTwitter(userInfo?.name);
+    }
+  }, [userInfo]);
   const handleUpdate = () => {
     updateUser(
       { first_name: firstName, last_name: lastName, email: data?.email, username: username, discord, telegram, twitter },
@@ -46,20 +73,36 @@ function Settings({ userInfo }: any) {
             toast.success("Update user successfully!");
           }
         },
-      }
+      },
     );
   };
+  const handleUpdateTwitter = (value: string) => {
+    updateUser(
+      { first_name: firstName, last_name: lastName, email: data?.email, username: username, discord, telegram, twitter: value },
+      {},
+    );
+  };
+  const [validUsername, setValidUsername] = useState({ isValid: true, message: "Username is valid" });
+  useEffect(() => {
+    const res = validateUsername(username);
+    setValidUsername(res);
+  }, [username]);
   return (
     <div>
       <div className="text-primary-color text-2xl font-bold mt-12 mb-6">General</div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="w-full">
           <div className="font-bold my-2">User ID</div>
-          <SearchInput value={userInfo?.uuid} disabled className="cursor-not-allowed" />
+          <SearchInput value={data?.id} disabled className="cursor-not-allowed" />
         </div>
         <div className="w-full">
           <div className="font-bold my-2">Username</div>
-          <SearchInput value={username} onChange={(e) => setUsername(e.target.value)} />
+          <SearchInput
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className={!validUsername.isValid ? "border-red-500" : ""}
+          />
+          {!validUsername.isValid && <div className="text-sm text-red-600">{(validUsername as any)?.message}</div>}
         </div>
         <div className="w-full">
           <div className="font-bold my-2">First Name</div>
@@ -115,6 +158,7 @@ function Settings({ userInfo }: any) {
       <Button
         className="py-1 px-4 h-[44px] w-full rounded-lg bg-primary-color text-white font-bold text-sm mt-10"
         onClick={() => handleUpdate()}
+        disabled={!validUsername.isValid}
       >
         Update
       </Button>
