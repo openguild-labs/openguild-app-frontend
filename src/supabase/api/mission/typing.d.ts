@@ -18,6 +18,7 @@ type TProofsOfWorkCreation = {
   user_id: number;
   task_id: number;
   proof: string;
+  file: File | null;
 };
 
 type TParticipantQuantityView = {

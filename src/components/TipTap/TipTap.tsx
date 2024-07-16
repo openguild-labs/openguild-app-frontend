@@ -13,10 +13,11 @@ import TaskList from "@tiptap/extension-task-list";
 import Image from "@tiptap/extension-image";
 import Placeholder from "@tiptap/extension-placeholder";
 import { forwardRef, Ref, useEffect, useImperativeHandle } from "react";
-import { IconButton, styled } from "@mui/material";
+import { IconButton } from "@mui/material";
 import { CiImageOn } from "react-icons/ci";
 import "./style.css";
 import { resizeFile } from "@/utils/file";
+import VisuallyHiddenInput from "../VisuallyHiddenInput";
 
 export const TIPTAP_EMPTY_STRING = "<p></p>";
 
@@ -60,26 +61,15 @@ interface ITipTapProps {
   placeholder?: string;
   style?: React.CSSProperties | undefined;
   editable?: boolean;
+  showImageButton?: boolean;
 }
 
 export type TTipTap = {
   cancel: (content: string) => void;
 };
 
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
-
 const TipTap = forwardRef(function TipTap(
-  { content, editable = true, setContent, className, placeholder, style }: ITipTapProps,
+  { content, editable = true, setContent, className, placeholder, style, showImageButton = true }: ITipTapProps,
   ref: Ref<TTipTap>
 ) {
   const editor = useEditor({
@@ -126,7 +116,7 @@ const TipTap = forwardRef(function TipTap(
       >
         <EditorContent editor={editor} />
       </div>
-      {editable && (
+      {editable && showImageButton && (
         <div className="h-6 aspect-square absolute top-1 right-1">
           <IconButton size="small" component="label" role={undefined} color="inherit" className="tiptap-upload-btn">
             <CiImageOn size={20} />

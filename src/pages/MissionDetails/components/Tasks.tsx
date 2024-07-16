@@ -2,7 +2,7 @@ import Disclosure from "@/components/Disclosure";
 import { INTENT_BASE_URL, socialMedia, WORKSHOP_TYPE } from "@/constants/mission";
 import { missionKey, useCompleteTask, useCreateProofsOfWork, useGetCompletedTasks } from "@/supabase/api/mission/services";
 import { Button } from "@headlessui/react";
-import { CircularProgress, Modal, Button as ButtonMUI } from "@mui/material";
+import { CircularProgress, Modal, Button as ButtonMUI, IconButton } from "@mui/material";
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import { IoCheckmark } from "react-icons/io5";
@@ -14,6 +14,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import TipTap from "@/components/TipTap";
 import { TIPTAP_EMPTY_STRING, TTipTap } from "@/components/TipTap/TipTap";
+import { CiImageOn } from "react-icons/ci";
+import VisuallyHiddenInput from "@/components/VisuallyHiddenInput";
+import { RxCross2 } from "react-icons/rx";
 interface ITasksProps {
   tasks: TTaskModel[];
   isEnded: boolean;
@@ -48,6 +51,7 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
   const [isVerifying, setIsVerifying] = useState(false);
   const [proof, setProof] = useState<string>("");
   const tiptapRef = useRef<TTipTap>(null);
+  const [file, setFile] = useState<File | null>(null);
 
   const { data, refetch } = useGetCompletedTasks(userInfo?.id || 0, taskIDs);
   const { mutate } = useCompleteTask(userInfo?.id || 0);
@@ -101,6 +105,7 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
   const onCloseModal = () => {
     setOpenModal(false);
     setProof("");
+    setFile(null);
     setCompletedTasks((prev) => {
       if (prev.length === 0) return prev;
       return prev.slice(0, prev.length - 1);
@@ -205,9 +210,44 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
       <Modal open={openModal} onClose={onCloseModal} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
         <div className="sm:w-[480px] w-[90%] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg p-3">
           <h2 className="text-lg font-bold text-primary-color mb-2">Proof of Work</h2>
-          <div className="w-full aspect-video">
-            <TipTap ref={tiptapRef} placeholder="Write something to prove your work" content={proof} setContent={setProof} />
+          <div className="w-full aspect-video relative">
+            <TipTap
+              ref={tiptapRef}
+              placeholder="Write something to prove your work"
+              content={proof}
+              setContent={setProof}
+              showImageButton={false}
+              className="text-sm"
+            />
+
+            {file === null && (
+              <div className="h-6 aspect-square absolute top-1 right-1">
+                <IconButton size="small" component="label" role={undefined} color="inherit" className="tiptap-upload-btn">
+                  <CiImageOn size={20} />
+                  <VisuallyHiddenInput
+                    type="file"
+                    onChange={async (e) => {
+                      const fileItem = e.target.files?.item(0);
+                      if (fileItem === undefined || fileItem === null) return;
+                      setFile(fileItem);
+                    }}
+                    accept="image/*"
+                    multiple={false}
+                  />
+                </IconButton>
+              </div>
+            )}
           </div>
+
+          {file !== null && (
+            <div className="border border-neutral-200 py-[2px] px-2 rounded-md mt-2 flex items-center justify-between">
+              <div className="flex items-center gap-x-1">
+                <CiImageOn className="text-neutral-500" />
+                <span className="text-xs line-clamp-1">{file.name}</span>
+              </div>
+              <RxCross2 className="text-neutral-500 hover:cursor-pointer" onClick={() => setFile(null)} />
+            </div>
+          )}
 
           <div className="mt-4 flex items-center justify-end gap-x-2">
             <ButtonMUI variant="outlined" color="primary" onClick={onCloseModal}>
@@ -217,22 +257,25 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
               <span
                 className="capitalize flex items-center gap-x-2"
                 onClick={() => {
-                  if (proof === "" || proof === TIPTAP_EMPTY_STRING) {
+                  if ((proof === "" || proof === TIPTAP_EMPTY_STRING) && file === null) {
                     onCloseModal();
                     return;
                   }
+
                   const taskID = completedTasks[completedTasks.length - 1];
                   proofMutate(
                     {
                       user_id: userInfo?.id || 0,
                       task_id: taskID,
-                      proof,
+                      proof: proof === TIPTAP_EMPTY_STRING ? "" : proof,
+                      file,
                     },
                     {
                       onSuccess: () => {
                         setIsVerifyingTaskID(taskID);
                         setVerifiedTasks([...verifiedTasks, taskID]);
                         setProof("");
+                        setFile(null);
                         setOpenModal(false);
                         tiptapRef.current?.cancel("");
                       },

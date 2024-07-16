@@ -1,5 +1,5 @@
 import { supabase } from "@/supabase";
-import { getStatusMission, getStatusTypeMission } from "./utils";
+import { getStatusMission, getStatusTypeMission, uploadPoWImage } from "./utils";
 import { MISSION_STATUS__TYPE } from "@/constants/mission";
 
 const PAGE_LIMIT = 8;
@@ -195,10 +195,16 @@ export const completeTask = async (userID: number, taskID: number) => {
 };
 
 export const createProofsOfWork = async (creation: TProofsOfWorkCreation) => {
+  let image = "";
+  if (creation.file !== null) {
+    image = await uploadPoWImage(creation.user_id, creation.task_id, creation.file);
+  }
+
   const { error } = await supabase.from("proofs_of_work").insert({
     user_id: creation.user_id,
     task_id: creation.task_id,
     proof: creation.proof,
+    image,
   });
   if (error !== null) {
     console.error("Error creating proofs of work");
