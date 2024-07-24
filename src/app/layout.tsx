@@ -20,8 +20,10 @@ const getPathnameFromMetadataState = (state: any): string | undefined => {
 export async function generateMetadata(_: Props, state: any) {
   try {
     const pathname = getPathnameFromMetadataState(state) ?? "";
+    console.log({ pathname });
     if (missionDetailsPathRegex.test(pathname)) {
       const id = pathname.split("/").slice(-1)[0];
+      console.log({ id });
       const res = await getMission(id as string);
       const title = res?.title;
       const banner = res?.bannerURL || "";
@@ -39,6 +41,9 @@ export async function generateMetadata(_: Props, state: any) {
         },
       };
     }
+    return {
+      title: "OpenGuild",
+    };
   } catch (error) {
     console.log({ error });
     return {
@@ -48,23 +53,21 @@ export async function generateMetadata(_: Props, state: any) {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  console.log("HERE ????");
   return (
     <html lang="en">
       <head>
         <meta charSet="UTF-8" />
         <link rel="icon" type="image/png" href="/logo.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>OpenGuild</title>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet" />
       </head>
       <body className="text-black" suppressHydrationWarning={true}>
-        <div id="root">
-          <AppProviders>
-            <Layout>{children}</Layout>
-          </AppProviders>
-        </div>
+        <AppProviders>
+          <Layout>{children}</Layout>
+        </AppProviders>
       </body>
     </html>
   );

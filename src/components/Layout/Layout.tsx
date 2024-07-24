@@ -31,8 +31,7 @@ function Layout({ children }: any) {
   const router = useRouter();
   const pathname = usePathname();
   const connectKit = useConnectKit();
-  const userInfo = connectKit.particle.auth.getUserInfo();
-  console.log({ userInfo });
+  const userInfo = connectKit?.particle?.auth?.getUserInfo();
   const account = useAccount();
   const { mutate: createUser } = useCreateUser();
   const { data, isFetched } = useGetUser(account || "");
@@ -58,10 +57,14 @@ function Layout({ children }: any) {
       addUserToDB();
     }
   }, [account, data]);
-
-  connectKit.on("disconnect", () => {
-    router.push(MISSIONS_PATH);
-  });
+  try {
+    connectKit &&
+      connectKit?.on("disconnect", () => {
+        router.push(MISSIONS_PATH);
+      });
+  } catch (error) {
+    console.log({ error });
+  }
 
   return (
     <main className="bg-white min-h-screen pb-12">
@@ -117,7 +120,7 @@ function Layout({ children }: any) {
         <div
           className={clsx(
             "fixed top-0 z-40 h-screen p-4 overflow-y-auto transition-transform  bg-white w-[350px] left-0",
-            !isSideMenuOpened && "-translate-x-full"
+            !isSideMenuOpened && "-translate-x-full",
           )}
         >
           <Link href={MISSIONS_PATH}>
