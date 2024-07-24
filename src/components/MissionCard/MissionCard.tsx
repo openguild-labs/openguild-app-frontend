@@ -1,12 +1,12 @@
 import Tag from "@/components/Tag";
-import { MISSIONS_PATH, MISSION_DETAIL_PATH } from "@/constants/links";
+import { MISSIONS_PATH } from "@/constants/links";
 import { MISSION_STATUS__TYPE } from "@/constants/mission";
-import avatar from "@assets/images/logo.png";
 import { Skeleton } from "@mui/material";
+import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { CiImageOn } from "react-icons/ci";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { Link } from "react-router-dom";
 
 const MISSION_CARD_HEIGHT = 365;
 const THUMBNAIL_HEIGHT = 184;
@@ -32,8 +32,7 @@ function MissionCard({ mission }: IMissionCardProps) {
   return (
     <div className="shrink-0 w-full">
       <Link
-        to={`${MISSION_DETAIL_PATH}?id=${mission?.id}`}
-        reloadDocument
+        href={`${MISSIONS_PATH}/${mission?.id}`}
         className="block rounded-lg bg-white w-full shadow-lg hover:scale-[102%] duration-200 transition"
         style={{
           height: MISSION_CARD_HEIGHT,
@@ -78,10 +77,12 @@ function MissionCard({ mission }: IMissionCardProps) {
               <CiImageOn size={52} className="text-neutral-300" />
             </div>
           )}
-          <img
+          <Image
+            width={46}
+            height={46}
             alt="avatar"
-            src={avatar.src}
-            className="w-[46px] h-[46px] rounded-full absolute left-[28px] bottom-6 translate-y-1/2 border border-neutral-400 bg-white z-[5px]"
+            src={"/assets/images/logo.png"}
+            className="rounded-full absolute left-[28px] bottom-6 translate-y-1/2 border border-neutral-400 bg-white z-[5px]"
           />
         </div>
         <div

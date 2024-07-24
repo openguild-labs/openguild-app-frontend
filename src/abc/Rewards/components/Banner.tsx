@@ -1,4 +1,4 @@
-import BannerImg from "@assets/images/banner.webp";
+import Image from "next/image";
 
 const Banner = () => {
   return (
@@ -9,9 +9,11 @@ const Banner = () => {
         </div>
         <div className="text-white text-[24px]">Game On, Get Award!</div>
       </div>
-      <img
+      <Image
+        width={1068}
+        height={300}
         className="h-[300px] md:h-[300px] lg:h-[300px]  object-cover z-0 w-full relative rounded-lg"
-        src={BannerImg}
+        src={"/assets/images/banner.webp"}
         style={{
           backgroundPosition: "center",
         }}

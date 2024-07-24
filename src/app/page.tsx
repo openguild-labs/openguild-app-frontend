@@ -2,8 +2,6 @@ import { HEADER_HEIGHT } from "@/constants/dimensions";
 import { MISSIONS_PATH } from "@/constants/links";
 import Link from "next/link";
 
-export const dynamic = "force-dynamic";
-
 export default function Page() {
   return (
     <div

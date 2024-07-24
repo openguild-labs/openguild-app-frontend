@@ -1,5 +1,3 @@
-import BannerImg from "@assets/images/banner.webp";
-
 function Banner() {
   return (
     <div className="relative mt-8 mb-12">
@@ -8,7 +6,7 @@ function Banner() {
       </div>
       <img
         className="h-[300px] md:h-[300px] lg:h-[300px]  object-cover z-0 w-full relative rounded-lg"
-        src={BannerImg.src}
+        src={"/assets/images/banner.webp"}
         style={{
           backgroundPosition: "center",
         }}

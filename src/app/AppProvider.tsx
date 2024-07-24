@@ -1,5 +1,4 @@
 "use client";
-import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // import "./index.css";
@@ -40,22 +39,20 @@ export function AppProviders({ children }: any) {
         particleAuthSort={["email", "google", "discord", "twitter"]}
       >
         <Providers>
-          <BrowserRouter>
-            <ToastContainer
-              position="top-right"
-              autoClose={5000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="light"
-            />
-            {children}
-            <ToastContainer />
-          </BrowserRouter>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
+          {children}
+          <ToastContainer />
         </Providers>
       </ModalProvider>
     </MyProvider>

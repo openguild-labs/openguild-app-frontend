@@ -1,6 +1,5 @@
 import SearchInput from "@/components/SearchInput";
 import Filter from "@/abc/Rewards/components/Filter";
-import nothing from "@assets/images/nothing.png";
 function History() {
   return (
     <div>
@@ -12,7 +11,7 @@ function History() {
           <Filter />
         </div>
       </div>
-      <img src={nothing} alt="nothing" className="text-center mx-auto w-[400px] mt-12" />
+      <img src={"/assets/images/banner.webp"} alt="nothing" className="text-center mx-auto w-[400px] mt-12" />
       <div
         className="font-semibold text-center"
         style={{

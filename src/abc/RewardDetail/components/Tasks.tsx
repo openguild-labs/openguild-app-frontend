@@ -1,6 +1,6 @@
 import Tag from "@/components/Tag";
 import { Button } from "@headlessui/react";
-import reqImg from "@assets/images/req.webp";
+import Image from "next/image";
 function Tasks() {
   return (
     <div>
@@ -12,7 +12,7 @@ function Tasks() {
       <div className="w-full h-[1px] bg-gray-300 mt-6" />
       <div className="flex items-center gap-16 mt-4">
         <div className="text-black text-md font-bold w-[163px]">Requirements:</div>
-        <img src={reqImg} alt="reqImg" className="w-24 h-24 rounded" />
+        <Image width={96} height={96} src={"/assets/images/req.webp"} alt="reqImg" className="rounded" />
       </div>
       <div className="w-full h-[1px] bg-gray-300 mt-6" />{" "}
       <div className="flex items-center gap-16 mt-4">
@@ -21,7 +21,7 @@ function Tasks() {
       </div>
       <div className="w-full h-[1px] bg-gray-300 mt-6" />
       <div className="flex justify-center">
-        <Button className="py-1 px-4 w-[160px] h-[44px] w-full rounded-lg bg-red-500/10 text-[#db4646] font-bold text-sm mt-6">Sold out</Button>
+        <Button className="py-1 px-4 h-[44px] w-full rounded-lg bg-red-500/10 text-[#db4646] font-bold text-sm mt-6">Sold out</Button>
       </div>
       <div className="w-full h-[1px] bg-gray-300 mt-6" />
     </div>

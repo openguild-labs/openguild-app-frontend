@@ -10,9 +10,9 @@ import { useDebouncedValue } from "@mantine/hooks";
 import { Pagination, Tab, Tabs } from "@mui/material";
 import { useState, useEffect, useMemo, ChangeEvent } from "react";
 import { HiOutlineInbox } from "react-icons/hi2";
-import { useSearchParams } from "react-router-dom";
 import Banner from "./components/Banner";
 import DropDown from "./components/DropDown";
+import { useSearchParams } from "@/utils";
 
 const missionTypes: TOption[] = [
   {
@@ -87,7 +87,7 @@ function Missions() {
       page: p,
       searchValue: s,
     }),
-    [t, c, p, s],
+    [t, c, p, s]
   );
   const [missionQuery, setMissionQuery] = useState(initQueryValue);
   const indexType = missionTypes.findIndex((type) => type.value === missionQuery.type);
@@ -129,7 +129,7 @@ function Missions() {
       newParams["s"] = missionQuery.searchValue;
     }
 
-    setSearchParams(newParams, { replace: true });
+    setSearchParams(newParams);
   }, [missionQueryStr, missionQuery, setSearchParams, indexType]);
 
   return (

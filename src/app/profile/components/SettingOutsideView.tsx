@@ -1,10 +1,9 @@
 import SearchInput from "@/components/SearchInput/SearchInput";
 import { shortenAddressOrEns } from "@/utils/address";
-import chains from "@assets/images/chains.png";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { IoCopyOutline } from "react-icons/io5";
-import { toast } from "react-toastify";
 
 function SettingOutsideView({ userInfo }: any) {
   const handleCopy = () => {
@@ -108,7 +107,7 @@ function SettingOutsideView({ userInfo }: any) {
       <div className="p-4 border border-gray-100 bg-white rounded-lg shadow-lg">
         <div className="text-md font-semibold flex gap-2 items-center">
           EVM Chain
-          <img src={chains} alt="chains" />
+          <img src={"/assets/images/banner.webp"} alt="chains" />
         </div>
         <div className="text-sm text-pink-500 mt-4 flex gap-2 items-center" onClick={handleCopy}>
           {shortenAddressOrEns(userInfo?.wallet_address as string, 16)} <IoCopyOutline className="cursor-pointer" />

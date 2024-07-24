@@ -1,9 +1,9 @@
 import SearchInput from "@/components/SearchInput/SearchInput";
 import { useGetUser, useUpdateUser } from "@/supabase/api/user/services";
 import { shortenAddressOrEns } from "@/utils/address";
-import chains from "@assets/images/chains.png";
 import { Button } from "@headlessui/react";
 import { useAccount } from "@particle-network/connect-react-ui";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { IoCopyOutline } from "react-icons/io5";
@@ -73,13 +73,13 @@ function Settings({ userInfo }: any) {
             toast.success("Update user successfully!");
           }
         },
-      },
+      }
     );
   };
   const handleUpdateTwitter = (value: string) => {
     updateUser(
       { first_name: firstName, last_name: lastName, email: data?.email, username: username, discord, telegram, twitter: value },
-      {},
+      {}
     );
   };
   const [validUsername, setValidUsername] = useState({ isValid: true, message: "Username is valid" });
@@ -167,7 +167,7 @@ function Settings({ userInfo }: any) {
       <div className="p-4 border border-gray-100 bg-white rounded-lg shadow-lg">
         <div className="text-md font-semibold flex gap-2 items-center">
           EVM Chain
-          <img src={chains} alt="chains" />
+          <img src={"/assets/images/banner.webp"} alt="chains" />
         </div>
         <div className="text-sm text-pink-500 mt-4 flex gap-2 items-center" onClick={handleCopy}>
           {shortenAddressOrEns(account as string, 16)} <IoCopyOutline className="cursor-pointer" />

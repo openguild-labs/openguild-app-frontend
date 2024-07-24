@@ -9,16 +9,16 @@ import CommonInfo from "./components/CommonInfo";
 import Description from "./components/Description";
 import Header from "./components/Header";
 import MissionDetailsSkeleton from "./components/MissionDetailsSkeleton";
-
 import Tasks from "./components/Tasks";
-function extractNumberFromString(query) {
-  const params = new URLSearchParams(query);
-  const id = params.get("id");
-  return id || null;
+
+interface IMissionDetailsProps {
+  params: {
+    id: string;
+  };
 }
-function MissionDetails() {
+
+function MissionDetails({ params: { id } }: IMissionDetailsProps) {
   const isDesktop = useMediaQuery("(min-width: 1024px)");
-  const id = extractNumberFromString(window.location.search);
   const { data, isLoading } = useGetMission(id as string);
 
   if (isLoading) {

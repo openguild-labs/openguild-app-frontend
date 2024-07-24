@@ -1,6 +1,6 @@
+import Link from "next/link";
 import { HEADER_HEIGHT } from "../../constants/dimensions";
 import { MISSIONS_PATH } from "../../constants/links";
-import { Link } from "react-router-dom";
 
 function Home() {
   return (
@@ -12,7 +12,7 @@ function Home() {
     >
       <div>
         <h2 className="text-3xl font-semibold mb-5">Web3 Royalty Platform Proposal</h2>
-        <Link to={MISSIONS_PATH} className="rounded-lg bg-primary-color text-black px-4 py-3">
+        <Link href={MISSIONS_PATH} className="rounded-lg bg-primary-color text-black px-4 py-3">
           Launch App
         </Link>
       </div>

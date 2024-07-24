@@ -3,20 +3,19 @@ export const dynamic = "force-dynamic";
 
 import MyContext, { MyContextType } from "@/context/MyContext";
 import { useCreateUser, useGetUser } from "@/supabase/api/user/services";
-import logo from "@assets/images/logo.png";
 import { useDisclosure } from "@mantine/hooks";
 import { ConnectButton, useAccount, useConnectKit } from "@particle-network/connect-react-ui"; // @particle-network/connectkit to use Auth Core
 import "@particle-network/connect-react-ui/dist/index.css";
 import clsx from "clsx";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
 import { FiMenu } from "react-icons/fi";
-import { NavLink } from "react-router-dom";
 import { HEADER_HEIGHT } from "../../constants/dimensions";
 import { MISSIONS_PATH, REWARDS_PATH } from "../../constants/links";
 import PixelEditor2 from "../Pixel/PixelEditor2";
 import "./Layout.css";
+import Image from "next/image";
 const linkItems = [
   {
     label: "Missions",
@@ -30,6 +29,7 @@ const linkItems = [
 
 function Layout({ children }: any) {
   const router = useRouter();
+  const pathname = usePathname();
   const connectKit = useConnectKit();
   const userInfo = connectKit.particle.auth.getUserInfo();
   console.log({ userInfo });
@@ -39,9 +39,6 @@ function Layout({ children }: any) {
   const context = useContext(MyContext);
   const [isSideMenuOpened, { toggle: toggleSideMenu }] = useDisclosure(false);
   const { setValue } = context as MyContextType;
-  connectKit.on("disconnect", () => {
-    router.push("/missions");
-  });
 
   const addUserToDB = async () => {
     await createUser({
@@ -81,7 +78,7 @@ function Layout({ children }: any) {
           </button>
 
           <Link href={MISSIONS_PATH} className="flex items-center">
-            <img src={logo.src} className="size-12 mr-3" />
+            <Image width={48} height={48} alt="logo" src={"/assets/images/logo.png"} className="mr-3" />
             <h1 className="font-bold text-xl hidden min-[500px]:block">OpenGuild</h1>
           </Link>
         </div>
@@ -89,17 +86,18 @@ function Layout({ children }: any) {
           <nav id="navbar">
             <ul className="hidden md:flex space-x-4">
               {linkItems.map((item) => {
+                const isActive = pathname.includes(item.to);
                 return (
                   <li key={item.to}>
-                    <NavLink
+                    <Link
                       style={{
                         height: HEADER_HEIGHT,
                       }}
-                      className={({ isActive }) => clsx("font-medium text-[1.1rem]", isActive && "active")}
+                      className={clsx("font-medium text-[1.1rem]", isActive && "active")}
                       href={item.to}
                     >
                       {item.label}
-                    </NavLink>
+                    </Link>
                   </li>
                 );
               })}
@@ -119,7 +117,7 @@ function Layout({ children }: any) {
         <div
           className={clsx(
             "fixed top-0 z-40 h-screen p-4 overflow-y-auto transition-transform  bg-white w-[350px] left-0",
-            !isSideMenuOpened && "-translate-x-full",
+            !isSideMenuOpened && "-translate-x-full"
           )}
         >
           <Link href={MISSIONS_PATH}>
@@ -130,9 +128,7 @@ function Layout({ children }: any) {
               {linkItems.map((item) => {
                 return (
                   <li key={item.to} className="w-fit !px-0 !mx-0">
-                    <NavLink className={({ isActive }) => (isActive ? "active !px-0" : "!px-0")} href={item.to}>
-                      {item.label}
-                    </NavLink>
+                    <Link href={item.to}>{item.label}</Link>
                   </li>
                 );
               })}

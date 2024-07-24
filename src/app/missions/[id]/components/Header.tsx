@@ -1,5 +1,5 @@
 import ShareButton from "@/components/ShareButton";
-import avatar from "@assets/images/logo.png";
+import Image from "next/image";
 
 interface IHeaderProps {
   title: string;
@@ -10,7 +10,13 @@ function Header({ title }: IHeaderProps) {
     <div>
       <div className="flex items-center justify-between">
         <div className="flex gap-x-4">
-          <img src={avatar.src} alt="avatar" className="w-[46px] h-[46px] rounded-full border border-neutral-400 bg-white" />
+          <Image
+            src={"/assets/images/logo.png"}
+            alt="avatar"
+            width={46}
+            height={46}
+            className="rounded-full border border-neutral-400 bg-white"
+          />
           <span className="flex items-center text-sm text-black">OpenGuild</span>
         </div>
         <ShareButton />

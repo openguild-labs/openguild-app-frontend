@@ -1,12 +1,12 @@
 import ShareButton from "@/components/ShareButton";
-import avatar from "@assets/images/game-avatar.png";
+import Image from "next/image";
 
 function Header() {
   return (
     <div>
       <div className="flex items-center justify-between">
         <div className="flex gap-x-4">
-          <img src={avatar} alt="avatar" className="w-[46px] h-[46px] rounded-full" />
+          <Image width={46} height={46} src={"/assets/images/game-avatar.png"} alt="avatar" className="rounded-full" />
           <span className="flex items-center text-sm">Ancient8</span>
         </div>
         <ShareButton />

@@ -9,9 +9,8 @@ import Portfolio from "./components/Portfolio";
 import { useGetUser, useGetUserByUsername } from "@/supabase/api/user/services";
 import { shortenAddressOrEns } from "@/utils/address.ts";
 import { FaCopy } from "react-icons/fa6";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
 import SettingOutsideView from "./components/SettingOutsideView";
+import { useSearchParams } from "next/navigation";
 
 const categories: any = [
   {
@@ -24,8 +23,8 @@ const categories: any = [
     name: "History",
   },
 ];
-function getParameterTypeAndValue(search: string) {
-  const params = new URLSearchParams(search);
+function getParameterTypeAndValue() {
+  const params = useSearchParams();
 
   if (params.has("wallet")) {
     return { type: "wallet", value: params.get("wallet") };
@@ -36,8 +35,7 @@ function getParameterTypeAndValue(search: string) {
   }
 }
 function Profile() {
-  const location = useLocation();
-  const info = getParameterTypeAndValue(location.search);
+  const info = getParameterTypeAndValue();
   const [tab, setTab] = useState(0);
   const handleCopy = () => {
     // const element: any = typeof document !== "undefined" && document?.createElement("textarea");

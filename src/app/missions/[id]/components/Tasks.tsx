@@ -11,12 +11,12 @@ import { useGetUser } from "@/supabase/api/user/services";
 import { toast } from "react-toastify";
 import { useAccount } from "@particle-network/connect-react-ui";
 import { useQueryClient } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
 import TipTap from "@/components/TipTap";
 import { TIPTAP_EMPTY_STRING, TTipTap } from "@/components/TipTap/TipTap";
 import { CiImageOn } from "react-icons/ci";
 import VisuallyHiddenInput from "@/components/VisuallyHiddenInput";
 import { RxCross2 } from "react-icons/rx";
+import { useParams } from "next/navigation";
 interface ITasksProps {
   tasks: TTaskModel[];
   isEnded: boolean;
@@ -132,7 +132,7 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
                         className={clsx(
                           "transition-effect text-sm py-1 px-4 border border-primary-color rounded-md completion-btn",
                           "flex items-center gap-x-2",
-                          { verified: isVerified },
+                          { verified: isVerified }
                         )}
                         onClick={(event) => {
                           event.stopPropagation();
@@ -279,7 +279,7 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
                         setOpenModal(false);
                         tiptapRef.current?.cancel("");
                       },
-                    },
+                    }
                   );
                 }}
               >
