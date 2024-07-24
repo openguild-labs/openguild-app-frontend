@@ -1,3 +1,6 @@
+"use client";
+export const dynamic = "force-dynamic";
+
 import MyContext, { MyContextType } from "@/context/MyContext";
 import { useCreateUser, useGetUser } from "@/supabase/api/user/services";
 import logo from "@assets/images/logo.png";
@@ -5,14 +8,15 @@ import { useDisclosure } from "@mantine/hooks";
 import { ConnectButton, useAccount, useConnectKit } from "@particle-network/connect-react-ui"; // @particle-network/connectkit to use Auth Core
 import "@particle-network/connect-react-ui/dist/index.css";
 import clsx from "clsx";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
 import { FiMenu } from "react-icons/fi";
-import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { HEADER_HEIGHT } from "../../constants/dimensions";
 import { MISSIONS_PATH, REWARDS_PATH } from "../../constants/links";
 import PixelEditor2 from "../Pixel/PixelEditor2";
 import "./Layout.css";
-
 const linkItems = [
   {
     label: "Missions",
@@ -24,10 +28,11 @@ const linkItems = [
   },
 ];
 
-function Layout() {
-  const navigate = useNavigate();
+function Layout({ children }: any) {
+  const router = useRouter();
   const connectKit = useConnectKit();
   const userInfo = connectKit.particle.auth.getUserInfo();
+  console.log({ userInfo });
   const account = useAccount();
   const { mutate: createUser } = useCreateUser();
   const { data, isFetched } = useGetUser(account || "");
@@ -35,7 +40,7 @@ function Layout() {
   const [isSideMenuOpened, { toggle: toggleSideMenu }] = useDisclosure(false);
   const { setValue } = context as MyContextType;
   connectKit.on("disconnect", () => {
-    navigate("/missions");
+    router.push("/missions");
   });
 
   const addUserToDB = async () => {
@@ -58,7 +63,7 @@ function Layout() {
   }, [account, data]);
 
   connectKit.on("disconnect", () => {
-    navigate(MISSIONS_PATH);
+    router.push(MISSIONS_PATH);
   });
 
   return (
@@ -75,8 +80,8 @@ function Layout() {
             <FiMenu className="size-6" />
           </button>
 
-          <Link to={MISSIONS_PATH} className="flex items-center">
-            <img src={logo} className="size-12 mr-3" />
+          <Link href={MISSIONS_PATH} className="flex items-center">
+            <img src={logo.src} className="size-12 mr-3" />
             <h1 className="font-bold text-xl hidden min-[500px]:block">OpenGuild</h1>
           </Link>
         </div>
@@ -91,7 +96,7 @@ function Layout() {
                         height: HEADER_HEIGHT,
                       }}
                       className={({ isActive }) => clsx("font-medium text-[1.1rem]", isActive && "active")}
-                      to={item.to}
+                      href={item.to}
                     >
                       {item.label}
                     </NavLink>
@@ -103,7 +108,7 @@ function Layout() {
           <div className="flex gap-4 items-center max-[1000px]:[&_.particle-account-info_>_span]:hidden">
             <ConnectButton />
             {account && (
-              <div className="" onClick={() => navigate("/profile")}>
+              <div className="" onClick={() => router.push("/profile")}>
                 <PixelEditor2 rows={14} cols={14} />
               </div>
             )}
@@ -117,7 +122,7 @@ function Layout() {
             !isSideMenuOpened && "-translate-x-full",
           )}
         >
-          <Link to={MISSIONS_PATH}>
+          <Link href={MISSIONS_PATH}>
             <h1 className="font-bold text-xl p-4">OpenGuild</h1>
           </Link>
           <nav id="navbar">
@@ -125,7 +130,7 @@ function Layout() {
               {linkItems.map((item) => {
                 return (
                   <li key={item.to} className="w-fit !px-0 !mx-0">
-                    <NavLink className={({ isActive }) => (isActive ? "active !px-0" : "!px-0")} to={item.to}>
+                    <NavLink className={({ isActive }) => (isActive ? "active !px-0" : "!px-0")} href={item.to}>
                       {item.label}
                     </NavLink>
                   </li>
@@ -141,7 +146,7 @@ function Layout() {
           paddingTop: HEADER_HEIGHT,
         }}
       >
-        <Outlet />
+        {children}
       </article>
     </main>
   );

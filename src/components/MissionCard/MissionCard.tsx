@@ -1,5 +1,5 @@
 import Tag from "@/components/Tag";
-import { MISSIONS_PATH } from "@/constants/links";
+import { MISSIONS_PATH, MISSION_DETAIL_PATH } from "@/constants/links";
 import { MISSION_STATUS__TYPE } from "@/constants/mission";
 import avatar from "@assets/images/logo.png";
 import { Skeleton } from "@mui/material";
@@ -7,7 +7,6 @@ import { useState } from "react";
 import { CiImageOn } from "react-icons/ci";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 
 const MISSION_CARD_HEIGHT = 365;
 const THUMBNAIL_HEIGHT = 184;
@@ -32,16 +31,8 @@ function MissionCard({ mission }: IMissionCardProps) {
   const [isLoadingImage, setIsLoadingImage] = useState(false);
   return (
     <div className="shrink-0 w-full">
-      <Helmet>
-        <meta property="og:title" content={mission.title} data-react-helmet="true" />
-        <meta property="og:image" content={mission?.bannerURL} data-react-helmet="true" />
-        <meta property="og:image:secure_url" content={mission?.bannerURL} data-react-helmet="true" />
-        <meta name="og:title" content={mission.title} data-react-helmet="true" />
-        <meta name="og:image" content={mission?.bannerURL} data-react-helmet="true" />
-        <meta name="og:image:secure_url" content={mission?.bannerURL} data-react-helmet="true" />
-      </Helmet>
       <Link
-        to={`${MISSIONS_PATH}/${mission?.id}`}
+        to={`${MISSION_DETAIL_PATH}?id=${mission?.id}`}
         reloadDocument
         className="block rounded-lg bg-white w-full shadow-lg hover:scale-[102%] duration-200 transition"
         style={{
@@ -89,7 +80,7 @@ function MissionCard({ mission }: IMissionCardProps) {
           )}
           <img
             alt="avatar"
-            src={avatar}
+            src={avatar.src}
             className="w-[46px] h-[46px] rounded-full absolute left-[28px] bottom-6 translate-y-1/2 border border-neutral-400 bg-white z-[5px]"
           />
         </div>
