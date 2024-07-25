@@ -196,8 +196,11 @@ export const completeTask = async (userID: number, taskID: number) => {
 
 export const createProofsOfWork = async (creation: TProofsOfWorkCreation) => {
   let image = "";
+  let publicURL = "";
   if (creation.file !== null) {
     image = await uploadPoWImage(creation.user_id, creation.task_id, creation.file);
+    const { data } = supabase.storage.from("proofs_of_work").getPublicUrl(image);
+    publicURL = data.publicUrl;
   }
 
   const { error } = await supabase.from("proofs_of_work").insert({
@@ -209,6 +212,8 @@ export const createProofsOfWork = async (creation: TProofsOfWorkCreation) => {
   if (error !== null) {
     console.error("Error creating proofs of work");
   }
+
+  return publicURL;
 };
 
 export const listMissionsCategories = async () => {

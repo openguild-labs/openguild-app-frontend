@@ -17,6 +17,9 @@ import { CiImageOn } from "react-icons/ci";
 import VisuallyHiddenInput from "@/components/VisuallyHiddenInput";
 import { RxCross2 } from "react-icons/rx";
 import { useParams } from "next/navigation";
+import { NodeHtmlMarkdown, NodeHtmlMarkdownOptions } from "node-html-markdown";
+import { useSendDiscordPoW } from "@/app/api/services";
+
 interface ITasksProps {
   tasks: TTaskModel[];
   isEnded: boolean;
@@ -61,6 +64,9 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
   const { id } = useParams<{ id: string }>();
   const queryClient = useQueryClient();
 
+  const { mutate: sendDiscordPoW } = useSendDiscordPoW();
+  const nhm = new NodeHtmlMarkdown({}, undefined, undefined);
+
   useEffect(() => {
     if (isVerifyingTaskID === 0) return;
 
@@ -84,7 +90,7 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
   }, [isVerifyingTaskID, mutate, refetch, id, queryClient]);
 
   const handleLogin = () => {
-    // typeof document !== "undefined" && (document?.getElementsByClassName("particle-connect-wallet-btn")[0] as HTMLElement).click();
+    typeof document !== "undefined" && (document?.getElementsByClassName("particle-connect-wallet-btn")[0] as HTMLElement).click();
   };
 
   const handleClaim = () => {
@@ -146,9 +152,9 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
                           }
 
                           if (task.action.includes(INTENT_BASE_URL)) {
-                            // window.open(task.action, task.action, "width=540,height=600");
+                            window.open(task.action, task.action, "width=540,height=600");
                           } else {
-                            // window.open(task.action);
+                            window.open(task.action);
                           }
                           setCompletedTasks([...completedTasks, task.id]);
                         }}
@@ -271,7 +277,15 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
                       file,
                     },
                     {
-                      onSuccess: () => {
+                      onSuccess: (resp) => {
+                        const md = nhm.translate(proof);
+                        const name = userInfo?.email === undefined ? (userInfo?.username as string) : userInfo?.email;
+                        sendDiscordPoW({
+                          name,
+                          proof: md,
+                          imageURL: resp,
+                        });
+
                         setIsVerifyingTaskID(taskID);
                         setVerifiedTasks([...verifiedTasks, taskID]);
                         setProof("");
