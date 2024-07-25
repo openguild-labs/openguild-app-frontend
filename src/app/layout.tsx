@@ -53,7 +53,6 @@ export async function generateMetadata(_: Props, state: any) {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  console.log("HERE ????");
   return (
     <html lang="en">
       <head>

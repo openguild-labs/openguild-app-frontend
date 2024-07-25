@@ -5,19 +5,17 @@ import { MISSION_STATUS__TYPE } from "@/constants/mission";
 const PAGE_LIMIT = 8;
 const EXPIRED_TIME = 60 * 60; // 1 hour
 
-const getBannerPromises = (bannerPath: string) => {
-  return supabase.storage.from("banners").createSignedUrl(bannerPath, EXPIRED_TIME);
-};
-
-export const listMissions = async (page: number, search: string, missionType: string, categoryID: string) => {
-  const start = page * PAGE_LIMIT;
-
+const getListMissionPromise = (page: number, search: string, missionType: string, categoryID: string) => {
   let missionPromise = supabase
     .from("mission")
     .select<string, TMissionModel>()
     .is("deleted_at", null)
-    .range(start, start + PAGE_LIMIT - 1)
     .order("created_at", { ascending: false });
+
+  if (page !== -1) {
+    const start = page * PAGE_LIMIT;
+    missionPromise = missionPromise.range(start, start + PAGE_LIMIT - 1);
+  }
 
   if (search !== "") {
     missionPromise = missionPromise.like("title", `%${search}%`);
@@ -40,38 +38,47 @@ export const listMissions = async (page: number, search: string, missionType: st
     missionPromise = missionPromise.eq("mission_category_id", categoryID);
   }
 
+  return missionPromise;
+};
+
+export const listMissions = async (page: number, search: string, missionType: string, categoryID: string) => {
+  const missionPromise = getListMissionPromise(page, search, missionType, categoryID);
   const { data, error } = await missionPromise;
   if (error !== null) {
     console.error("Error fetching missions");
     return [] as TMissionResponse[];
   }
 
-  const bannerListResponse = await Promise.all(data.map((item) => getBannerPromises(item.banner)));
-  bannerListResponse.forEach((resp) => {
-    if (resp.error !== null || resp.data === null) {
-      console.error("Error when get banner url");
-      return [];
-    }
-  });
+  if (data.length === 0) {
+    return [];
+  }
 
-  const { data: subInfoList, error: fetchSubInfoError } = await supabase
-    .from("mission_sub_info_view")
-    .select<string, TMissionSubInfoView>();
-  if (fetchSubInfoError !== null || subInfoList === null) {
-    console.error("Error when get sub info");
+  const banners = data.map((item) => item.banner);
+  const getBannerListPromise = supabase.storage.from("banners").createSignedUrls(banners, EXPIRED_TIME);
+  const getSubInfoPromise = supabase.from("mission_sub_info_view").select<string, TMissionSubInfoView>();
+
+  const [{ data: bannerList, error: fetchBannerError }, { data: subInfoList, error: fetchSubInfoError }] = await Promise.all([
+    getBannerListPromise,
+    getSubInfoPromise,
+  ]);
+  const errorIsNotNull = fetchBannerError !== null || fetchSubInfoError !== null;
+  const dataIsNull = bannerList === null || subInfoList === null;
+  if (errorIsNotNull || dataIsNull) {
+    console.error("Error when get banner url");
     return [] as TMissionResponse[];
   }
 
-  const dataResponse: TMissionResponse[] = data.map((mission, index) => {
+  const dataResponse: TMissionResponse[] = data.map((mission) => {
     const subInfo = subInfoList.find((item) => item.mission_id === mission.id);
     const category = subInfo?.category || "";
     const xp = subInfo?.total_xp || 0;
+    const banner = bannerList.find((item) => item.path === mission.banner);
     return {
       id: mission.id,
       title: mission.title,
       status: getStatusMission(mission.start_date, mission.end_date),
       statusType: getStatusTypeMission(mission.start_date, mission.end_date),
-      bannerURL: bannerListResponse[index].data?.signedUrl || "",
+      bannerURL: banner?.signedUrl || "",
       category,
       xp,
     };
@@ -81,33 +88,7 @@ export const listMissions = async (page: number, search: string, missionType: st
 };
 
 export const countTotalMission = async (search: string, missionType: string, categoryID: string) => {
-  let countMissionPromise = supabase
-    .from("mission")
-    .select("id", { count: "exact" })
-    .is("deleted_at", null)
-    .order("created_at", { ascending: false });
-
-  if (search !== "") {
-    countMissionPromise = countMissionPromise.like("title", `%${search}%`);
-  }
-
-  const now = new Date().toISOString().split("T")[0];
-  switch (missionType) {
-    case MISSION_STATUS__TYPE.IN_PROGRESS:
-      countMissionPromise = countMissionPromise.gt("end_date", now).lte("start_date", now);
-      break;
-    case MISSION_STATUS__TYPE.ENDED:
-      countMissionPromise = countMissionPromise.lt("end_date", now);
-      break;
-    case MISSION_STATUS__TYPE.NOT_START:
-      countMissionPromise = countMissionPromise.gt("start_date", now);
-      break;
-  }
-
-  if (categoryID !== "") {
-    countMissionPromise = countMissionPromise.eq("mission_category_id", categoryID);
-  }
-
+  const countMissionPromise = getListMissionPromise(-1, search, missionType, categoryID);
   const { data, error } = await countMissionPromise;
 
   if (error !== null) {

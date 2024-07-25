@@ -34,7 +34,7 @@ const categoryDefault: TOption = {
   value: "",
 };
 
-const renderListMission = (data: TMissionResponse[], isLoading: boolean) => {
+const renderMissions = (data: TMissionResponse[], isLoading: boolean) => {
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-4 mt-3">
@@ -149,7 +149,7 @@ function Missions() {
           <DropDown value={missionQuery.categoryID} onChange={handleChangeCategory} options={[categoryDefault, ...categoryOptions]} />
         </div>
       </div>
-      {renderListMission(data || [], isLoading)}
+      {renderMissions(data || [], isLoading)}
       {!isLoading && data && data?.length > 0 && (
         <div className="flex justify-center mt-3">
           <Pagination
