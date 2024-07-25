@@ -12,7 +12,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
 import { FiMenu } from "react-icons/fi";
 import { HEADER_HEIGHT } from "../../constants/dimensions";
-import { MISSIONS_PATH, REWARDS_PATH } from "../../constants/links";
+import { MISSIONS_PATH, REWARDS_PATH, QUESTS_PATH } from "../../constants/links";
 import PixelEditor2 from "../Pixel/PixelEditor2";
 import "./Layout.css";
 import Image from "next/image";
@@ -24,6 +24,10 @@ const linkItems = [
   {
     label: "Rewards",
     to: REWARDS_PATH,
+  },
+  {
+    label: "Quests",
+    to: QUESTS_PATH,
   },
 ];
 

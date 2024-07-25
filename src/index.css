@@ -48,3 +48,86 @@ body {
 .particle-connect-wallet-btn {
   margin-right: 10px !important;
 }
+
+.custom-screen {
+  @apply max-w-screen-xl mx-auto px-4 md:px-8;
+}
+
+.container-custom-screen {
+  @apply max-w-3xl mx-auto px-4 md:px-8;
+}
+
+ul > li:last-child:last-of-type .comment-divided-bar {
+  display: none;
+}
+
+.btnshake {
+  animation: shake 0.82s 3 cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+  perspective: 1000px;
+  animation-delay: 1s;
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+.animate-bottom-bannner {
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(-10%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.markdown-renderer-container {
+  line-height: 20px;
+}
+
+.markdown-renderer-container > h2 {
+  font-size: 20px;
+  margin: 10px 0px;
+  color: black;
+  font-weight: bold;
+  border-bottom: 1px solid rgb(80, 80, 80);
+  padding-bottom: 10px;
+}
+.markdown-renderer-container > * {
+  margin: 5px 0px;
+}
+
+.markdown-renderer-container > li > a {
+  color: green !important;
+}
+
+.markdown-renderer-container > ul {
+  list-style-type: disc;
+}
+
+.markdown-renderer-container > ol {
+  list-style-type: decimal;
+}

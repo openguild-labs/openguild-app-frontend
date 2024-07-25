@@ -22,5 +22,7 @@ module.exports = {
       "react-refresh/only-export-components":"off",
       "no-prototype-builtins" :"off",
       "react-hooks/rules-of-hooks":"off",
+      "prefer-const": "off",
+      "@typescript-eslint/ban-types":"off"
   },
 }

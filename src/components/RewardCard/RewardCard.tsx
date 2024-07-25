@@ -4,7 +4,7 @@ import Link from "next/link";
 
 function RewardCard() {
   return (
-    <Link href={`${REWARDS_PATH}/1`}>
+    <Link href={`/reward-detail`}>
       <div className="w-full bg-white text-black rounded-lg shadow-lg pb-[3px] relative cursor-pointer hover:scale-[102%] duration-200 transition">
         <div className="h-[240px] md:h-[160px]">
           <img className="rounded-t-lg w-full h-full object-fill" src={"/assets/images/banner.webp"} alt="CardImg" />
