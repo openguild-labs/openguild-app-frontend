@@ -1,11 +1,11 @@
 import ShareButton from "@/components/ShareButton";
 import Image from "next/image";
 
-interface IHeaderProps {
+interface IHeaderDetailsProps {
   title: string;
 }
 
-function Header({ title }: IHeaderProps) {
+function HeaderDetails({ title }: IHeaderDetailsProps) {
   return (
     <div>
       <div className="flex items-center justify-between">
@@ -26,4 +26,4 @@ function Header({ title }: IHeaderProps) {
   );
 }
 
-export default Header;
+export default HeaderDetails;

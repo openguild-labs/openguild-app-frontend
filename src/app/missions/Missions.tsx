@@ -9,7 +9,6 @@ import { useCountTotalMission, useListMission, useListMissionCategory } from "@/
 import { useDebouncedValue } from "@mantine/hooks";
 import { Pagination, Tab, Tabs } from "@mui/material";
 import { useState, useEffect, useMemo, ChangeEvent } from "react";
-import { HiOutlineInbox } from "react-icons/hi2";
 import Banner from "./components/Banner";
 import DropDown from "./components/DropDown";
 import { useSearchParams } from "@/utils";
@@ -47,8 +46,8 @@ const renderMissions = (data: TMissionResponse[], isLoading: boolean) => {
 
   if (data.length === 0) {
     return (
-      <div className="flex flex-col items-center">
-        <HiOutlineInbox size={28} className="mt-8" />
+      <div className="flex flex-col items-center mt-4">
+        <img alt="empty image" src="/assets/images/planet.png" className="w-[80px] h-[80px]" />
         <span>Have no mission</span>
       </div>
     );

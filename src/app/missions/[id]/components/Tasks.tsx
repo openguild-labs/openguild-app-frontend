@@ -17,7 +17,7 @@ import { CiImageOn } from "react-icons/ci";
 import VisuallyHiddenInput from "@/components/VisuallyHiddenInput";
 import { RxCross2 } from "react-icons/rx";
 import { useParams } from "next/navigation";
-import { NodeHtmlMarkdown, NodeHtmlMarkdownOptions } from "node-html-markdown";
+import { NodeHtmlMarkdown } from "node-html-markdown";
 import { useSendDiscordPoW } from "@/app/api/services";
 
 interface ITasksProps {
@@ -211,7 +211,6 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
           </Button>
         </div>
       ) : null}
-      <div className="w-full h-[1px] bg-gray-300 mt-6" />
 
       <Modal open={openModal} onClose={onCloseModal} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
         <div className="sm:w-[480px] w-[90%] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg p-3">

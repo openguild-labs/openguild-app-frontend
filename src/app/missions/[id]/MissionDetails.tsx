@@ -6,10 +6,10 @@ import { getStatusMission, getStatusTypeMission } from "@/supabase/api/mission/u
 import { useMediaQuery } from "@mantine/hooks";
 import { HiOutlineInboxStack } from "react-icons/hi2";
 import CommonInfo from "./components/CommonInfo";
-import Description from "./components/Description";
-import Header from "./components/Header";
 import MissionDetailsSkeleton from "./components/MissionDetailsSkeleton";
 import Tasks from "./components/Tasks";
+import HeaderDetails from "@/components/HeaderDetails";
+import DescriptionDetails from "@/components/DescriptionDetails";
 
 interface IMissionDetailsProps {
   params: {
@@ -44,18 +44,18 @@ function MissionDetails({ params: { id } }: IMissionDetailsProps) {
   return (
     <div className="mt-[30px] pb-10">
       <div className="flex gap-8 flex-col lg:flex-row">
-        {!isDesktop && <Header title={data.title} />}
+        {!isDesktop && <HeaderDetails title={data.title} />}
         <div className="w-full md:w-[40%] shrink-0">
           <CommonInfo imgSrc={data.bannerURL} status={statusTypeMission} participants={data.participants} totalXP={totalXP} />
         </div>
         <div className="flex flex-col gap-y-8 flex-1">
-          {isDesktop && <Header title={data.title} />}
+          {isDesktop && <HeaderDetails title={data.title} />}
           <Tasks
             tasks={data.tasks || []}
             isEnded={statusMission === ENDING_STATUS}
             isNotStart={statusTypeMission === MISSION_STATUS__TYPE.NOT_START}
           />
-          <Description description={data.description} />
+          <DescriptionDetails description={data.description} />
         </div>
       </div>
     </div>

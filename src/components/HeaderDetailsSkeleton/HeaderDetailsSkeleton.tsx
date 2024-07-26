@@ -1,6 +1,6 @@
 import { Skeleton } from "@mui/material";
 
-function HeaderSkeleton() {
+function HeaderDetailsSkeleton() {
   return (
     <div>
       <div className="flex items-center justify-between">
@@ -15,4 +15,4 @@ function HeaderSkeleton() {
   );
 }
 
-export default HeaderSkeleton;
+export default HeaderDetailsSkeleton;

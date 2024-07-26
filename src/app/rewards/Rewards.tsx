@@ -7,7 +7,6 @@ import { rewardType } from "@/constants/reward";
 import { useSearchParams } from "@/utils";
 import { LIMIT_DEFAULT, PAGE_DEFAULT } from "@/constants/pagination";
 import { useCountTotalReward, useListReward } from "@/supabase/api/reward/services";
-import { HiOutlineInbox } from "react-icons/hi2";
 import RewardCard from "@/components/RewardCard";
 import RewardCardSkeleton from "@/components/RewardCardSkeleton";
 
@@ -35,8 +34,8 @@ const renderRewards = (data: TRewardResponse[], isLoading: boolean) => {
 
   if (data.length === 0) {
     return (
-      <div className="flex flex-col items-center">
-        <HiOutlineInbox size={28} className="mt-8" />
+      <div className="flex flex-col items-center mt-4">
+        <img alt="empty image" src="/assets/images/planet.png" className="w-[80px] h-[80px]" />
         <span>Have no reward</span>
       </div>
     );
