@@ -58,3 +58,10 @@ type TRewardModel = {
   image: string;
   created_at: string;
 };
+
+type TClaimRequestModel = {
+  id: number;
+  user_id: number;
+  object_id: number;
+  type: string;
+};

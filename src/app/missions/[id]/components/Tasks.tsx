@@ -1,10 +1,9 @@
 import Disclosure from "@/components/Disclosure";
 import { INTENT_BASE_URL, socialMedia, WORKSHOP_TYPE } from "@/constants/mission";
 import { missionKey, useCompleteTask, useCreateProofsOfWork, useGetCompletedTasks } from "@/supabase/api/mission/services";
-import { Button } from "@headlessui/react";
 import { CircularProgress, Modal, Button as ButtonMUI, IconButton } from "@mui/material";
 import clsx from "clsx";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { IoCheckmark } from "react-icons/io5";
 import "../style.css";
 import { useGetUser } from "@/supabase/api/user/services";
@@ -18,12 +17,18 @@ import VisuallyHiddenInput from "@/components/VisuallyHiddenInput";
 import { RxCross2 } from "react-icons/rx";
 import { useParams } from "next/navigation";
 import { NodeHtmlMarkdown } from "node-html-markdown";
-import { useSendDiscordPoW } from "@/app/api/services";
+import { useSendClaimXPRequest, useSendDiscordPoW } from "@/app/api/services";
+import MyContext, { MyContextType } from "@/context/MyContext";
+import { useCheckClaimRequest, useCreateClaimRequest } from "@/supabase/api/claimRequest/services";
+import { XP_TYPE } from "@/constants/claimRequestType";
 
 interface ITasksProps {
   tasks: TTaskModel[];
   isEnded: boolean;
   isNotStart: boolean;
+  missionName: string;
+  totalXP: number;
+  missionID: string;
 }
 
 const isCompletedTask = (taskID: number, completedTasks: TCompletedTaskModel[]) => {
@@ -41,7 +46,7 @@ const getActionLabel = (type: string) => {
   }
 };
 
-function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
+function Tasks({ tasks, isEnded, isNotStart, missionName, totalXP, missionID }: ITasksProps) {
   const account = useAccount();
   const { data: userInfo } = useGetUser(account || "");
 
@@ -66,6 +71,16 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
 
   const { mutate: sendDiscordPoW } = useSendDiscordPoW();
   const nhm = new NodeHtmlMarkdown({}, undefined, undefined);
+
+  const { mutate: sendClaimXP, isPending: isPendingClaim } = useSendClaimXPRequest();
+  const { value } = useContext(MyContext) as MyContextType;
+
+  const { data: isSent, refetch: refetchIsSent } = useCheckClaimRequest({
+    user_id: userInfo?.id || 0,
+    object_id: Number(missionID),
+    type: XP_TYPE,
+  });
+  const { mutate: storeClaimXPRequest, isPending: isPendingStore } = useCreateClaimRequest();
 
   useEffect(() => {
     if (isVerifyingTaskID === 0) return;
@@ -94,7 +109,34 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
   };
 
   const handleClaim = () => {
-    toast.info("Rewards coming soon!");
+    if (!isAllTasksCompleted) return;
+
+    sendClaimXP(
+      {
+        username: value?.email || "",
+        missionName,
+        xp: totalXP,
+      },
+      {
+        onSuccess: () => {
+          storeClaimXPRequest(
+            {
+              user_id: userInfo?.id || 0,
+              object_id: Number(missionID),
+              type: XP_TYPE,
+            },
+            {
+              onSuccess: (resp) => {
+                if (resp) {
+                  toast.success("Claim XP request is sent to Admin!");
+                  refetchIsSent();
+                }
+              },
+            }
+          );
+        },
+      }
+    );
   };
 
   useEffect(() => {
@@ -199,16 +241,32 @@ function Tasks({ tasks, isEnded, isNotStart }: ITasksProps) {
       </div>
       {!account ? (
         <div className="flex justify-center">
-          <Button className="py-1 px-4 h-[44px] w-full rounded-lg bg-primary-color text-white font-bold text-sm mt-6" onClick={handleLogin}>
-            Login
-          </Button>
+          <ButtonMUI
+            variant="contained"
+            className="w-full h-[44px]"
+            style={{
+              marginTop: "24px",
+            }}
+            onClick={handleLogin}
+          >
+            <span className="capitalize">Login</span>
+          </ButtonMUI>
         </div>
       ) : isAllTasksCompleted ? (
         <div className=" text-center mt-6">
           <div className="text-[15px] font-medium text-primary-color">Mission completed!</div>
-          <Button className="py-1 px-4 h-[44px] w-full rounded-lg bg-primary-color text-white font-bold text-sm mt-2" onClick={handleClaim}>
-            Claim
-          </Button>
+          <ButtonMUI
+            disabled={isSent}
+            variant="contained"
+            className="w-full h-[44px] flex items-center gap-x-2"
+            style={{
+              marginTop: "8px",
+            }}
+            onClick={handleClaim}
+          >
+            {(isPendingClaim || isPendingStore) && <CircularProgress color="inherit" size={14} />}
+            <span className="normal-case">{isSent ? "Request is sent" : "Claim"}</span>
+          </ButtonMUI>
         </div>
       ) : null}
 

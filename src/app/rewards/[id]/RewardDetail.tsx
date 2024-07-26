@@ -47,7 +47,7 @@ function RewardDetail({ params: { id } }: IRewardDetailsProps) {
         </div>
         <div className="w-full flex flex-col gap-y-8 order-1">
           {isDesktop && <HeaderDetails title={data.name} />}
-          <CommonInfo reward={data} />
+          <CommonInfo reward={data} username={value?.email || ""} userID={value?.id || 0} rewardID={data.id} rewardName={data.name} />
           <DescriptionDetails description={data.description} />
         </div>
       </div>

@@ -54,6 +54,9 @@ function MissionDetails({ params: { id } }: IMissionDetailsProps) {
             tasks={data.tasks || []}
             isEnded={statusMission === ENDING_STATUS}
             isNotStart={statusTypeMission === MISSION_STATUS__TYPE.NOT_START}
+            missionName={data.title}
+            missionID={id}
+            totalXP={totalXP}
           />
           <DescriptionDetails description={data.description} />
         </div>
