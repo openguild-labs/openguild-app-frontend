@@ -71,7 +71,6 @@ function Rewards() {
   const { data, isLoading } = useListReward(rewardQuery.page - 1, rewardQuery.searchValue, rewardQuery.categoryID);
   const { data: total } = useCountTotalReward(rewardQuery.searchValue, rewardQuery.categoryID);
 
-  console.log(data);
   const handleChangeCategory = (_: React.SyntheticEvent, newValue: string) => {
     setRewardQuery({ categoryID: newValue, searchValue: "", page: PAGE_DEFAULT + 1 });
   };

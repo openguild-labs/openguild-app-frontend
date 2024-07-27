@@ -4,7 +4,6 @@ import { useMediaQuery } from "@mantine/hooks";
 import HeaderDetails from "@/components/HeaderDetails";
 import { useGetReward } from "@/supabase/api/reward/services";
 import DescriptionDetails from "@/components/DescriptionDetails";
-import { HiOutlineInboxStack } from "react-icons/hi2";
 import { useContext } from "react";
 import MyContext, { MyContextType } from "@/context/MyContext";
 import RewardDetailsSkeleton from "./components/RewardDetailsSkeleton";
@@ -29,7 +28,7 @@ function RewardDetail({ params: { id } }: IRewardDetailsProps) {
     return (
       <div className="w-full flex justify-center">
         <div className="flex flex-col items-center mt-10">
-          <HiOutlineInboxStack size={40} />
+          <img alt="empty image" src="/assets/images/planet.png" className="w-[80px] h-[80px]" />
           <span className="text-lg">Reward not found</span>
         </div>
       </div>

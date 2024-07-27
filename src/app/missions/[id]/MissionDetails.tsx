@@ -4,7 +4,6 @@ import { ENDING_STATUS, MISSION_STATUS__TYPE } from "@/constants/mission";
 import { useGetMission } from "@/supabase/api/mission/services";
 import { getStatusMission, getStatusTypeMission } from "@/supabase/api/mission/utils";
 import { useMediaQuery } from "@mantine/hooks";
-import { HiOutlineInboxStack } from "react-icons/hi2";
 import CommonInfo from "./components/CommonInfo";
 import MissionDetailsSkeleton from "./components/MissionDetailsSkeleton";
 import Tasks from "./components/Tasks";
@@ -29,7 +28,7 @@ function MissionDetails({ params: { id } }: IMissionDetailsProps) {
     return (
       <div className="w-full flex justify-center">
         <div className="flex flex-col items-center mt-10">
-          <HiOutlineInboxStack size={40} />
+          <img alt="empty image" src="/assets/images/planet.png" className="w-[80px] h-[80px]" />
           <span className="text-lg">Mission not found</span>
         </div>
       </div>

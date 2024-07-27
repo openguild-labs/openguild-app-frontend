@@ -134,17 +134,9 @@ function Settings({ userInfo }: any) {
           </div>
         )}
 
-        {userInfo?.discord_email ? (
-          <div className="px-8 py-3 bg-white border border-primary-color text-center cursor-pointer font-semibold rounded-md mt-4">
-            <div className="flex gap-2 items-center justify-center text-[#6b3ffd]">
-              Discord: @{userInfo?.thirdparty_user_info?.user_info?.name} <IoIosCheckmarkCircle color="#f226ef" />
-            </div>
-          </div>
-        ) : (
-          <div className="w-full mt-4">
-            <SearchInput placeholder="Input your @Discord account" value={discord} onChange={(e) => setDiscord(e.target.value)} />
-          </div>
-        )}
+        <div className="w-full mt-4">
+          <SearchInput placeholder="Input your @Discord account" value={discord} onChange={(e) => setDiscord(e.target.value)} />
+        </div>
 
         {userInfo?.twitter_id ? (
           <div className="px-8 py-3 bg-white border border-primary-color text-center cursor-pointer font-semibold rounded-md mt-4">
