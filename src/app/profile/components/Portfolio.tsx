@@ -1,6 +1,5 @@
 import SearchInput from "@/components/SearchInput";
-import Filter from "@/abc/Rewards/components/Filter";
-import Image from "next/image";
+import Filter from "./Filter";
 
 function Portfolio() {
   return (

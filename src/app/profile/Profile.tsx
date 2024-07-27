@@ -1,44 +1,45 @@
 "use client";
 
-import { Tab, TabGroup, TabList } from "@headlessui/react";
+// import { Tab, TabGroup, TabList } from "@headlessui/react";
 import { useConnectKit } from "@particle-network/connect-react-ui"; // @particle-network/connectkit to use Auth Core
-import { useState } from "react";
+// import { useState } from "react";
 import Banner from "./components/Banner";
-import History from "./components/History";
-import Portfolio from "./components/Portfolio";
+// import History from "./components/History";
+// import Portfolio from "./components/Portfolio";
 
 import { shortenAddressOrEns } from "@/utils/address.ts";
 import { useAccount } from "@particle-network/connect-react-ui";
 import { FaCopy } from "react-icons/fa6";
 import Settings from "./components/Settings";
+import { toast } from "react-toastify";
 export const dynamic = "force-dynamic";
 
-const categories: any = [
-  {
-    name: "Account settings",
-  },
-  {
-    name: "Portfolio",
-  },
-  {
-    name: "History",
-  },
-];
+// const categories: any = [
+//   {
+//     name: "Account settings",
+//   },
+//   {
+//     name: "Portfolio",
+//   },
+//   {
+//     name: "History",
+//   },
+// ];
 
 function Profile() {
   const account = useAccount();
 
   const connectKit = useConnectKit();
   const userInfo = connectKit?.particle?.auth?.getUserInfo();
-  const [tab, setTab] = useState(0);
+  // const [tab, setTab] = useState(0);
   const handleCopy = () => {
-    // const element: any = typeof document !== "undefined" && document?.createElement("textarea");
-    // element.value = `${userInfo?.wallets[0]?.public_address}`;
-    // typeof document !== "undefined" && document?.body.appendChild(element);
-    // element.select();
-    // typeof document !== "undefined" && document?.execCommand("copy");
-    // typeof document !== "undefined" && document?.body.removeChild(element);
-    // toast.success("Wallet Copied");
+    const element: any = typeof document !== "undefined" && document?.createElement("textarea");
+    element.value = `${userInfo?.wallets[0]?.public_address}`;
+    typeof document !== "undefined" && document?.body.appendChild(element);
+    element.select();
+    typeof document !== "undefined" && document?.execCommand("copy");
+    typeof document !== "undefined" && document?.body.removeChild(element);
+    toast.success("Wallet Copied");
   };
   return (
     <div className="h-auto mt-3 mb-8">
@@ -52,7 +53,8 @@ function Profile() {
         <FaCopy />
       </div>
 
-      <div className="flex w-full pt-4 ">
+      <Settings userInfo={userInfo} />
+      {/* <div className="flex w-full pt-4 ">
         <TabGroup
           className="w-full overflow-hidden"
           onChange={(index) => {
@@ -70,10 +72,10 @@ function Profile() {
             ))}
           </TabList>
         </TabGroup>
-      </div>
-      {tab === 0 && <Settings userInfo={userInfo} />}
-      {tab === 1 && <Portfolio />}
-      {tab === 2 && <History />}
+      </div> */}
+      {/* {tab === 0 && <Settings userInfo={userInfo} />} */}
+      {/* {tab === 1 && <Portfolio />}
+      {tab === 2 && <History />} */}
     </div>
   );
 }

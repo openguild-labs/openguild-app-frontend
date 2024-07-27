@@ -3,7 +3,6 @@ import { useGetUser, useUpdateUser } from "@/supabase/api/user/services";
 import { shortenAddressOrEns } from "@/utils/address";
 import { Button } from "@headlessui/react";
 import { useAccount } from "@particle-network/connect-react-ui";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { IoCopyOutline } from "react-icons/io5";
@@ -32,13 +31,13 @@ function validateUsername(username: any) {
 function Settings({ userInfo }: any) {
   const account = useAccount();
   const handleCopy = () => {
-    // const element: any = typeof document !== "undefined" && document?.createElement("textarea");
-    // element.value = `${userInfo?.wallets[0]?.public_address}`;
-    // typeof document !== "undefined" && document?.body.appendChild(element);
-    // element.select();
-    // typeof document !== "undefined" && document?.execCommand("copy");
-    // typeof document !== "undefined" && document?.body.removeChild(element);
-    // toast.success("Wallet Copied");
+    const element: any = typeof document !== "undefined" && document?.createElement("textarea");
+    element.value = `${userInfo?.wallets[0]?.public_address}`;
+    typeof document !== "undefined" && document?.body.appendChild(element);
+    element.select();
+    typeof document !== "undefined" && document?.execCommand("copy");
+    typeof document !== "undefined" && document?.body.removeChild(element);
+    toast.success("Wallet Copied");
   };
   const { data } = useGetUser(account || "");
   const { mutate: updateUser } = useUpdateUser(account as any);
@@ -49,13 +48,18 @@ function Settings({ userInfo }: any) {
   const [discord, setDiscord] = useState("");
   const [telegram, setTelegram] = useState("");
 
+  const [mounted, setMounted] = useState(false);
   useEffect(() => {
-    setFirstName(data?.first_name as any);
-    setLastName(data?.last_name as any);
-    setUsername(data?.username as any);
-    setTwitter(data?.twitter as any);
-    setDiscord(data?.discord as any);
-    setTelegram(data?.telegram as any);
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    setFirstName(data?.first_name || "");
+    setLastName(data?.last_name || "");
+    setUsername(data?.username || "");
+    setTwitter(data?.twitter || "");
+    setDiscord(data?.discord || "");
+    setTelegram(data?.telegram || "");
   }, [data]);
 
   useEffect(() => {
@@ -73,13 +77,13 @@ function Settings({ userInfo }: any) {
             toast.success("Update user successfully!");
           }
         },
-      },
+      }
     );
   };
   const handleUpdateTwitter = (value: string) => {
     updateUser(
       { first_name: firstName, last_name: lastName, email: data?.email, username: username, discord, telegram, twitter: value },
-      {},
+      {}
     );
   };
   const [validUsername, setValidUsername] = useState({ isValid: true, message: "Username is valid" });
@@ -93,7 +97,7 @@ function Settings({ userInfo }: any) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="w-full">
           <div className="font-bold my-2">User ID</div>
-          <SearchInput value={data?.id} disabled className="cursor-not-allowed" />
+          <SearchInput value={String(data?.id || 0)} disabled className="cursor-not-allowed" />
         </div>
         <div className="w-full">
           <div className="font-bold my-2">Username</div>
@@ -118,15 +122,17 @@ function Settings({ userInfo }: any) {
       <div className="text-primary-color text-2xl font-bold mt-12 mb-6">Social Accounts</div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
-        <div className="px-8 py-3 bg-white border border-primary-color text-center cursor-pointer font-semibold rounded-md mt-4">
-          {userInfo?.google_email ? (
-            <div className="flex gap-2 items-center justify-center text-[#6b3ffd]">
-              Email: @{userInfo?.google_email} <IoIosCheckmarkCircle color="#f226ef" />
-            </div>
-          ) : (
-            <>@ Connect with email</>
-          )}
-        </div>
+        {mounted && (
+          <div className="px-8 py-3 bg-white border border-primary-color text-center cursor-pointer font-semibold rounded-md mt-4">
+            {userInfo?.google_email ? (
+              <div className="flex gap-2 items-center justify-center text-[#6b3ffd]">
+                Email: @{userInfo?.google_email || ""} <IoIosCheckmarkCircle color="#f226ef" />
+              </div>
+            ) : (
+              <div>@ Connect with email</div>
+            )}
+          </div>
+        )}
 
         {userInfo?.discord_email ? (
           <div className="px-8 py-3 bg-white border border-primary-color text-center cursor-pointer font-semibold rounded-md mt-4">

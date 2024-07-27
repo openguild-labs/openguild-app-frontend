@@ -1,19 +1,19 @@
 import SearchInput from "@/components/SearchInput/SearchInput";
 import { shortenAddressOrEns } from "@/utils/address";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { IoCopyOutline } from "react-icons/io5";
+import { toast } from "react-toastify";
 
 function SettingOutsideView({ userInfo }: any) {
   const handleCopy = () => {
-    // const element: any = typeof document !== "undefined" && document?.createElement("textarea");
-    // element.value = `${userInfo?.wallets[0]?.public_address}`;
-    // typeof document !== "undefined" && document?.body.appendChild(element);
-    // element.select();
-    // typeof document !== "undefined" && document?.execCommand("copy");
-    // typeof document !== "undefined" && document?.body.removeChild(element);
-    // toast.success("Wallet Copied");
+    const element: any = typeof document !== "undefined" && document?.createElement("textarea");
+    element.value = `${userInfo?.wallets[0]?.public_address}`;
+    typeof document !== "undefined" && document?.body.appendChild(element);
+    element.select();
+    typeof document !== "undefined" && document?.execCommand("copy");
+    typeof document !== "undefined" && document?.body.removeChild(element);
+    toast.success("Wallet Copied");
   };
 
   const [firstName, setFirstName] = useState("");

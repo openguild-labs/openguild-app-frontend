@@ -1,5 +1,6 @@
 import SearchInput from "@/components/SearchInput";
-import Filter from "@/abc/Rewards/components/Filter";
+import Filter from "./Filter";
+
 function History() {
   return (
     <div>

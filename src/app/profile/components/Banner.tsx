@@ -1,6 +1,4 @@
 import PixelEditor from "@/components/Pixel/PixelEditor";
-import RewardBannerImg from "../../../../public/assets/images/banner.webp";
-// import Image as NextImage from "next/image";
 
 const Banner = () => {
   return (
@@ -12,7 +10,7 @@ const Banner = () => {
       </div>
       <img
         className="h-[300px] md:h-[300px] lg:h-[300px]  object-cover z-0 w-full relative rounded-lg"
-        src={RewardBannerImg.src}
+        src="/assets/images/banner.webp"
         style={{
           backgroundPosition: "center",
         }}
