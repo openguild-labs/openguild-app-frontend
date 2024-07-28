@@ -1,12 +1,17 @@
+import { useSearchDiscordMember } from "@/app/api/services";
 import SearchInput from "@/components/SearchInput/SearchInput";
 import { useGetUser, useUpdateUser } from "@/supabase/api/user/services";
 import { shortenAddressOrEns } from "@/utils/address";
 import { Button } from "@headlessui/react";
 import { useAccount } from "@particle-network/connect-react-ui";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { IoCopyOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
+import { FaDiscord } from "react-icons/fa";
+import { DISCORD_INVITE_LINK } from "@/constants/discord";
+
 function validateUsername(username: any) {
   const minLength = 0;
   const maxLength = 20;
@@ -39,6 +44,7 @@ function Settings({ userInfo }: any) {
     typeof document !== "undefined" && document?.body.removeChild(element);
     toast.success("Wallet Copied");
   };
+
   const { data } = useGetUser(account || "");
   const { mutate: updateUser } = useUpdateUser(account as any);
   const [firstName, setFirstName] = useState("");
@@ -47,6 +53,7 @@ function Settings({ userInfo }: any) {
   const [twitter, setTwitter] = useState("");
   const [discord, setDiscord] = useState("");
   const [telegram, setTelegram] = useState("");
+  const { data: discordMembers, isLoading } = useSearchDiscordMember(discord);
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
@@ -63,14 +70,41 @@ function Settings({ userInfo }: any) {
   }, [data]);
 
   useEffect(() => {
-    if (!data?.twitter && userInfo?.twitter_id) {
+    if (userInfo?.twitter_id) {
       handleUpdateTwitter(userInfo?.name);
       setTwitter(userInfo?.name);
     }
   }, [userInfo]);
+
   const handleUpdate = () => {
+    let newDiscord = data?.discord || "";
+    let newDiscordID = data?.discord_id || "";
+    if (!isLoading && discord !== "") {
+      if (discordMembers === undefined || discordMembers.length !== 1 || discordMembers[0].user.username !== discord) {
+        toast.error("Discord member is invalid or you are not in our Discord guild!");
+        return;
+      } else {
+        newDiscord = discordMembers[0].user.username;
+        newDiscordID = discordMembers[0].user.id;
+      }
+    }
+
+    if (discord == "") {
+      newDiscord = "";
+      newDiscordID = "";
+    }
+
     updateUser(
-      { first_name: firstName, last_name: lastName, email: data?.email, username: username, discord, telegram, twitter },
+      {
+        first_name: firstName,
+        last_name: lastName,
+        email: data?.email,
+        username: username,
+        discord: newDiscord,
+        discord_id: newDiscordID,
+        telegram,
+        twitter,
+      },
       {
         onSuccess: (resp) => {
           if (resp !== undefined) {
@@ -80,17 +114,19 @@ function Settings({ userInfo }: any) {
       }
     );
   };
+
   const handleUpdateTwitter = (value: string) => {
-    updateUser(
-      { first_name: firstName, last_name: lastName, email: data?.email, username: username, discord, telegram, twitter: value },
-      {}
-    );
+    updateUser({
+      username: value,
+    });
   };
+
   const [validUsername, setValidUsername] = useState({ isValid: true, message: "Username is valid" });
   useEffect(() => {
     const res = validateUsername(username);
     setValidUsername(res);
   }, [username]);
+
   return (
     <div>
       <div className="text-primary-color text-2xl font-bold mt-12 mb-6">General</div>
@@ -134,8 +170,15 @@ function Settings({ userInfo }: any) {
           </div>
         )}
 
-        <div className="w-full mt-4">
-          <SearchInput placeholder="Input your @Discord account" value={discord} onChange={(e) => setDiscord(e.target.value)} />
+        <div className="w-full mt-4 relative">
+          <SearchInput placeholder="Input your @Discord username" value={discord} onChange={(e) => setDiscord(e.target.value)} />
+          <Link
+            href={DISCORD_INVITE_LINK}
+            target="_blank"
+            className="transition-effect border text-primary-color px-3 py-1 rounded text-sm absolute right-3 top-1/2 -translate-y-1/2 border-primary-color hover:bg-primary-color hover:text-white flex items-center gap-x-1"
+          >
+            join our <FaDiscord size={20} />
+          </Link>
         </div>
 
         {userInfo?.twitter_id ? (

@@ -14,4 +14,5 @@ type TUserUpdate = {
   discord?: string;
   telegram?: string;
   facebook?: string;
+  discord_id?: string;
 };

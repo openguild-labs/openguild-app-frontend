@@ -1,5 +1,9 @@
-import { useMutation } from "@tanstack/react-query";
-import { sendClaimRewardRequest, sendClaimXPRequest, sendPoW } from "./callers";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { searchDiscordMember, sendClaimRewardRequest, sendClaimXPRequest, sendPoW } from "./callers";
+
+export const apiRouteKey = {
+  searchMember: "searchMember",
+};
 
 export const useSendDiscordPoW = () => {
   return useMutation({
@@ -16,5 +20,12 @@ export const useSendClaimXPRequest = () => {
 export const useSendClaimRewardRequest = () => {
   return useMutation({
     mutationFn: (req: TDiscordCreateClaimRewardRequest) => sendClaimRewardRequest(req),
+  });
+};
+
+export const useSearchDiscordMember = (username: string) => {
+  return useQuery({
+    queryKey: [apiRouteKey.searchMember, username],
+    queryFn: () => searchDiscordMember(username),
   });
 };

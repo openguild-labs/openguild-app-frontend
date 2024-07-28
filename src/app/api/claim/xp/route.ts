@@ -12,9 +12,9 @@ export async function POST(request: NextRequest) {
       Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
     },
     body: JSON.stringify({
-      name: `[Claim Request][XP] ${data.username}`,
+      name: `[Claim Request][Mission] ${data.missionName}`,
       message: {
-        content: `${data.username} completed the **${data.missionName}** mission with **${data.xp}** XP!`,
+        content: `<@${data.userID}> completed the **${data.missionName}** mission with **${data.xp}** XP!`,
       },
     }),
   });

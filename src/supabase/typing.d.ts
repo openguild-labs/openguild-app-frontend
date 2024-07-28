@@ -40,6 +40,7 @@ type TUserModel = {
   twitter?: string;
   discord?: string;
   telegram?: string;
+  discord_id?: string;
 };
 
 type TMissionCategoryModel = {

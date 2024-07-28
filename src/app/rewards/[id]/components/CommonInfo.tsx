@@ -1,35 +1,43 @@
 import { useSendClaimRewardRequest } from "@/app/api/services";
 import { REWARD_TYPE } from "@/constants/claimRequestType";
-import { MISSIONS_PATH } from "@/constants/links";
+import { MISSIONS_PATH, PROFILE_PATH } from "@/constants/links";
 import { useCheckClaimRequest, useCreateClaimRequest } from "@/supabase/api/claimRequest/services";
 import { useMediaQuery } from "@mantine/hooks";
 import { Button, CircularProgress, Tooltip } from "@mui/material";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 interface TCommonInfoProps {
   reward: TRewardDetailsResponse;
-  userID: number;
-  username: string;
+  user: TUserModel | undefined;
   rewardID: number;
   rewardName: string;
 }
 
-function CommonInfo({ reward, username, rewardName, userID, rewardID }: TCommonInfoProps) {
+function CommonInfo({ reward, user, rewardName, rewardID }: TCommonInfoProps) {
   const canClaim = reward.requirements.every((item) => item.isCompleted);
   const isDesktop = useMediaQuery("(min-width: 1024px)");
+  const router = useRouter();
   const { mutate: sendClaimRequest, isPending: isPendingClaim } = useSendClaimRewardRequest();
 
-  const { data: isSent, refetch } = useCheckClaimRequest({ user_id: userID, object_id: rewardID, type: REWARD_TYPE });
+  const { data: isSent, refetch } = useCheckClaimRequest({ user_id: user?.id || 0, object_id: rewardID, type: REWARD_TYPE });
   const { mutate: storeClaimRequest, isPending: isPendingStore } = useCreateClaimRequest();
   const handleClaim = () => {
     if (!canClaim) return;
+
+    if (user?.discord === undefined || user?.discord === "") {
+      toast.warn("Please input your Discord username to claim Reward!");
+      router.push(PROFILE_PATH);
+      return;
+    }
+
     sendClaimRequest(
-      { username, rewardName },
+      { userID: user?.discord_id || "", rewardName },
       {
         onSuccess: () => {
           storeClaimRequest(
-            { user_id: userID, object_id: rewardID, type: REWARD_TYPE },
+            { user_id: user?.id || 0, object_id: rewardID, type: REWARD_TYPE },
             {
               onSuccess: (resp) => {
                 if (resp) {

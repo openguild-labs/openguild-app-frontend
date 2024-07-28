@@ -15,12 +15,13 @@ import { TIPTAP_EMPTY_STRING, TTipTap } from "@/components/TipTap/TipTap";
 import { CiImageOn } from "react-icons/ci";
 import VisuallyHiddenInput from "@/components/VisuallyHiddenInput";
 import { RxCross2 } from "react-icons/rx";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { NodeHtmlMarkdown } from "node-html-markdown";
 import { useSendClaimXPRequest, useSendDiscordPoW } from "@/app/api/services";
 import MyContext, { MyContextType } from "@/context/MyContext";
 import { useCheckClaimRequest, useCreateClaimRequest } from "@/supabase/api/claimRequest/services";
 import { XP_TYPE } from "@/constants/claimRequestType";
+import { PROFILE_PATH } from "@/constants/links";
 
 interface ITasksProps {
   tasks: TTaskModel[];
@@ -49,6 +50,7 @@ const getActionLabel = (type: string) => {
 function Tasks({ tasks, isEnded, isNotStart, missionName, totalXP, missionID }: ITasksProps) {
   const account = useAccount();
   const { data: userInfo } = useGetUser(account || "");
+  const router = useRouter();
 
   const [verifiedTasks, setVerifiedTasks] = useState<number[]>([]);
   const taskIDs = tasks.map((task) => task.id);
@@ -111,9 +113,15 @@ function Tasks({ tasks, isEnded, isNotStart, missionName, totalXP, missionID }: 
   const handleClaim = () => {
     if (!isAllTasksCompleted) return;
 
+    if (value?.discord === undefined || value?.discord === "") {
+      toast.warn("Please input your Discord username to claim XP!");
+      router.push(PROFILE_PATH);
+      return;
+    }
+
     sendClaimXP(
       {
-        username: value?.email || "",
+        userID: value?.discord_id || "",
         missionName,
         xp: totalXP,
       },
