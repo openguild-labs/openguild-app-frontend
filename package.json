@@ -15,6 +15,7 @@
     "@mantine/core": "^7.10.1",
     "@mantine/hooks": "^7.10.1",
     "@mui/material": "^5.15.20",
+    "@netlify/plugin-nextjs": "^5.5.1",
     "@particle-network/connect": "^1.2.1",
     "@particle-network/connect-react-ui": "^1.2.1",
     "@solana/web3.js": "^1.91.8",

@@ -12,7 +12,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
 import { FiMenu } from "react-icons/fi";
 import { HEADER_HEIGHT } from "../../constants/dimensions";
-import { MISSIONS_PATH, REWARDS_PATH, QUESTS_PATH } from "../../constants/links";
+import { MISSIONS_PATH, REWARDS_PATH, QUESTS_PATH, MEMBERS_PATH } from "../../constants/links";
 import PixelEditor2 from "../Pixel/PixelEditor2";
 import "./Layout.css";
 import Image from "next/image";
@@ -28,6 +28,10 @@ const linkItems = [
   {
     label: "Quests",
     to: QUESTS_PATH,
+  },
+  {
+    label: "Members",
+    to: MEMBERS_PATH,
   },
 ];
 
@@ -124,7 +128,7 @@ function Layout({ children }: any) {
         <div
           className={clsx(
             "fixed top-0 z-40 h-screen p-4 overflow-y-auto transition-transform  bg-white w-[350px] left-0",
-            !isSideMenuOpened && "-translate-x-full"
+            !isSideMenuOpened && "-translate-x-full",
           )}
         >
           <Link href={MISSIONS_PATH}>
