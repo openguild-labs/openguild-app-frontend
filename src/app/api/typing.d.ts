@@ -19,7 +19,7 @@ type TDiscordSearchMember = {
   username: string;
 };
 
-type TSearchDiscordMemberResponse = {
+type TDiscordMemberResponse = {
   avatar: any;
   banner: any;
   communication_disabled_until: any;

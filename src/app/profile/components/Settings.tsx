@@ -11,6 +11,8 @@ import { IoCopyOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 import { FaDiscord } from "react-icons/fa";
 import { DISCORD_INVITE_LINK } from "@/constants/discord";
+import { findDiscordMemberFromList } from "@/app/api/callers";
+import { CircularProgress } from "@mui/material";
 
 function validateUsername(username: any) {
   const minLength = 0;
@@ -46,16 +48,16 @@ function Settings({ userInfo }: any) {
   };
 
   const { data } = useGetUser(account || "");
-  const { mutate: updateUser } = useUpdateUser(account as any);
+  const { mutate: updateUser, isPending } = useUpdateUser(account as any);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
   const [twitter, setTwitter] = useState("");
   const [discord, setDiscord] = useState("");
   const [telegram, setTelegram] = useState("");
-  const { data: discordMembers, isLoading } = useSearchDiscordMember(discord);
-
   const [mounted, setMounted] = useState(false);
+  const [isLoadingUpdate, setIsLoadingUpdate] = useState(false);
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -76,24 +78,26 @@ function Settings({ userInfo }: any) {
     }
   }, [userInfo]);
 
-  const handleUpdate = () => {
+  const handleUpdate = async () => {
     let newDiscord = data?.discord || "";
     let newDiscordID = data?.discord_id || "";
-    if (!isLoading && discord !== "") {
-      if (discordMembers === undefined || discordMembers.length !== 1 || discordMembers[0].user.username !== discord) {
-        toast.error("Discord member is invalid or you are not in our Discord guild!");
-        return;
-      } else {
-        newDiscord = discordMembers[0].user.username;
-        newDiscordID = discordMembers[0].user.id;
-      }
-    }
 
     if (discord == "") {
       newDiscord = "";
       newDiscordID = "";
+    } else {
+      setIsLoadingUpdate(true);
+      const res = await findDiscordMemberFromList(discord);
+      setIsLoadingUpdate(false);
+      if (res === undefined) {
+        toast.error("Discord member is invalid or you are not in our Discord guild!");
+        setDiscord(data?.discord || "");
+        return;
+      } else {
+        newDiscord = res.user.username;
+        newDiscordID = res.user.id;
+      }
     }
-
     updateUser(
       {
         first_name: firstName,
@@ -197,10 +201,11 @@ function Settings({ userInfo }: any) {
         </div>
       </div>
       <Button
-        className="py-1 px-4 h-[44px] w-full rounded-lg bg-primary-color text-white font-bold text-sm mt-10"
+        className="py-1 px-4 h-[44px] w-full rounded-lg bg-primary-color text-white font-bold text-sm mt-10 flex items-center justify-center gap-x-2"
         onClick={() => handleUpdate()}
         disabled={!validUsername.isValid}
       >
+        {(isLoadingUpdate || isPending) && <CircularProgress color="inherit" size={14} />}
         Update
       </Button>
       <div className="bg-white/10  w-full h-[1px] my-12" />
