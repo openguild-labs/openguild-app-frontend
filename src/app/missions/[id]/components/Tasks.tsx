@@ -273,7 +273,7 @@ function Tasks({ tasks, isEnded, isNotStart, missionName, totalXP, missionID }: 
             onClick={handleClaim}
           >
             {(isPendingClaim || isPendingStore) && <CircularProgress color="inherit" size={14} />}
-            <span className="normal-case">{isSent ? "Request is sent" : "Claim"}</span>
+            <span className="normal-case">{isSent ? "Request is sent" : "Request XP via Discord"}</span>
           </ButtonMUI>
         </div>
       ) : null}

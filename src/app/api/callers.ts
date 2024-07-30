@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 export const sendPoW = async (req: TDiscordCreateThreadRequest) => {
   return fetch("/api/pow", {
     method: "POST",
@@ -37,25 +39,30 @@ const listDiscordMembers = async (after: string) => {
     method: "GET",
   });
   const res = await data.json();
-  return res.data as TDiscordMemberResponse[];
+  return res.data as TDiscordMemberResponse[] | TLimitErrorMessage;
 };
 
 export const findDiscordMemberFromList = async (username: string) => {
   let stop = false;
-  let user: TDiscordMemberResponse | undefined = undefined;
+  let res: TDiscordMemberResponse | TLimitErrorMessage | undefined = undefined;
   let lastUserID = "";
   while (!stop) {
     const data = await listDiscordMembers(lastUserID);
+
+    if ("message" in data) {
+      return data;
+    }
+
     if (data.length === 0) {
       stop = true;
     } else {
-      user = data.find((u) => u.user.username === username);
-      if (user !== undefined) {
+      res = data.find((u) => u.user.username === username);
+      if (res !== undefined) {
         stop = true;
       }
       lastUserID = data[data.length - 1].user.id;
     }
   }
 
-  return user;
+  return res;
 };

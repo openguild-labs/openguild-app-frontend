@@ -8,11 +8,14 @@ interface IRewardCardProps {
 function RewardCard({ reward }: IRewardCardProps) {
   return (
     <Link href={`${REWARDS_PATH}/${reward.id}`}>
-      <div className="w-full bg-white text-black rounded-lg shadow-lg pb-[3px] relative cursor-pointer hover:scale-[102%] duration-200 transition">
-        <div className="h-[240px] md:h-[200px] p-2">
-          <img className="rounded-md w-full h-full object-cover" src={reward.imageURL} alt="CardImg" />
+      <div className="w-full bg-white text-black rounded-lg relative cursor-pointer hover:scale-[102%] duration-200 transition">
+        <div className="w-full aspect-square">
+          <img className="rounded-lg w-full h-full object-cover" src={reward.imageURL} alt="CardImg" />
         </div>
-        <h3 className="py-2 px-4 line-clamp-2 h-12">{reward.name}</h3>
+        <div className="mt-1">
+          <h3 className="line-clamp-1 text-base font-bold">{reward.name}</h3>
+          <span className="text-sm">Quantity: {reward.quantity}</span>
+        </div>
       </div>
     </Link>
   );

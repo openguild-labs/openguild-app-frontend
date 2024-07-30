@@ -97,7 +97,7 @@ function CommonInfo({ reward, user, rewardName, rewardID }: TCommonInfoProps) {
           onClick={handleClaim}
         >
           {(isPendingClaim || isPendingStore) && <CircularProgress color="inherit" size={14} />}
-          <span className="normal-case text-sm">{isSent ? "Request is sent" : "Claim"}</span>
+          <span className="normal-case text-sm">{isSent ? "Request is sent" : "Request Reward via Discord"}</span>
         </Button>
       </div>
     </div>

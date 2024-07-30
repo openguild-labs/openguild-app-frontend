@@ -47,3 +47,8 @@ type TSearchDiscordMemberInfo = {
   global_name: string;
   avatar_decoration_data: any;
 };
+
+type TLimitErrorMessage = {
+  message: string;
+  retry_after: boolean;
+};

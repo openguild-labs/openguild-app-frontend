@@ -1,54 +1,26 @@
 import Tag from "@/components/Tag";
 import { MISSIONS_PATH } from "@/constants/links";
-import { MISSION_STATUS__TYPE } from "@/constants/mission";
 import { Skeleton } from "@mui/material";
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { CiImageOn } from "react-icons/ci";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
-const MISSION_CARD_HEIGHT = 365;
-const THUMBNAIL_HEIGHT = 184;
-
 interface IMissionCardProps {
   mission: TMissionResponse;
 }
-
-const renderTagStatus = (status: string) => {
-  switch (status) {
-    case MISSION_STATUS__TYPE.NOT_START:
-      return <Tag value={MISSION_STATUS__TYPE.NOT_START} isWholeWord className=" text-[#da2877]" />;
-    case MISSION_STATUS__TYPE.IN_PROGRESS:
-      return <Tag value={MISSION_STATUS__TYPE.IN_PROGRESS} isWholeWord className=" bg-[#6b3ffdae] text-white border-transparent" />;
-    default:
-      return <Tag value={MISSION_STATUS__TYPE.ENDED} isWholeWord className="bg-gray-200 text-gray-500" />;
-  }
-};
 
 function MissionCard({ mission }: IMissionCardProps) {
   const statusMap = mission?.status?.split("|");
   const [isLoadingImage, setIsLoadingImage] = useState(false);
   return (
     <div className="shrink-0 w-full">
-      <Link
-        href={`${MISSIONS_PATH}/${mission?.id}`}
-        className="block rounded-lg bg-white w-full shadow-lg hover:scale-[102%] duration-200 transition"
-        style={{
-          height: MISSION_CARD_HEIGHT,
-        }}
-      >
-        <div
-          className="relative pb-6"
-          style={{
-            height: THUMBNAIL_HEIGHT,
-          }}
-        >
-          <div className="px-2 py-1 rounded-md bg-primary-color text-xs absolute top-4 left-5 text-white">{mission.category}</div>
+      <Link href={`${MISSIONS_PATH}/${mission?.id}`} className="block rounded-lg w-full hover:scale-[102%] duration-200 transition">
+        <div className="w-full aspect-square relative">
           <LazyLoadImage
             alt="thumbnail"
             src={mission?.bannerURL}
-            className="w-full h-full rounded-t-lg object-cover"
+            className="w-full h-full rounded-lg object-cover"
             beforeLoad={() => {
               setIsLoadingImage(true);
             }}
@@ -57,12 +29,7 @@ function MissionCard({ mission }: IMissionCardProps) {
             }}
           />
           {isLoadingImage && (
-            <div
-              className="absolute inset-0 flex items-center justify-center"
-              style={{
-                height: "calc(100% - 24px)",
-              }}
-            >
+            <div className="absolute inset-0 flex items-center justify-center">
               <Skeleton
                 variant="rectangular"
                 sx={{
@@ -72,41 +39,23 @@ function MissionCard({ mission }: IMissionCardProps) {
                   inset: 0,
                 }}
                 animation="wave"
-                className="w-full h-full rounded-t-lg"
+                className="w-full h-full rounded-lg"
               />
               <CiImageOn size={52} className="text-neutral-300" />
             </div>
           )}
-          <Image
-            width={46}
-            height={46}
-            alt="avatar"
-            src={"/assets/images/logo.png"}
-            className="rounded-full absolute left-[28px] bottom-6 translate-y-1/2 border border-neutral-400 bg-white z-[5px]"
-          />
         </div>
-        <div
-          className="flex flex-col w-full"
-          style={{
-            height: MISSION_CARD_HEIGHT - THUMBNAIL_HEIGHT,
-          }}
-        >
-          <div className="py-2 px-4 h-1/3 w-full border-b-[0.5px] border-gray-200 text-black">
-            <h3 className="text-ellipsis line-clamp-2">{mission.title}</h3>
+        <div className="flex flex-col w-full gap-y-2 mt-2">
+          <div className="w-full text-black">
+            <h3 className="text-ellipsis font-bold line-clamp-1">{mission.title}</h3>
           </div>
-          <div className="py-2 px-4 h-1/3 w-full border-b-[0.5px] border-gray-200 flex text-black">
-            <div className="w-1/2 h-full">
-              <div className="h-1/2 flex items-center justify-start">
-                <span className="w-full text-xs">{statusMap[0]}</span>
-              </div>
-              <div className="h-1/2 flex items-center justify-start">
-                <span className="w-full text-black">{statusMap[1]}</span>
-              </div>
-            </div>
+          <div className="w-full flex items-center text-black gap-x-2">
+            <span className="text-sm">{statusMap[0]}</span>
+            <span className="text-primary-color text-sm">{statusMap[1]}</span>
           </div>
-          <div className="py-2 px-4 h-1/3 w-full">
+          <div className="w-full">
             <div className="flex w-full overflow-hidden gap-x-1 text-black">
-              {renderTagStatus(mission.statusType)}
+              <Tag value={mission.category} isWholeWord className=" bg-primary-color text-white border-transparent" />
               <Tag value={`${mission.xp} XP`} />
             </div>
           </div>

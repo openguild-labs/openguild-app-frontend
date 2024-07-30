@@ -1,4 +1,3 @@
-import { useSearchDiscordMember } from "@/app/api/services";
 import SearchInput from "@/components/SearchInput/SearchInput";
 import { useGetUser, useUpdateUser } from "@/supabase/api/user/services";
 import { shortenAddressOrEns } from "@/utils/address";
@@ -93,6 +92,10 @@ function Settings({ userInfo }: any) {
         toast.error("Discord member is invalid or you are not in our Discord guild!");
         setDiscord(data?.discord || "");
         return;
+      } else if ("message" in res) {
+        toast.error("Something went wrong, please try after " + res.retry_after + " seconds!");
+        setDiscord(data?.discord || "");
+        return;
       } else {
         newDiscord = res.user.username;
         newDiscordID = res.user.id;
@@ -137,12 +140,13 @@ function Settings({ userInfo }: any) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="w-full">
           <div className="font-bold my-2">User ID</div>
-          <SearchInput value={String(data?.id || 0)} disabled className="cursor-not-allowed" />
+          <SearchInput isActive={true} value={String(data?.id || 0)} disabled className="cursor-not-allowed" />
         </div>
         <div className="w-full">
           <div className="font-bold my-2">Username</div>
           <SearchInput
             value={username}
+            isActive={username !== ""}
             onChange={(e) => setUsername(e.target.value)}
             className={!validUsername.isValid ? "border-red-500" : ""}
           />
@@ -150,11 +154,11 @@ function Settings({ userInfo }: any) {
         </div>
         <div className="w-full">
           <div className="font-bold my-2">First Name</div>
-          <SearchInput value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+          <SearchInput isActive={firstName !== ""} value={firstName} onChange={(e) => setFirstName(e.target.value)} />
         </div>
         <div className="w-full">
           <div className="font-bold my-2">Last Name</div>
-          <SearchInput value={lastName} onChange={(e) => setLastName(e.target.value)} />
+          <SearchInput isActive={lastName !== ""} value={lastName} onChange={(e) => setLastName(e.target.value)} />
         </div>
       </div>
 
@@ -165,7 +169,7 @@ function Settings({ userInfo }: any) {
         {mounted && (
           <div className="px-8 py-3 bg-white border border-primary-color text-center cursor-pointer font-semibold rounded-md mt-4">
             {userInfo?.google_email ? (
-              <div className="flex gap-2 items-center justify-center text-[#6b3ffd]">
+              <div className="flex gap-2 items-center justify-center text-primary-color">
                 Email: @{userInfo?.google_email || ""} <IoIosCheckmarkCircle color="#f226ef" />
               </div>
             ) : (
@@ -175,7 +179,14 @@ function Settings({ userInfo }: any) {
         )}
 
         <div className="w-full mt-4 relative">
-          <SearchInput placeholder="Input your @Discord username" value={discord} onChange={(e) => setDiscord(e.target.value)} />
+          <SearchInput
+            isActive={discord !== ""}
+            placeholder="Input your @Discord username"
+            value={discord}
+            onChange={(e) => {
+              setDiscord(e.target.value);
+            }}
+          />
           <Link
             href={DISCORD_INVITE_LINK}
             target="_blank"
@@ -187,17 +198,27 @@ function Settings({ userInfo }: any) {
 
         {userInfo?.twitter_id ? (
           <div className="px-8 py-3 bg-white border border-primary-color text-center cursor-pointer font-semibold rounded-md mt-4">
-            <div className="flex gap-2 items-center justify-center text-[#6b3ffd]">
+            <div className="flex gap-2 items-center justify-center text-primary-color">
               Twitter: @{userInfo?.name} <IoIosCheckmarkCircle color="#f226ef" />
             </div>
           </div>
         ) : (
           <div className="w-full mt-4">
-            <SearchInput placeholder="Input your @X account" value={twitter} onChange={(e) => setTwitter(e.target.value)} />
+            <SearchInput
+              isActive={twitter !== ""}
+              placeholder="Input your @X account"
+              value={twitter}
+              onChange={(e) => setTwitter(e.target.value)}
+            />
           </div>
         )}
         <div className="w-full mt-4">
-          <SearchInput placeholder="Input your @Telegram account" value={telegram} onChange={(e) => setTelegram(e.target.value)} />
+          <SearchInput
+            isActive={telegram !== ""}
+            placeholder="Input your @Telegram account"
+            value={telegram}
+            onChange={(e) => setTelegram(e.target.value)}
+          />
         </div>
       </div>
       <Button
