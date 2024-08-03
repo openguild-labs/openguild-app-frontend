@@ -1,5 +1,5 @@
 import Disclosure from "@/components/Disclosure";
-import { INTENT_BASE_URL, socialMedia, WORKSHOP_TYPE } from "@/constants/mission";
+import { INTENT_BASE_URL, socialMedia, POW_TYPE } from "@/constants/mission";
 import { missionKey, useCompleteTask, useCreateProofsOfWork, useGetCompletedTasks } from "@/supabase/api/mission/services";
 import { CircularProgress, Modal, Button as ButtonMUI, IconButton } from "@mui/material";
 import clsx from "clsx";
@@ -195,7 +195,7 @@ function Tasks({ tasks, isEnded, isNotStart, missionName, totalXP, missionID }: 
 
                           if (isVerified) return;
 
-                          if (task.type === WORKSHOP_TYPE) {
+                          if (task.type === POW_TYPE) {
                             setOpenModal(true);
                             setCompletedTasks([...completedTasks, task.id]);
                             return;

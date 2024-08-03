@@ -12,7 +12,7 @@ type TUserUpdate = {
   username?: string;
   twitter?: string;
   discord?: string;
-  telegram?: string;
+  github?: string;
   facebook?: string;
   discord_id?: string;
 };

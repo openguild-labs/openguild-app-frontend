@@ -12,12 +12,16 @@ import RewardCardSkeleton from "@/components/RewardCardSkeleton";
 
 const categories: TOption[] = [
   {
-    label: rewardType.thirdPartyGifts,
+    label: "All",
     value: "0",
   },
   {
-    label: rewardType.physicalGoods,
+    label: rewardType.thirdPartyGifts,
     value: "1",
+  },
+  {
+    label: rewardType.physicalGoods,
+    value: "2",
   },
 ];
 
@@ -55,8 +59,9 @@ function Rewards() {
   const pParam = searchParams.get("p");
   const cParam = searchParams.get("c");
   const sParam = searchParams.get("s");
-  const p = pParam === null ? PAGE_DEFAULT + 1 : Number.isNaN(parseInt(pParam)) ? PAGE_DEFAULT + 1 : parseInt(pParam);
-  const c = cParam === null ? "0" : Number.isNaN(parseInt(cParam)) ? "0" : cParam;
+  const p =
+    pParam === null ? PAGE_DEFAULT + 1 : Number.isNaN(parseInt(pParam)) || parseInt(pParam) < 0 ? PAGE_DEFAULT + 1 : parseInt(pParam);
+  const c = cParam === null ? "0" : Number.isNaN(parseInt(cParam)) || parseInt(cParam) < 0 ? "0" : cParam;
   const s = sParam === null ? "" : sParam;
 
   const initQueryValue = useMemo(

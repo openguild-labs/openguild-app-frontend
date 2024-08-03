@@ -75,8 +75,8 @@ function Missions() {
   const cParam = searchParams.get("c");
   const sParam = searchParams.get("s");
   const p = pParam === null ? PAGE_DEFAULT + 1 : Number.isNaN(parseInt(pParam)) ? PAGE_DEFAULT + 1 : parseInt(pParam);
-  const t = tParam === null ? 0 : Number.isNaN(parseInt(tParam)) ? 0 : parseInt(tParam);
-  const c = cParam === null ? "" : Number.isNaN(parseInt(cParam)) ? "" : cParam;
+  const t = tParam === null ? 0 : Number.isNaN(parseInt(tParam)) || parseInt(tParam) < 0 ? 0 : parseInt(tParam);
+  const c = cParam === null ? "" : Number.isNaN(parseInt(cParam)) || parseInt(cParam) < 0 ? "" : cParam;
   const s = sParam === null ? "" : sParam;
 
   const initQueryValue = useMemo(

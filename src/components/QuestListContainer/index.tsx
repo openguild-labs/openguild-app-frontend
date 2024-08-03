@@ -17,7 +17,7 @@ export default function QuestListContainer({ containerRepositories, containerTit
   return (
     <div className="max-w-[900px] mx-auto">
       <div className="border-b border-gray-300 pb-4">
-        <h1 className="font-medium text-xl text-black pb-2 mt-8">{containerTitle}</h1>
+        <h1 className="text-[40px] text-primary-color font-bold pb-2 mt-8">{containerTitle}</h1>
         <p className="text-gray-500">{containerDescription}</p>
       </div>
       <div style={{ ...MIDDLE_STYLE, justifyContent: "center", flexDirection: "column" }}>
@@ -25,7 +25,7 @@ export default function QuestListContainer({ containerRepositories, containerTit
           .filter((repository) => repository.open_issues_count > 0)
           .sort((repositoryA, repositoryB) => repositoryB.open_issues_count - repositoryA.open_issues_count)
           .map((repository) => (
-            <QuestContainer questOwner={questOwner} repository={repository} />
+            <QuestContainer key={repository.id} questOwner={questOwner} repository={repository} />
           ))}
       </div>
     </div>

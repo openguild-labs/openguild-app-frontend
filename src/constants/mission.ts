@@ -1,7 +1,7 @@
 export const ENDING_STATUS = "Ends in|0d 0h 0m";
 
 export const MISSION_STATUS__TYPE = {
-  NOT_START: "Not start",
+  NOT_START: "Not started",
   IN_PROGRESS: "In progress",
   ENDED: "Ended",
 };
@@ -10,4 +10,4 @@ export const socialMedia = {
   discord: "Discord",
 };
 export const INTENT_BASE_URL = "https://x.com/intent";
-export const WORKSHOP_TYPE = "Workshop";
+export const POW_TYPE = "PoW";

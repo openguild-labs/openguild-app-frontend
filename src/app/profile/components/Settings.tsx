@@ -53,7 +53,7 @@ function Settings({ userInfo }: any) {
   const [username, setUsername] = useState("");
   const [twitter, setTwitter] = useState("");
   const [discord, setDiscord] = useState("");
-  const [telegram, setTelegram] = useState("");
+  const [github, setGithub] = useState("");
   const [mounted, setMounted] = useState(false);
   const [isLoadingUpdate, setIsLoadingUpdate] = useState(false);
 
@@ -67,15 +67,8 @@ function Settings({ userInfo }: any) {
     setUsername(data?.username || "");
     setTwitter(data?.twitter || "");
     setDiscord(data?.discord || "");
-    setTelegram(data?.telegram || "");
+    setGithub(data?.github || "");
   }, [data]);
-
-  useEffect(() => {
-    if (userInfo?.twitter_id) {
-      handleUpdateTwitter(userInfo?.name);
-      setTwitter(userInfo?.name);
-    }
-  }, [userInfo]);
 
   const handleUpdate = async () => {
     let newDiscord = data?.discord || "";
@@ -109,7 +102,7 @@ function Settings({ userInfo }: any) {
         username: username,
         discord: newDiscord,
         discord_id: newDiscordID,
-        telegram,
+        github: github,
         twitter,
       },
       {
@@ -120,12 +113,6 @@ function Settings({ userInfo }: any) {
         },
       }
     );
-  };
-
-  const handleUpdateTwitter = (value: string) => {
-    updateUser({
-      username: value,
-    });
   };
 
   const [validUsername, setValidUsername] = useState({ isValid: true, message: "Username is valid" });
@@ -196,28 +183,21 @@ function Settings({ userInfo }: any) {
           </Link>
         </div>
 
-        {userInfo?.twitter_id ? (
-          <div className="px-8 py-3 bg-white border border-primary-color text-center cursor-pointer font-semibold rounded-md mt-4">
-            <div className="flex gap-2 items-center justify-center text-primary-color">
-              Twitter: @{userInfo?.name} <IoIosCheckmarkCircle color="#f226ef" />
-            </div>
-          </div>
-        ) : (
-          <div className="w-full mt-4">
-            <SearchInput
-              isActive={twitter !== ""}
-              placeholder="Input your @X account"
-              value={twitter}
-              onChange={(e) => setTwitter(e.target.value)}
-            />
-          </div>
-        )}
         <div className="w-full mt-4">
           <SearchInput
-            isActive={telegram !== ""}
-            placeholder="Input your @Telegram account"
-            value={telegram}
-            onChange={(e) => setTelegram(e.target.value)}
+            isActive={twitter !== ""}
+            placeholder="Input your @X account"
+            value={twitter}
+            onChange={(e) => setTwitter(e.target.value)}
+          />
+        </div>
+
+        <div className="w-full mt-4">
+          <SearchInput
+            isActive={github !== ""}
+            placeholder="Input your @Github account"
+            value={github}
+            onChange={(e) => setGithub(e.target.value)}
           />
         </div>
       </div>

@@ -11,6 +11,7 @@ type TMissionModel = {
   created_at: string;
   banner: string; // banner path
   mission_category_id: string;
+  is_featured: string;
 };
 
 type TTaskModel = {
@@ -39,7 +40,7 @@ type TUserModel = {
   username?: string;
   twitter?: string;
   discord?: string;
-  telegram?: string;
+  github?: string;
   discord_id?: string;
 };
 
@@ -57,6 +58,7 @@ type TRewardModel = {
   type: string;
   requirements: string;
   image: string;
+  is_shared: boolean;
   created_at: string;
 };
 

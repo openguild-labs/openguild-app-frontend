@@ -218,3 +218,13 @@
 .tiptap img {
   border-radius: 0.4rem;
 }
+
+.tiptap a {
+  color: #6b3ffd;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.tiptap a:hover {
+  color: #461fc5;
+}

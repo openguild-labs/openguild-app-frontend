@@ -3,12 +3,12 @@ import { Skeleton } from "@mui/material";
 function MissionCardSkeleton() {
   return (
     <div className="shrink-0 w-full">
-      <div className="block rounded-lg bg-white w-full">
+      <div className="block rounded-lg bg-white w-full p-2">
         <div className="relative w-full  aspect-square">
           <Skeleton
             variant="rectangular"
             animation="wave"
-            className="rounded-lg"
+            className="rounded-md"
             sx={{
               width: "100%",
               height: "100%",

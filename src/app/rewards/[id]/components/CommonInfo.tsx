@@ -16,7 +16,10 @@ interface TCommonInfoProps {
 }
 
 function CommonInfo({ reward, user, rewardName, rewardID }: TCommonInfoProps) {
-  const canClaim = reward.requirements.every((item) => item.isCompleted);
+  const canClaim = reward.is_shared
+    ? reward.requirements.some((item) => item.isCompleted)
+    : reward.requirements.every((item) => item.isCompleted);
+
   const isDesktop = useMediaQuery("(min-width: 1024px)");
   const router = useRouter();
   const { mutate: sendClaimRequest, isPending: isPendingClaim } = useSendClaimRewardRequest();
@@ -56,10 +59,10 @@ function CommonInfo({ reward, user, rewardName, rewardID }: TCommonInfoProps) {
     <div>
       <div className="flex items-center">
         <div className="text-black text-md font-bold w-[150px] shrink-0">Quantity:</div>
-        <h2 className="text-xl text-primary-color">{reward.quantity}</h2>
+        <h2 className="text-xl text-primary-color">{reward.quantity === 0 ? <span className="text-3xl">∞</span> : reward.quantity}</h2>
       </div>
       <div className="flex items-center mt-4">
-        <div className="text-black text-md font-bold w-[150px] shrink-0">Requirements:</div>
+        <div className="text-black text-md font-bold w-[150px] shrink-0">{reward.is_shared ? "Related Missions" : "Requirements"}:</div>
         <div
           className="flex items-center gap-x-2 w-full overflow-x-scroll pb-3"
           style={{

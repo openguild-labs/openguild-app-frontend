@@ -1,5 +1,3 @@
-import { toast } from "react-toastify";
-
 export const sendPoW = async (req: TDiscordCreateThreadRequest) => {
   return fetch("/api/pow", {
     method: "POST",
@@ -65,4 +63,12 @@ export const findDiscordMemberFromList = async (username: string) => {
   }
 
   return res;
+};
+
+export const listMee6Members = async () => {
+  const data = await fetch("/api/mee6", {
+    method: "GET",
+  });
+  const res = await data.json();
+  return res.members as any[];
 };

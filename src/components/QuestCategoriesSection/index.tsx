@@ -32,6 +32,7 @@ const QuestCategoriesSection = ({ categories, children }: Props) => {
           <div className="flex flex-wrap items-center text-sm text-gray-400 overflow-hidden mt-5">
             {categories.map((label) => (
               <div
+                key={label.id}
                 onClick={() => handleCategoryClicked(label)}
                 style={{
                   border: selectedCategories[label.id] ? `1px solid green` : "unset",

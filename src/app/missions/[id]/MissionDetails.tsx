@@ -45,7 +45,7 @@ function MissionDetails({ params: { id } }: IMissionDetailsProps) {
       <div className="flex gap-8 flex-col lg:flex-row">
         {!isDesktop && <HeaderDetails title={data.title} />}
         <div className="w-full md:w-[40%] shrink-0">
-          <CommonInfo imgSrc={data.bannerURL} status={statusTypeMission} participants={data.participants} totalXP={totalXP} />
+          <CommonInfo imgSrc={data.bannerURL} category={data.category} participants={data.participants} totalXP={totalXP} />
         </div>
         <div className="flex flex-col gap-y-8 flex-1">
           {isDesktop && <HeaderDetails title={data.title} />}

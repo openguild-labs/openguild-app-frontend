@@ -65,7 +65,7 @@ const Providers = ({ children }: IProvidersProps) => {
         theme={"auto"}
         language={"en"} //optional:localize, default en
         walletSort={["Particle Auth", "Wallet"]} //optional:walelt order
-        particleAuthSort={["email", "google", "discord", "twitter"]}
+        particleAuthSort={["email", "google"]}
       >
         <WagmiProvider config={wagmiConfig}>
           <QueryClientProvider client={queryClient}>

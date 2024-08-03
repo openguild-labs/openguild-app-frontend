@@ -72,7 +72,7 @@ const QuestContainer = ({ repository, questOwner }: Props) => {
         <LoadableContainer isLoading={loading} loadComponent={<Skeleton />}>
           <QuestCategoriesSection categories={categories}>
             {(selectedCategories) => (
-              <div className="mt-5">
+              <div key={JSON.stringify(selectedCategories)} className="mt-5">
                 {countExistentialObject(selectedCategories) > 0 ? (
                   <QuestCardList issues={repositoryIssues.filter((issue) => issue.labels.some((label) => selectedCategories[label.id]))} />
                 ) : (

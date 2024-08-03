@@ -1,8 +1,9 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { searchDiscordMember, sendClaimRewardRequest, sendClaimXPRequest, sendPoW } from "./callers";
+import { listMee6Members, searchDiscordMember, sendClaimRewardRequest, sendClaimXPRequest, sendPoW } from "./callers";
 
 export const apiRouteKey = {
   searchMember: "searchMember",
+  mee6Members: "mee6Members",
 };
 
 export const useSendDiscordPoW = () => {
@@ -27,5 +28,12 @@ export const useSearchDiscordMember = (username: string) => {
   return useQuery({
     queryKey: [apiRouteKey.searchMember, username],
     queryFn: () => searchDiscordMember(username),
+  });
+};
+
+export const useListMee6Members = () => {
+  return useQuery({
+    queryKey: [apiRouteKey.mee6Members],
+    queryFn: () => listMee6Members(),
   });
 };

@@ -3,13 +3,13 @@ import { getStatusMission, getStatusTypeMission, uploadPoWImage } from "./utils"
 import { MISSION_STATUS__TYPE } from "@/constants/mission";
 
 const PAGE_LIMIT = 8;
-const EXPIRED_TIME = 60 * 60; // 1 hour
 
 const getListMissionPromise = (page: number, search: string, missionType: string, categoryID: string) => {
   let missionPromise = supabase
     .from("mission")
     .select<string, TMissionModel>()
     .is("deleted_at", null)
+    .order("is_featured", { ascending: false })
     .order("created_at", { ascending: false });
 
   if (page !== -1) {
@@ -18,7 +18,7 @@ const getListMissionPromise = (page: number, search: string, missionType: string
   }
 
   if (search !== "") {
-    missionPromise = missionPromise.like("title", `%${search}%`);
+    missionPromise = missionPromise.ilike("title", `%${search}%`);
   }
 
   const now = new Date().toISOString().split("T")[0];
@@ -54,33 +54,32 @@ export const listMissions = async (page: number, search: string, missionType: st
   }
 
   const banners = data.map((item) => item.banner);
-  const getBannerListPromise = supabase.storage.from("banners").createSignedUrls(banners, EXPIRED_TIME);
-  const getSubInfoPromise = supabase.from("mission_sub_info_view").select<string, TMissionSubInfoView>();
+  const bannerListResp = await Promise.all(banners.map((banner) => supabase.storage.from("banners").getPublicUrl(banner)));
 
-  const [{ data: bannerList, error: fetchBannerError }, { data: subInfoList, error: fetchSubInfoError }] = await Promise.all([
-    getBannerListPromise,
-    getSubInfoPromise,
-  ]);
-  const errorIsNotNull = fetchBannerError !== null || fetchSubInfoError !== null;
-  const dataIsNull = bannerList === null || subInfoList === null;
+  const { data: subInfoList, error: fetchSubInfoError } = await supabase
+    .from("mission_sub_info_view")
+    .select<string, TMissionSubInfoView>();
+  const errorIsNotNull = fetchSubInfoError !== null;
+  const dataIsNull = subInfoList === null;
   if (errorIsNotNull || dataIsNull) {
     console.error("Error when get banner url");
     return [] as TMissionResponse[];
   }
 
-  const dataResponse: TMissionResponse[] = data.map((mission) => {
+  const dataResponse: TMissionResponse[] = data.map((mission, index) => {
     const subInfo = subInfoList.find((item) => item.mission_id === mission.id);
     const category = subInfo?.category || "";
     const xp = subInfo?.total_xp || 0;
-    const banner = bannerList.find((item) => item.path === mission.banner);
+    const banner = bannerListResp[index];
     return {
       id: mission.id,
       title: mission.title,
       status: getStatusMission(mission.start_date, mission.end_date),
       statusType: getStatusTypeMission(mission.start_date, mission.end_date),
-      bannerURL: banner?.signedUrl || "",
+      bannerURL: banner?.data.publicUrl || "",
       category,
       xp,
+      isFeatured: mission.is_featured,
     };
   });
 
@@ -117,7 +116,7 @@ export const getMission = async (id: string) => {
   }
 
   const mission = data[0];
-  const getBannerPromise = supabase.storage.from("banners").createSignedUrl(mission.banner, EXPIRED_TIME);
+  const getBannerPromise = supabase.storage.from("banners").getPublicUrl(mission.banner);
   const getTasksPromise = supabase
     .from("task")
     .select<string, TTaskModel>()
@@ -125,25 +124,28 @@ export const getMission = async (id: string) => {
     .is("deleted_at", null)
     .order("id", { ascending: true });
   const getParticipantQuantityPromise = supabase.from("participant_quantity_view").select<string, TParticipantQuantityView>();
+  const getSubInfoPromise = supabase.from("mission_sub_info_view").select<string, TMissionSubInfoView>();
 
   const [
-    { data: bannerData, error: fetchBannerError },
+    { data: bannerData },
     { data: tasksData, error: fetchTasksError },
     { data: participantQuantityData, error: fetchParticipantQuantityError },
-  ] = await Promise.all([getBannerPromise, getTasksPromise, getParticipantQuantityPromise]);
+    { data: subInfoData, error: fetchSubInfoError },
+  ] = await Promise.all([getBannerPromise, getTasksPromise, getParticipantQuantityPromise, getSubInfoPromise]);
 
-  const errorIsNotNull = fetchBannerError !== null || fetchTasksError !== null || fetchParticipantQuantityError !== null;
-  const dataIsNull = bannerData === null || tasksData === null || participantQuantityData === null;
+  const errorIsNotNull = fetchTasksError !== null || fetchParticipantQuantityError !== null || fetchSubInfoError !== null;
+  const dataIsNull = bannerData === null || tasksData === null || participantQuantityData === null || subInfoData === null;
   if (errorIsNotNull || dataIsNull) {
     console.error("Error fetching data");
     return undefined;
   }
 
-  const bannerURL = bannerData.signedUrl;
+  const bannerURL = bannerData.publicUrl;
   return {
     ...mission,
     bannerURL,
     tasks: tasksData,
+    category: subInfoData.find((item) => item.mission_id === mission.id)?.category || "",
     participants: participantQuantityData.find((p) => p.mission_id === mission.id)?.quantity || 0,
   } as TMissionDetailResponse;
 };

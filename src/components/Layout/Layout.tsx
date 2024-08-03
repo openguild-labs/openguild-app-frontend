@@ -64,7 +64,8 @@ function Layout({ children }: any) {
     if (data === undefined && isFetched) {
       addUserToDB();
     }
-  }, [account, data]);
+  }, [account, data, isFetched]);
+
   try {
     connectKit &&
       connectKit?.on("disconnect", () => {
@@ -128,7 +129,7 @@ function Layout({ children }: any) {
         <div
           className={clsx(
             "fixed top-0 z-40 h-screen p-4 overflow-y-auto transition-transform  bg-white w-[350px] left-0",
-            !isSideMenuOpened && "-translate-x-full",
+            !isSideMenuOpened && "-translate-x-full"
           )}
         >
           <Link href={MISSIONS_PATH}>

@@ -14,7 +14,9 @@ function RewardCard({ reward }: IRewardCardProps) {
         </div>
         <div className="mt-1">
           <h3 className="line-clamp-1 text-base font-bold">{reward.name}</h3>
-          <span className="text-sm">Quantity: {reward.quantity}</span>
+          <span className="text-sm flex items-end gap-1">
+            Quantity: {reward.quantity === 0 ? <span className="text-2xl leading-4">∞</span> : reward.quantity}
+          </span>
         </div>
       </div>
     </Link>

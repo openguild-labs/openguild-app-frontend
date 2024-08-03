@@ -123,7 +123,9 @@ export const useSearchParams = () => {
       params.set(key, newParams[key]);
     }
 
-    replace(`${pathname}?${params.toString()}`);
+    replace(`${pathname}?${params.toString()}`, {
+      scroll: false,
+    });
   };
 
   return [searchParams, setSearchParams] as const;

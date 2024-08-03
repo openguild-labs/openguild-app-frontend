@@ -18,10 +18,10 @@ const getListRewardPromise = (page: number, search: string, categoryID: string) 
   }
 
   if (search !== "") {
-    listPromise = listPromise.like("name", `%${search}%`);
+    listPromise = listPromise.ilike("name", `%${search}%`);
   }
 
-  if (categoryID !== "") {
+  if (categoryID !== "" && categoryID !== "0") {
     listPromise = listPromise.eq("type", Object.values(rewardType)[Number(categoryID)]);
   }
 
@@ -43,16 +43,12 @@ export const listRewards = async (page: number, search: string, categoryID: stri
   const images = data.map((reward) => {
     return reward.image;
   });
-  const { data: image, error: imageError } = await supabase.storage.from("reward_images").createSignedUrls(images, EXPIRED_TIME);
-  if (imageError !== null || image === null) {
-    console.error("Error creating signed URLs");
-    return [] as TRewardResponse[];
-  }
-
-  const result = data.reduce<TRewardResponse[]>((acc, cur) => {
-    const signedURL = image.find((image) => image.path === cur.image)?.signedUrl || "";
-    if (signedURL !== undefined) {
-      acc.push({ ...cur, imageURL: signedURL });
+  const imageListResp = await Promise.all(images.map((image) => supabase.storage.from("reward_images").getPublicUrl(image)));
+  const result = data.reduce<TRewardResponse[]>((acc, cur, index) => {
+    const url = imageListResp[index]?.data?.publicUrl || "";
+    console.log(url);
+    if (url !== undefined) {
+      acc.push({ ...cur, imageURL: url });
     }
     return acc;
   }, []);
@@ -105,7 +101,7 @@ export const getReward = async (id: string, userID: number) => {
   }
 
   const banners = missionsData.map((item) => item.banner);
-  const rewardImagePromise = supabase.storage.from("reward_images").createSignedUrl(reward.image, EXPIRED_TIME);
+  const rewardImagePromise = supabase.storage.from("reward_images").getPublicUrl(reward.image);
   const completedMissionsPromise = supabase
     .from("completed_mission_view")
     .select<string, TCompletedMissionResponse>()
@@ -114,12 +110,12 @@ export const getReward = async (id: string, userID: number) => {
 
   const bannersPromise = supabase.storage.from("banners").createSignedUrls(banners, EXPIRED_TIME);
   const [
-    { data: image, error: fetchImageError },
+    { data: imageResp },
     { data: bannerURLs, error: fetchBannerError },
     { data: completedMissions, error: fetchCompletedMissionsError },
   ] = await Promise.all([rewardImagePromise, bannersPromise, completedMissionsPromise]);
-  const errorIsNotNull = fetchImageError !== null || fetchBannerError !== null || fetchCompletedMissionsError !== null;
-  const dataIsNull = image === null || bannerURLs === null || completedMissions === null;
+  const errorIsNotNull = fetchBannerError !== null || fetchCompletedMissionsError !== null;
+  const dataIsNull = bannerURLs === null || completedMissions === null;
   if (errorIsNotNull || dataIsNull) {
     console.error("Error when get banner url");
     return undefined;
@@ -135,5 +131,5 @@ export const getReward = async (id: string, userID: number) => {
       isCompleted,
     } as TRequirementResponse;
   });
-  return { ...reward, imageURL: image.signedUrl, requirements } as TRewardDetailsResponse;
+  return { ...reward, imageURL: imageResp.publicUrl, requirements } as TRewardDetailsResponse;
 };
