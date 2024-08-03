@@ -114,7 +114,7 @@ function Tasks({ tasks, isEnded, isNotStart, missionName, totalXP, missionID }: 
     if (!isAllTasksCompleted) return;
 
     if (value?.discord === undefined || value?.discord === "") {
-      toast.warn("Please input your Discord username to claim XP!");
+      toast.warn("Please authenticate Discord to claim XP!");
       router.push(PROFILE_PATH);
       return;
     }
@@ -196,6 +196,13 @@ function Tasks({ tasks, isEnded, isNotStart, missionName, totalXP, missionID }: 
                           if (isVerified) return;
 
                           if (task.type === POW_TYPE) {
+                            console.log(userInfo.discord);
+                            if (userInfo.discord === undefined || userInfo.discord === "") {
+                              toast.warn("Please authenticate Discord to submit Proof of Work!");
+                              router.push(PROFILE_PATH);
+                              return;
+                            }
+
                             setOpenModal(true);
                             setCompletedTasks([...completedTasks, task.id]);
                             return;
@@ -344,9 +351,8 @@ function Tasks({ tasks, isEnded, isNotStart, missionName, totalXP, missionID }: 
                     {
                       onSuccess: (resp) => {
                         const md = nhm.translate(proof);
-                        const name = userInfo?.email === undefined ? (userInfo?.username as string) : userInfo?.email;
                         sendDiscordPoW({
-                          name,
+                          user_id: userInfo?.discord_id || "",
                           proof: md,
                           imageURL: resp,
                         });

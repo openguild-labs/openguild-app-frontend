@@ -41,6 +41,7 @@ type TUserModel = {
   twitter?: string;
   discord?: string;
   github?: string;
+  facebook?: string;
   discord_id?: string;
 };
 

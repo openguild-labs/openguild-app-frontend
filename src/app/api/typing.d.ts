@@ -1,5 +1,5 @@
 type TDiscordCreateThreadRequest = {
-  name: string;
+  user_id: string;
   proof: string;
   imageURL: string;
 };

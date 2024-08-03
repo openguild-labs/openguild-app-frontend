@@ -16,7 +16,6 @@ interface IRewardDetailsProps {
 
 function RewardDetail({ params: { id } }: IRewardDetailsProps) {
   const isDesktop = useMediaQuery("(min-width: 1024px)");
-  console.log(isDesktop);
   const { value } = useContext(MyContext) as MyContextType;
   const { data, isLoading } = useGetReward(id, value?.id || 0);
 

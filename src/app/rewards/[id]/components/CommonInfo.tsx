@@ -30,7 +30,7 @@ function CommonInfo({ reward, user, rewardName, rewardID }: TCommonInfoProps) {
     if (!canClaim) return;
 
     if (user?.discord === undefined || user?.discord === "") {
-      toast.warn("Please input your Discord username to claim Reward!");
+      toast.warn("Please authenticate Discord to claim Reward!");
       router.push(PROFILE_PATH);
       return;
     }

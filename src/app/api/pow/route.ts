@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
       Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
     },
     body: JSON.stringify({
-      name: data.name,
+      name: `<@${data.user_id}>`,
       message: {
         embeds: [
           {

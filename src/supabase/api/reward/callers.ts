@@ -46,7 +46,6 @@ export const listRewards = async (page: number, search: string, categoryID: stri
   const imageListResp = await Promise.all(images.map((image) => supabase.storage.from("reward_images").getPublicUrl(image)));
   const result = data.reduce<TRewardResponse[]>((acc, cur, index) => {
     const url = imageListResp[index]?.data?.publicUrl || "";
-    console.log(url);
     if (url !== undefined) {
       acc.push({ ...cur, imageURL: url });
     }
