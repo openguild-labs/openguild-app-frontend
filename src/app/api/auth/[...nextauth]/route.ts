@@ -6,6 +6,7 @@ import DiscordProvider from "next-auth/providers/discord";
 const scopes = ["identify"].join(" ");
 
 const handler = NextAuth({
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     DiscordProvider({
       clientId: DISCORD_AUTH_CLIENT_ID,
