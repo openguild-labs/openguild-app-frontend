@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { FaDiscord } from "react-icons/fa";
 import { searchDiscordMember } from "@/app/api/callers";
 import { Button, CircularProgress } from "@mui/material";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { CiFacebook } from "react-icons/ci";
 import { RiTwitterXLine } from "react-icons/ri";
 import { FaGithub } from "react-icons/fa";
@@ -110,10 +110,14 @@ function Settings({ userInfo }: any) {
   };
 
   useEffect(() => {
-    if (session !== undefined && session !== null && data !== undefined && data.discord === "") {
-      handleUpdateDiscord(session.user?.name || "", () => {
-        setDiscord(session.user?.name || "");
-      });
+    if (session !== undefined && session !== null && data !== undefined) {
+      if (data.discord === "") {
+        handleUpdateDiscord(session.user?.name || "", () => {
+          setDiscord(session.user?.name || "");
+        });
+      } else {
+        signOut();
+      }
     }
   }, [session, data]);
 

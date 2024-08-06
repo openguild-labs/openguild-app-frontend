@@ -1,3 +1,4 @@
+"use client";
 import Disclosure from "@/components/Disclosure";
 import { INTENT_BASE_URL, socialMedia, POW_TYPE } from "@/constants/mission";
 import { missionKey, useCompleteTask, useCreateProofsOfWork, useGetCompletedTasks } from "@/supabase/api/mission/services";

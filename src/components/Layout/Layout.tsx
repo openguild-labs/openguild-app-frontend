@@ -48,11 +48,10 @@ function Layout({ children }: any) {
   const { setValue } = context as MyContextType;
 
   const addUserToDB = async () => {
+    if (userInfo === null) return;
     await createUser({
       email: userInfo?.email || userInfo?.google_email || "",
-      wallet_address: userInfo?.wallets[0]?.public_address || "",
-      first_name: "",
-      last_name: "",
+      wallet_address: account || "",
     });
   };
 
@@ -61,7 +60,7 @@ function Layout({ children }: any) {
       setValue(data);
     }
 
-    if (data === undefined && isFetched) {
+    if (account !== undefined && account !== "" && data === undefined && isFetched) {
       addUserToDB();
     }
   }, [account, data, isFetched]);

@@ -1,14 +1,11 @@
-"use client";
-
+"use server";
 import { ENDING_STATUS, MISSION_STATUS__TYPE } from "@/constants/mission";
-import { useGetMission } from "@/supabase/api/mission/services";
 import { getStatusMission, getStatusTypeMission } from "@/supabase/api/mission/utils";
-import { useMediaQuery } from "@mantine/hooks";
 import CommonInfo from "./components/CommonInfo";
-import MissionDetailsSkeleton from "./components/MissionDetailsSkeleton";
 import Tasks from "./components/Tasks";
 import HeaderDetails from "@/components/HeaderDetails";
 import DescriptionDetails from "@/components/DescriptionDetails";
+import { getMission } from "@/supabase/api/mission/callers";
 
 interface IMissionDetailsProps {
   params: {
@@ -16,13 +13,8 @@ interface IMissionDetailsProps {
   };
 }
 
-function MissionDetails({ params: { id } }: IMissionDetailsProps) {
-  const isDesktop = useMediaQuery("(min-width: 1024px)");
-  const { data, isLoading } = useGetMission(id as string);
-
-  if (isLoading) {
-    return <MissionDetailsSkeleton />;
-  }
+async function MissionDetails({ params: { id } }: IMissionDetailsProps) {
+  const data = await getMission(id);
 
   if (data === undefined || data === null) {
     return (
@@ -43,12 +35,16 @@ function MissionDetails({ params: { id } }: IMissionDetailsProps) {
   return (
     <div className="mt-[30px] pb-10">
       <div className="flex gap-8 flex-col lg:flex-row">
-        {!isDesktop && <HeaderDetails title={data.title} />}
+        <div className="lg:hidden block">
+          <HeaderDetails title={data.title} />
+        </div>
         <div className="w-full md:w-[40%] shrink-0">
           <CommonInfo imgSrc={data.bannerURL} category={data.category} participants={data.participants} totalXP={totalXP} />
         </div>
         <div className="flex flex-col gap-y-8 flex-1">
-          {isDesktop && <HeaderDetails title={data.title} />}
+          <div className="lg:block hidden">
+            <HeaderDetails title={data.title} />
+          </div>
           <Tasks
             tasks={data.tasks || []}
             isEnded={statusMission === ENDING_STATUS}

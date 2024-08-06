@@ -3,14 +3,16 @@ import { supabase } from "../..";
 import { toast } from "react-toastify";
 
 export const createUser = async (userCreation: TUserCreation) => {
-  if (userCreation.email !== undefined && !normalEmailRegex.test(userCreation.email)) {
-    console.error("Invalid email");
-    return [];
-  }
-
   let isStudent = false;
-  if (userCreation.email !== undefined && studentEmailRegex.test(userCreation.email)) {
-    isStudent = true;
+  if (userCreation.email !== undefined && userCreation.email !== "") {
+    if (!normalEmailRegex.test(userCreation.email)) {
+      toast.error("Invalid email");
+      return [];
+    }
+
+    if (studentEmailRegex.test(userCreation.email)) {
+      isStudent = true;
+    }
   }
 
   // check email is unique
@@ -23,7 +25,7 @@ export const createUser = async (userCreation: TUserCreation) => {
   }
 
   if (emailExists?.length !== 0) {
-    console.warn("Email already exists");
+    toast.warn("Email already exists");
     return [];
   }
 

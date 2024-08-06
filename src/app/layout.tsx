@@ -1,56 +1,24 @@
-import { AppProviders } from "./AppProvider";
-import "../index.css";
-import "../tiptap.css";
 import "react-toastify/dist/ReactToastify.css";
 import Layout from "@/components/Layout/Layout";
-import { getMission } from "@/supabase/api/mission/callers";
-import { missionDetailsPathRegex } from "@/constants/regex";
+import Providers from "@/components/Providers";
+import "../index.css";
+import "../tiptap.css";
+import { Metadata } from "next";
 
-type Props = {
-  params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+export const metadata: Metadata = {
+  title: "OpenGuild",
+  description: "An open community driven by Web 3.0 builders elevating Polkadot",
+  openGraph: {
+    title: "OpenGuild",
+    description: "An open community driven by Web 3.0 builders elevating Polkadot",
+    images: ["/assets/images/banner.webp"],
+  },
+  twitter: {
+    title: "OpenGuild",
+    description: "An open community driven by Web 3.0 builders elevating Polkadot",
+    images: ["/assets/images/banner.webp"],
+  },
 };
-const getPathnameFromMetadataState = (state: any): string | undefined => {
-  const res = Object.getOwnPropertySymbols(state || {})
-    .map((p) => state[p])
-    .find((state) => state?.hasOwnProperty?.("urlPathname"));
-  return res?.urlPathname;
-};
-
-export async function generateMetadata(_: Props, state: any) {
-  try {
-    const pathname = getPathnameFromMetadataState(state) ?? "";
-    console.log({ pathname });
-    if (missionDetailsPathRegex.test(pathname)) {
-      const id = pathname.split("/").slice(-1)[0];
-      console.log({ id });
-      const res = await getMission(id as string);
-      const title = res?.title;
-      const banner = res?.bannerURL || "";
-      return {
-        title: title,
-        openGraph: {
-          images: [banner],
-          title: title,
-        },
-        twitter: {
-          description: title,
-          title: title,
-          images: banner,
-          card: "summary_large_image",
-        },
-      };
-    }
-    return {
-      title: "OpenGuild",
-    };
-  } catch (error) {
-    console.log({ error });
-    return {
-      title: "TEST METADATA",
-    };
-  }
-}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -64,9 +32,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet" />
       </head>
       <body className="text-black" suppressHydrationWarning={true}>
-        <AppProviders>
+        <Providers>
           <Layout>{children}</Layout>
-        </AppProviders>
+        </Providers>
       </body>
     </html>
   );

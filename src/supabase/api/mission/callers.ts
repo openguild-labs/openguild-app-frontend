@@ -24,7 +24,7 @@ const getListMissionPromise = (page: number, search: string, missionType: string
   const now = new Date().toISOString().split("T")[0];
   switch (missionType) {
     case MISSION_STATUS__TYPE.IN_PROGRESS:
-      missionPromise = missionPromise.gt("end_date", now).lte("start_date", now);
+      missionPromise = missionPromise.gte("end_date", now).lte("start_date", now);
       break;
     case MISSION_STATUS__TYPE.ENDED:
       missionPromise = missionPromise.lt("end_date", now);
@@ -123,8 +123,11 @@ export const getMission = async (id: string) => {
     .eq("mission_id", id)
     .is("deleted_at", null)
     .order("id", { ascending: true });
-  const getParticipantQuantityPromise = supabase.from("participant_quantity_view").select<string, TParticipantQuantityView>();
-  const getSubInfoPromise = supabase.from("mission_sub_info_view").select<string, TMissionSubInfoView>();
+  const getParticipantQuantityPromise = supabase
+    .from("participant_quantity_view")
+    .select<string, TParticipantQuantityView>()
+    .eq("mission_id", id);
+  const getSubInfoPromise = supabase.from("mission_sub_info_view").select<string, TMissionSubInfoView>().eq("mission_id", id);
 
   const [
     { data: bannerData },
@@ -145,8 +148,8 @@ export const getMission = async (id: string) => {
     ...mission,
     bannerURL,
     tasks: tasksData,
-    category: subInfoData.find((item) => item.mission_id === mission.id)?.category || "",
-    participants: participantQuantityData.find((p) => p.mission_id === mission.id)?.quantity || 0,
+    category: subInfoData[0].category,
+    participants: participantQuantityData[0]?.quantity || 0,
   } as TMissionDetailResponse;
 };
 
