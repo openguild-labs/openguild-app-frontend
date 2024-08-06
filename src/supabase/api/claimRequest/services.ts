@@ -13,7 +13,7 @@ export const useCreateClaimRequest = () => {
 
 export const useCheckClaimRequest = (req: TClaimRequest) => {
   return useQuery({
-    queryKey: [claimRequestKey.claimRequest, req.user_id, req.object_id, req.type],
+    queryKey: [claimRequestKey.claimRequest, req.discord_id, req.object_id, req.type],
     queryFn: () => checkClaimRequest(req),
   });
 };

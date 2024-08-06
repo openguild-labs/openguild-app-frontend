@@ -36,11 +36,11 @@ function validateUsername(username: any) {
   return { isValid: true, message: "Username is valid" };
 }
 
-function Settings({ userInfo }: any) {
+function Settings() {
   const account = useAccount();
   const handleCopy = () => {
     const element: any = typeof document !== "undefined" && document?.createElement("textarea");
-    element.value = `${userInfo?.wallets[0]?.public_address}`;
+    element.value = `${account}`;
     typeof document !== "undefined" && document?.body.appendChild(element);
     element.select();
     typeof document !== "undefined" && document?.execCommand("copy");
@@ -48,7 +48,7 @@ function Settings({ userInfo }: any) {
     toast.success("Wallet Copied");
   };
 
-  const { data } = useGetUser(account || "");
+  const { data, refetch } = useGetUser(account || "");
   const { mutate: updateUser, isPending } = useUpdateUser(account as any);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -58,12 +58,6 @@ function Settings({ userInfo }: any) {
   const [facebook, setFacebook] = useState("");
   const [github, setGithub] = useState("");
   const [validUsername, setValidUsername] = useState({ isValid: true, message: "Username is valid" });
-
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   const { data: session } = useSession();
 
   const handleUpdate = async () => {
@@ -109,6 +103,21 @@ function Settings({ userInfo }: any) {
     );
   };
 
+  const handleLogOutDiscord = () => {
+    updateUser(
+      {
+        discord: "",
+        discord_id: "",
+      },
+      {
+        onSuccess: () => {
+          toast.success("Log out of Discord successfully!");
+          refetch();
+        },
+      }
+    );
+  };
+
   useEffect(() => {
     if (session !== undefined && session !== null && data !== undefined) {
       if (data.discord === "") {
@@ -142,17 +151,18 @@ function Settings({ userInfo }: any) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="w-full">
           <div className="font-bold my-2">Email</div>
-          {mounted ? (
-            <div className="px-8 py-3 bg-white border border-primary-color text-center cursor-pointer font-semibold rounded-lg">
-              {userInfo?.google_email && (
-                <div className="flex gap-2 items-center justify-center text-primary-color">
-                  {userInfo?.google_email || ""} <IoIosCheckmarkCircle color="#f226ef" />
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="h-[50px] bg-white border border-neutral-300 text-center cursor-pointer font-semibold rounded-lg"></div>
-          )}
+          <div
+            className="px-3 py-3 bg-white border text-center cursor-pointer font-semibold rounded-lg h-[50px]"
+            style={{
+              borderColor: data?.email !== undefined ? "#6b3ffd" : "#d4d4d4",
+            }}
+          >
+            {data?.email !== undefined && (
+              <div className="flex gap-2 items-center justify-start text-primary-color">
+                {data?.email || ""} <IoIosCheckmarkCircle color="#f226ef" />
+              </div>
+            )}
+          </div>
         </div>
         <div className="w-full">
           <div className="font-bold my-2">Username</div>
@@ -177,7 +187,7 @@ function Settings({ userInfo }: any) {
       <div className="bg-white/10  w-full h-[1px] mt-0" />
       <div className="text-primary-color text-2xl font-bold mt-12 mb-6">Social Accounts</div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 mb-10">
         <div className="w-full mt-4 relative">
           {discord === "" ? (
             <Button className="h-[50px] w-full rounded-lg" variant="outlined" onClick={() => signIn("discord")}>
@@ -187,11 +197,18 @@ function Settings({ userInfo }: any) {
               </span>
             </Button>
           ) : (
-            <div className="h-[50px] bg-white border border-primary-color flex items-center justify-center rounded-lg relative">
-              <span className="flex gap-2 items-center justify-center text-primary-color">
-                <FaDiscord size={20} className="absolute left-4 top-1/2 -translate-y-1/2" /> @{discord}{" "}
-                <IoIosCheckmarkCircle color="#f226ef" />
-              </span>
+            <div className="h-[50px] bg-white border border-primary-color flex items-center justify-between rounded-lg relative pl-11 pr-3">
+              <FaDiscord size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-color" />
+              <span className="text-primary-color">@{discord} </span>
+              <Button
+                variant="outlined"
+                sx={{
+                  height: "28px",
+                }}
+                onClick={handleLogOutDiscord}
+              >
+                <span className="normal-case">Log out</span>
+              </Button>
             </div>
           )}
         </div>
@@ -228,7 +245,7 @@ function Settings({ userInfo }: any) {
       </div>
       <Button
         variant="contained"
-        className="py-1 px-4 h-[44px] w-full mt-10 rounded-lg"
+        className="py-1 px-4 h-[44px] w-full rounded-lg"
         onClick={() => handleUpdate()}
         disabled={!validUsername.isValid}
       >

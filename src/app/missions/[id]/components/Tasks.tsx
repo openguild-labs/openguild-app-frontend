@@ -79,9 +79,9 @@ function Tasks({ tasks, isEnded, isNotStart, missionName, totalXP, missionID }: 
   const { value } = useContext(MyContext) as MyContextType;
 
   const { data: isSent, refetch: refetchIsSent } = useCheckClaimRequest({
-    user_id: userInfo?.id || 0,
     object_id: Number(missionID),
     type: XP_TYPE,
+    discord_id: value?.discord_id || "",
   });
   const { mutate: storeClaimXPRequest, isPending: isPendingStore } = useCreateClaimRequest();
 
@@ -130,9 +130,9 @@ function Tasks({ tasks, isEnded, isNotStart, missionName, totalXP, missionID }: 
         onSuccess: () => {
           storeClaimXPRequest(
             {
-              user_id: userInfo?.id || 0,
               object_id: Number(missionID),
               type: XP_TYPE,
+              discord_id: value?.discord_id || "",
             },
             {
               onSuccess: (resp) => {

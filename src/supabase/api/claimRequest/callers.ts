@@ -4,7 +4,6 @@ export const checkClaimRequest = async (req: TClaimRequest) => {
   const { data, error } = await supabase
     .from("claim_request")
     .select<string, TClaimRequestModel>()
-    .eq("user_id", req.user_id)
     .eq("object_id", req.object_id)
     .eq("type", req.type)
     .is("deleted_at", null);
