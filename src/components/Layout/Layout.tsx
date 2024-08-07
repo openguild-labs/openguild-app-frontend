@@ -55,6 +55,10 @@ function Layout({ children }: any) {
     });
   };
 
+  // useEffect(() => {
+  //   console.log({ userInfo });
+  // }, [userInfo]);
+
   useEffect(() => {
     if (data !== undefined) {
       setValue(data);

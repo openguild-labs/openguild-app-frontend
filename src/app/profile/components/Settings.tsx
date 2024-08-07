@@ -13,6 +13,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { CiFacebook } from "react-icons/ci";
 import { RiTwitterXLine } from "react-icons/ri";
 import { FaGithub } from "react-icons/fa";
+import { checkUniqueDiscord } from "@/supabase/api/user/callers";
 
 function validateUsername(username: any) {
   const minLength = 0;
@@ -86,16 +87,21 @@ function Settings() {
       return;
     }
 
-    const res = await searchDiscordMember(username);
-    if (res.length !== 1) {
+    const [discordMemberResp, isUnique] = await Promise.all([searchDiscordMember(username), checkUniqueDiscord(username)]);
+    if (discordMemberResp.length !== 1) {
       toast.error("Discord member not found");
+      return;
+    }
+
+    if (!isUnique) {
+      toast.error("This Discord account is already linked to another account");
       return;
     }
 
     updateUser(
       {
-        discord: res[0].user.username,
-        discord_id: res[0].user.id,
+        discord: discordMemberResp[0].user.username,
+        discord_id: discordMemberResp[0].user.id,
       },
       {
         onSuccess,
@@ -124,9 +130,11 @@ function Settings() {
         handleUpdateDiscord(session.user?.name || "", () => {
           setDiscord(session.user?.name || "");
         });
-      } else {
-        signOut();
       }
+
+      signOut({
+        redirect: false,
+      });
     }
   }, [session, data]);
 

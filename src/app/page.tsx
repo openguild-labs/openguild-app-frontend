@@ -5,14 +5,14 @@ import Link from "next/link";
 export default function Page() {
   return (
     <div
-      className="flex justify-around items-center mt-3 h-screen"
+      className="flex justify-around items-center h-[calc(100vh-60px)]"
       style={{
         marginTop: -HEADER_HEIGHT,
       }}
     >
       <div>
         <h2 className="text-3xl font-semibold mb-5">Web3 Royalty Platform Proposal</h2>
-        <Link href={MISSIONS_PATH} className="rounded-lg bg-primary-color text-black px-4 py-3">
+        <Link href={MISSIONS_PATH} className="rounded-lg bg-primary-color text-white px-4 py-3">
           Launch App
         </Link>
       </div>

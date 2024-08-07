@@ -22,7 +22,7 @@ const getListRewardPromise = (page: number, search: string, categoryID: string) 
   }
 
   if (categoryID !== "" && categoryID !== "0") {
-    listPromise = listPromise.eq("type", Object.values(rewardType)[Number(categoryID)]);
+    listPromise = listPromise.eq("type", Object.values(rewardType)[Number(categoryID) - 1]);
   }
 
   return listPromise;

@@ -115,3 +115,14 @@ export const getUserByUsername = async (username: string) => {
 
   return data[0];
 };
+
+export const checkUniqueDiscord = async (discord: string) => {
+  const { data, error } = await supabase.from("user").select<string, TUserModel>().eq("discord", discord).is("deleted_at", null);
+
+  if (error !== null || data === null) {
+    console.error(error.message || "Error checking unique discord");
+    return false;
+  }
+
+  return data.length === 0;
+};
