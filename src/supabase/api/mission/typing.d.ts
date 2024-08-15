@@ -6,11 +6,13 @@ type TMissionResponse = {
   bannerURL: string;
   category: string;
   xp: number;
+  isFeatured: string;
 };
 
 type TMissionDetailResponse = TMissionModel & {
   bannerURL: string;
   participants: number;
+  category: string;
   tasks: TTaskModel[];
 };
 

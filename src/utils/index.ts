@@ -1,12 +1,14 @@
 import md5 from "md5";
+import { usePathname, useSearchParams as useNextSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export function generateLightColor(value?: any, index?: any) {
   if (value) {
     const hash = md5(value + index);
     // Extract parts of the hash to generate RGB values
-    const red = parseInt(hash.substring(0, 2), 16) % 156 + 100; // Ensure a light color by starting from 100 to 255
-    const green = parseInt(hash.substring(3, 5), 16) % 156 + 100;
-    const blue = parseInt(hash.substring(8, 10), 16) % 156 + 100;
+    const red = (parseInt(hash.substring(0, 2), 16) % 156) + 100; // Ensure a light color by starting from 100 to 255
+    const green = (parseInt(hash.substring(3, 5), 16) % 156) + 100;
+    const blue = (parseInt(hash.substring(8, 10), 16) % 156) + 100;
 
     // Convert the RGB values to hexadecimal format
     const redHex = red.toString(16).padStart(2, "0");
@@ -83,11 +85,7 @@ export function darkenColor(color: string, percentage: number) {
   const darkenedB = Math.floor((b * (100 - percentage)) / 100);
 
   // Convert the darkened RGB values to hexadecimal format
-  const darkenedHex =
-    "#" +
-    ((1 << 24) + (darkenedR << 16) + (darkenedG << 8) + darkenedB)
-      .toString(16)
-      .slice(1);
+  const darkenedHex = "#" + ((1 << 24) + (darkenedR << 16) + (darkenedG << 8) + darkenedB).toString(16).slice(1);
 
   return darkenedHex;
 }
@@ -112,3 +110,23 @@ export function generateRandomDarkColor() {
 export function getRandomArrIndex(list: any[]) {
   return Math.floor(Math.random() * list.length);
 }
+
+export const useSearchParams = () => {
+  const searchParams = useNextSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  const setSearchParams = (newParams: { [x: string]: string }) => {
+    const params = new URLSearchParams(searchParams);
+    const keys = Object.keys(newParams);
+    for (const key of keys) {
+      params.set(key, newParams[key]);
+    }
+
+    replace(`${pathname}?${params.toString()}`, {
+      scroll: false,
+    });
+  };
+
+  return [searchParams, setSearchParams] as const;
+};

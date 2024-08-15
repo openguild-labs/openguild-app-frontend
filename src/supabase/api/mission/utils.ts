@@ -1,21 +1,28 @@
 import { ENDING_STATUS, MISSION_STATUS__TYPE } from "@/constants/mission";
 import { supabase } from "@/supabase";
 
+const coutDownTimeUnit = (start: Date, end: Date) => {
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+  const countdownDay = Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+  const countdownHour = Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60)) - countdownDay * 24;
+  const countdownMinute = Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 60)) - countdownDay * 24 * 60 - countdownHour * 60;
+  return [countdownDay, countdownHour, countdownMinute];
+};
+
 export const getStatusMission = (start_date: string, end_date: string) => {
   const now = new Date();
   const end = new Date(end_date);
   const start = new Date(start_date);
 
   if (start > now) {
-    return `Starts in|${start.getDate() - now.getDate()}d ${Math.abs(start.getHours() - now.getHours())}h ${Math.abs(
-      start.getMinutes() - now.getMinutes()
-    )}m`;
+    const [countdownDay, countdownHour, countdownMinute] = coutDownTimeUnit(now, start);
+    return `Starts in|${countdownDay}d ${countdownHour}h ${countdownMinute}m`;
   }
 
   if (start <= now && end > now) {
-    return `Ends in|${end.getDate() - now.getDate()}d ${Math.abs(end.getHours() - now.getHours())}h ${Math.abs(
-      end.getMinutes() - now.getMinutes()
-    )}m`;
+    const [countdownDay, countdownHour, countdownMinute] = coutDownTimeUnit(now, end);
+    return `Ends in|${countdownDay}d ${countdownHour}h ${countdownMinute}m`;
   }
 
   if (end <= now) {

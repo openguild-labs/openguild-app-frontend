@@ -1,18 +1,21 @@
+"use client";
+export const dynamic = "force-dynamic";
+
 import MyContext, { MyContextType } from "@/context/MyContext";
 import { useCreateUser, useGetUser } from "@/supabase/api/user/services";
-import logo from "@assets/images/logo.png";
 import { useDisclosure } from "@mantine/hooks";
 import { ConnectButton, useAccount, useConnectKit } from "@particle-network/connect-react-ui"; // @particle-network/connectkit to use Auth Core
 import "@particle-network/connect-react-ui/dist/index.css";
 import clsx from "clsx";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
 import { FiMenu } from "react-icons/fi";
-import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { HEADER_HEIGHT } from "../../constants/dimensions";
-import { MISSIONS_PATH, REWARDS_PATH } from "../../constants/links";
+import { MISSIONS_PATH, REWARDS_PATH, QUESTS_PATH, MEMBERS_PATH } from "../../constants/links";
 import PixelEditor2 from "../Pixel/PixelEditor2";
 import "./Layout.css";
-
+import Image from "next/image";
 const linkItems = [
   {
     label: "Missions",
@@ -22,44 +25,58 @@ const linkItems = [
     label: "Rewards",
     to: REWARDS_PATH,
   },
+  {
+    label: "Quests",
+    to: QUESTS_PATH,
+  },
+  {
+    label: "Members",
+    to: MEMBERS_PATH,
+  },
 ];
 
-function Layout() {
-  const navigate = useNavigate();
+function Layout({ children }: any) {
+  const router = useRouter();
+  const pathname = usePathname();
   const connectKit = useConnectKit();
-  const userInfo = connectKit.particle.auth.getUserInfo();
+  const userInfo = connectKit?.particle?.auth?.getUserInfo();
   const account = useAccount();
   const { mutate: createUser } = useCreateUser();
   const { data, isFetched } = useGetUser(account || "");
   const context = useContext(MyContext);
   const [isSideMenuOpened, { toggle: toggleSideMenu }] = useDisclosure(false);
   const { setValue } = context as MyContextType;
-  connectKit.on("disconnect", () => {
-    navigate("/missions");
-  });
 
   const addUserToDB = async () => {
+    if (userInfo === null) return;
     await createUser({
       email: userInfo?.email || userInfo?.google_email || "",
-      wallet_address: userInfo?.wallets[0]?.public_address || "",
-      first_name: "",
-      last_name: "",
+      wallet_address: account || "",
     });
   };
+
+  // useEffect(() => {
+  //   console.log({ userInfo });
+  // }, [userInfo]);
 
   useEffect(() => {
     if (data !== undefined) {
       setValue(data);
     }
 
-    if (data === undefined && isFetched) {
+    if (account !== undefined && account !== "" && data === undefined && isFetched) {
       addUserToDB();
     }
-  }, [account, data]);
+  }, [account, data, isFetched]);
 
-  connectKit.on("disconnect", () => {
-    navigate(MISSIONS_PATH);
-  });
+  try {
+    connectKit &&
+      connectKit?.on("disconnect", () => {
+        router.push(MISSIONS_PATH);
+      });
+  } catch (error) {
+    console.log({ error });
+  }
 
   return (
     <main className="bg-white min-h-screen pb-12">
@@ -75,8 +92,8 @@ function Layout() {
             <FiMenu className="size-6" />
           </button>
 
-          <Link to={MISSIONS_PATH} className="flex items-center">
-            <img src={logo} className="size-12 mr-3" />
+          <Link href={MISSIONS_PATH} className="flex items-center">
+            <Image width={48} height={48} alt="logo" src={"/assets/images/logo.png"} className="mr-3" />
             <h1 className="font-bold text-xl hidden min-[500px]:block">OpenGuild</h1>
           </Link>
         </div>
@@ -84,17 +101,18 @@ function Layout() {
           <nav id="navbar">
             <ul className="hidden md:flex space-x-4">
               {linkItems.map((item) => {
+                const isActive = pathname.includes(item.to);
                 return (
                   <li key={item.to}>
-                    <NavLink
+                    <Link
                       style={{
                         height: HEADER_HEIGHT,
                       }}
-                      className={({ isActive }) => clsx("font-medium text-[1.1rem]", isActive && "active")}
-                      to={item.to}
+                      className={clsx("font-medium text-[1.1rem]", isActive && "active")}
+                      href={item.to}
                     >
                       {item.label}
-                    </NavLink>
+                    </Link>
                   </li>
                 );
               })}
@@ -103,7 +121,7 @@ function Layout() {
           <div className="flex gap-4 items-center max-[1000px]:[&_.particle-account-info_>_span]:hidden">
             <ConnectButton />
             {account && (
-              <div className="" onClick={() => navigate("/profile")}>
+              <div className="" onClick={() => router.push("/profile")}>
                 <PixelEditor2 rows={14} cols={14} />
               </div>
             )}
@@ -114,10 +132,10 @@ function Layout() {
         <div
           className={clsx(
             "fixed top-0 z-40 h-screen p-4 overflow-y-auto transition-transform  bg-white w-[350px] left-0",
-            !isSideMenuOpened && "-translate-x-full",
+            !isSideMenuOpened && "-translate-x-full"
           )}
         >
-          <Link to={MISSIONS_PATH}>
+          <Link href={MISSIONS_PATH}>
             <h1 className="font-bold text-xl p-4">OpenGuild</h1>
           </Link>
           <nav id="navbar">
@@ -125,9 +143,7 @@ function Layout() {
               {linkItems.map((item) => {
                 return (
                   <li key={item.to} className="w-fit !px-0 !mx-0">
-                    <NavLink className={({ isActive }) => (isActive ? "active !px-0" : "!px-0")} to={item.to}>
-                      {item.label}
-                    </NavLink>
+                    <Link href={item.to}>{item.label}</Link>
                   </li>
                 );
               })}
@@ -141,7 +157,7 @@ function Layout() {
           paddingTop: HEADER_HEIGHT,
         }}
       >
-        <Outlet />
+        {children}
       </article>
     </main>
   );

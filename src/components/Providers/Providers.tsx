@@ -1,13 +1,12 @@
-import { WagmiProvider } from "wagmi";
-import { useMemo } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createWagmiConfig } from "../../utils/wagmi";
-import { createTheme, ThemeProvider } from "@mui/material";
-import { HelmetProvider } from "react-helmet-async";
+"use client";
 import MyProvider from "@/context/MyProvider";
-import { ModalProvider } from "@particle-network/connect-react-ui";
+import { ThemeProvider, createTheme } from "@mui/material";
 import { WalletEntryPosition } from "@particle-network/auth";
 import { Moonbeam } from "@particle-network/chains";
+import { ModalProvider } from "@particle-network/connect-react-ui";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SessionProvider } from "next-auth/react";
+import { ToastContainer } from "react-toastify";
 interface IProvidersProps {
   children: React.ReactNode;
 }
@@ -38,15 +37,14 @@ const muiTheme = createTheme({
 });
 
 const Providers = ({ children }: IProvidersProps) => {
-  const wagmiConfig = useMemo(() => createWagmiConfig(), []);
   return (
-    <HelmetProvider>
+    <SessionProvider>
       <MyProvider>
         <ModalProvider
           options={{
-            projectId: "cc895d73-0ca0-486a-bab3-ad3f944e2383",
-            clientKey: "caVSZTfOj1F9NJzE0ZFnhfdZ2l2ZCvVngD3wZXsz",
-            appId: "b5f13e23-7a8b-4660-a924-1d6af4e4b472",
+            projectId: process.env.NEXT_PUBLIC_PARTICLE_PROJECT_ID as string,
+            clientKey: process.env.NEXT_PUBLIC_PARTICLE_CLIENT_KEY as string,
+            appId: process.env.NEXT_PUBLIC_PARTICLE_APP_ID as string,
             chains: [Moonbeam],
             particleWalletEntry: {
               //optional: particle wallet config
@@ -67,16 +65,27 @@ const Providers = ({ children }: IProvidersProps) => {
           theme={"auto"}
           language={"en"} //optional:localize, default en
           walletSort={["Particle Auth", "Wallet"]} //optional:walelt order
-          particleAuthSort={["email", "google", "discord", "twitter"]}
+          particleAuthSort={["google"]}
         >
-          <WagmiProvider config={wagmiConfig}>
-            <QueryClientProvider client={queryClient}>
-              <ThemeProvider theme={muiTheme}>{children}</ThemeProvider>
-            </QueryClientProvider>
-          </WagmiProvider>
+          <QueryClientProvider client={queryClient}>
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
+            <ThemeProvider theme={muiTheme}>{children}</ThemeProvider>
+            <ToastContainer />
+          </QueryClientProvider>
         </ModalProvider>
       </MyProvider>
-    </HelmetProvider>
+    </SessionProvider>
   );
 };
 

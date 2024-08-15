@@ -18,6 +18,7 @@ import { CiImageOn } from "react-icons/ci";
 import "./style.css";
 import { resizeFile } from "@/utils/file";
 import VisuallyHiddenInput from "../VisuallyHiddenInput";
+import { RichTextLink } from "./rich-text-link";
 
 export const TIPTAP_EMPTY_STRING = "<p></p>";
 
@@ -52,6 +53,7 @@ const extensions = [
   TableRow,
   TableHeader,
   TableCell,
+  RichTextLink,
 ];
 
 interface ITipTapProps {

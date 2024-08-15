@@ -1,8 +1,6 @@
 type TUserCreation = {
   email?: string;
   wallet_address: string;
-  first_name?: string;
-  last_name?: string;
 };
 
 type TUserUpdate = {
@@ -12,6 +10,7 @@ type TUserUpdate = {
   username?: string;
   twitter?: string;
   discord?: string;
-  telegram?: string;
+  github?: string;
   facebook?: string;
+  discord_id?: string;
 };
