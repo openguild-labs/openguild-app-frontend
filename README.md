@@ -31,6 +31,24 @@ yarn dev
 7. /supabase: Configurations, endpoints and functions to interact with Supabase.
 8. /utils: Utility functions.
 
+# Env variable
+
+`NETLIFY_NEXT_PLUGIN_SKIP`: env for netlify deployment
+`NEXT_PUBLIC_BOT_TOKEN`: Discord bot token
+`NEXT_PUBLIC_CLAIM_REQUEST_CHANNEL_ID`: channel ID to send claim request
+`NEXT_PUBLIC_DISCORD_API_BASE_URL`: base URL of Discord API 
+`NEXT_PUBLIC_DISCORD_AUTH_CLIENT_ID`: Discord Auth Client ID
+`NEXT_PUBLIC_DISCORD_AUTH_CLIENT_SECRET`: Discord Auth Client Secret
+`NEXT_PUBLIC_GUILD_ID`: Discord Guild ID
+`NEXT_PUBLIC_PARTICLE_APP_ID`: Particle App ID, take it in Particle Dashboard
+`NEXT_PUBLIC_PARTICLE_CLIENT_KEY`: Particle Client Key, take it int Particle Dashboard
+`NEXT_PUBLIC_PARTICLE_PROJECT_ID`: Particle Project ID, take it int Particle Dashboard
+`NEXT_PUBLIC_POW_CHANNEL_ID`: channel ID to send PoW
+`NEXT_PUBLIC_SUPABASE_KEY`: Supabase `service_role` key, take it in API Settings tab, Project Dashboard
+`NEXT_PUBLIC_SUPABASE_URL`: Supabase URL, take it in API Settings tab, Project Dashboard
+`NEXTAUTH_SECRET`: A random key for NextAuth deployment
+`NODE_VERSION`: node version
+
 # Deployment
 
 1. **Vercel**:

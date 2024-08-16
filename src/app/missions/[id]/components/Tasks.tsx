@@ -352,8 +352,11 @@ function Tasks({ tasks, isEnded, isNotStart, missionName, totalXP, missionID }: 
                     {
                       onSuccess: (resp) => {
                         const md = nhm.translate(proof);
+                        const taskName = tasks.find((task) => task.id === taskID)?.name || "";
                         sendDiscordPoW({
                           user_id: userInfo?.discord_id || "",
+                          mission_name: missionName,
+                          task_name: taskName,
                           proof: md,
                           imageURL: resp,
                         });
