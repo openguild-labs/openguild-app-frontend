@@ -12,8 +12,9 @@ export async function POST(request: NextRequest) {
       Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
     },
     body: JSON.stringify({
-      name: `<@${data.user_id}>`,
+      name: `[Proof of Work][${data.mission_name}][${data.task_name}]`,
       message: {
+        content: `<@${data.user_id}> completed the task **${data.task_name}** in the mission **${data.mission_name}**!`,
         embeds: [
           {
             description: data.proof,
