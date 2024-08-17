@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import BannerView from "./components/BannerView";
 import History from "./components/History";
 import Portfolio from "./components/Portfolio";
+import { Button } from "@headlessui/react";
 
 import { useGetUser, useGetUserByUsername } from "@/supabase/api/user/services";
 import { shortenAddressOrEns } from "@/utils/address.ts";
@@ -12,6 +13,8 @@ import { useSearchParams } from "next/navigation";
 import { toast } from "react-toastify";
 import SettingOutsideView from "./components/SettingOutsideView";
 import { QRCode } from "react-qrcode-logo";
+import Modal from "@/components/Modal";
+import clsx from "clsx";
 
 const categories: any = [
   {
@@ -37,6 +40,8 @@ function Profile() {
   const searchParams = useSearchParams();
   const info = getParameterTypeAndValue(searchParams);
   const [tab, setTab] = useState(0);
+  const [openModal, setOpenModal] = useState(false);
+
   const handleCopy = () => {
     const element = document.createElement("textarea");
     element.value = `${wallet}`;
@@ -46,6 +51,7 @@ function Profile() {
     document.body.removeChild(element);
     toast.success("Wallet Copied");
   };
+
   const { data } = info?.type === "wallet" ? useGetUser(info?.value || "") : useGetUserByUsername(info?.value || "");
   const wallet = data?.wallet_address;
   useEffect(() => {
@@ -54,6 +60,18 @@ function Profile() {
   return (
     <div className="h-auto mt-3 mb-8">
       <BannerView />
+      <Modal isActive={openModal} variant="custom" onCancel={() => setOpenModal(false)} className="bg-white py-8">
+        <div className="text-center w-full">
+          <QRCode
+            value={
+              data?.username
+                ? "https://app.openguild.wtf/user?username=" + data?.username
+                : "https://app.openguild.wtf/user?wallet=" + wallet
+            }
+            style={{ margin: "10px auto 10px" }}
+          />
+        </div>
+      </Modal>
       <div
         className="text-[1rem] md:text-[1.5rem] lg:text-[40px] mt-24 text-center font-bold flex items-center justify-center gap-2 md:gap-4 cursor-pointer"
         onClick={handleCopy}
@@ -62,7 +80,15 @@ function Profile() {
         <FaCopy />
       </div>
       <div className="text-center w-full">
-        <QRCode value={"https://openguild-app-frontend.vercel.app/user?wallet=" + wallet} style={{ margin: "10px auto 10px" }} />
+        <Button
+          className={clsx(
+            "transition-effect group text-black py-[10px] px-[14px] border rounded-lg text-xs flex items-center mx-auto mt-2",
+            "bg-white border-primary-500 hover:text-primary-color hover:border-primary-color",
+          )}
+          onClick={() => setOpenModal(true)}
+        >
+          Show QR
+        </Button>
       </div>
       <div className="flex w-full pt-4 ">
         <TabGroup

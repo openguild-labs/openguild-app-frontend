@@ -15,6 +15,16 @@ function SettingOutsideView({ userInfo }: any) {
     typeof document !== "undefined" && document?.body.removeChild(element);
     toast.success("Wallet Copied");
   };
+  const handleCopyWithValue = (value: any) => {
+    if (!value) return;
+    const element = document.createElement("textarea");
+    element.value = value;
+    document.body.appendChild(element);
+    element.select();
+    document.execCommand("copy");
+    document.body.removeChild(element);
+    toast.success("Copied");
+  };
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -37,29 +47,44 @@ function SettingOutsideView({ userInfo }: any) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="w-full">
           <div className="font-bold my-2">User ID</div>
-          <SearchInput value={userInfo?.id} disabled className="cursor-not-allowed" />
+          <SearchInput value={userInfo?.id} onClick={() => handleCopyWithValue(userInfo?.id)} className="cursor-not-allowed" readOnly />
         </div>
         <div className="w-full">
           <div className="font-bold my-2">Username</div>
-          <SearchInput value={username} onChange={(e) => setUsername(e.target.value)} />
+          <SearchInput
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            readOnly
+            onClick={() => handleCopyWithValue(username)}
+          />
         </div>
         <div className="w-full">
           <div className="font-bold my-2">First Name</div>
-          <SearchInput value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+          <SearchInput
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            readOnly
+            onClick={() => handleCopyWithValue(firstName)}
+          />
         </div>
         <div className="w-full">
           <div className="font-bold my-2">Last Name</div>
-          <SearchInput value={lastName} onChange={(e) => setLastName(e.target.value)} />
+          <SearchInput
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            readOnly
+            onClick={() => handleCopyWithValue(lastName)}
+          />
         </div>
       </div>
 
-      <div className="bg-white/10  w-full h-[1px] mt-0" />
+      <div className="bg-white/10 w-full h-[1px] mt-0" />
       <div className="text-primary-color text-2xl font-bold mt-12 mb-6">Social Accounts</div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
         <div className="px-8 py-3 bg-white border border-primary-color text-center cursor-pointer font-semibold rounded-md mt-4">
           {userInfo?.email ? (
-            <div className="flex gap-2 items-center justify-center text-[#6b3ffd]">
+            <div className="flex gap-2 items-center justify-center text-[#6b3ffd]" onClick={() => handleCopyWithValue(userInfo?.email)}>
               Email: @{userInfo?.email} <IoIosCheckmarkCircle color="#f226ef" />
             </div>
           ) : (
@@ -69,7 +94,7 @@ function SettingOutsideView({ userInfo }: any) {
 
         {userInfo?.discord ? (
           <div className="px-8 py-3 bg-white border border-primary-color text-center cursor-pointer font-semibold rounded-md mt-4">
-            <div className="flex gap-2 items-center justify-center text-[#6b3ffd]">
+            <div className="flex gap-2 items-center justify-center text-[#6b3ffd]" onClick={() => handleCopyWithValue(userInfo?.discord)}>
               Discord: @{userInfo?.discord} <IoIosCheckmarkCircle color="#f226ef" />
             </div>
           </div>
@@ -81,7 +106,7 @@ function SettingOutsideView({ userInfo }: any) {
 
         {userInfo?.twitter ? (
           <div className="px-8 py-3 bg-white border border-primary-color text-center cursor-pointer font-semibold rounded-md mt-4">
-            <div className="flex gap-2 items-center justify-center text-[#6b3ffd]">
+            <div className="flex gap-2 items-center justify-center text-[#6b3ffd]" onClick={() => handleCopyWithValue(userInfo?.twitter)}>
               Twitter: @{userInfo?.twitter} <IoIosCheckmarkCircle color="#f226ef" />
             </div>
           </div>
@@ -92,7 +117,7 @@ function SettingOutsideView({ userInfo }: any) {
         )}
         {userInfo?.telegram ? (
           <div className="px-8 py-3 bg-white border border-primary-color text-center cursor-pointer font-semibold rounded-md mt-4">
-            <div className="flex gap-2 items-center justify-center text-[#6b3ffd]">
+            <div className="flex gap-2 items-center justify-center text-[#6b3ffd]" onClick={() => handleCopyWithValue(userInfo?.telegram)}>
               Telegram: @{userInfo?.telegram} <IoIosCheckmarkCircle color="#f226ef" />
             </div>
           </div>
