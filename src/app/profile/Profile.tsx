@@ -1,15 +1,22 @@
 "use client";
 import Banner from "./components/Banner";
 
+import Modal from "@/components/Modal";
+import { useGetUser } from "@/supabase/api/user/services";
 import { shortenAddressOrEns } from "@/utils/address.ts";
+import { Button } from "@headlessui/react";
 import { useAccount } from "@particle-network/connect-react-ui";
+import clsx from "clsx";
+import { useState } from "react";
 import { FaCopy } from "react-icons/fa6";
-import Settings from "./components/Settings";
-import { toast } from "react-toastify";
 import { QRCode } from "react-qrcode-logo";
+import { toast } from "react-toastify";
+import Settings from "./components/Settings";
 
 function Profile() {
   const account = useAccount();
+  const [openModal, setOpenModal] = useState(false);
+
   const handleCopy = () => {
     const element: any = typeof document !== "undefined" && document?.createElement("textarea");
     element.value = `${account}`;
@@ -31,7 +38,7 @@ function Profile() {
     }
   }
   const info = getParameterTypeAndValue(location.search);
-  console.log({ info });
+  const { data } = useGetUser(account || "");
   return (
     <div className="h-auto mt-3 mb-8">
       <Banner />
@@ -42,7 +49,29 @@ function Profile() {
         <span>{shortenAddressOrEns(account as string, 16)}</span>
         <FaCopy />
       </div>
-      <QRCode value={"https://openguild-app-frontend.vercel.app/user?wallet=" + account} style={{ margin: "10px auto 10px" }} />
+      <Modal isActive={openModal} variant="custom" onCancel={() => setOpenModal(false)} className="bg-white p-4 w-auto">
+        <div className="text-center w-full">
+          <QRCode
+            value={
+              data?.username
+                ? "https://app.openguild.wtf/user?username=" + data?.username
+                : "https://app.openguild.wtf/user?wallet=" + account
+            }
+            style={{ margin: "10px auto 10px", width: "260px", height: "260px" }}
+          />
+        </div>
+      </Modal>
+      <div className="text-center w-full">
+        <Button
+          className={clsx(
+            "transition-effect group text-black py-[10px] px-[14px] border rounded-lg text-xs flex items-center mx-auto mt-2",
+            "bg-white border-primary-500 hover:text-primary-color hover:border-primary-color",
+          )}
+          onClick={() => setOpenModal(true)}
+        >
+          Show QR
+        </Button>
+      </div>
       <Settings />
     </div>
   );
