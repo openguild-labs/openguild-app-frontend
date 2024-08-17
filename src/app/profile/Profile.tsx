@@ -6,6 +6,7 @@ import { useAccount } from "@particle-network/connect-react-ui";
 import { FaCopy } from "react-icons/fa6";
 import Settings from "./components/Settings";
 import { toast } from "react-toastify";
+import { QRCode } from "react-qrcode-logo";
 
 function Profile() {
   const account = useAccount();
@@ -18,6 +19,19 @@ function Profile() {
     typeof document !== "undefined" && document?.body.removeChild(element);
     toast.success("Wallet Copied");
   };
+  function getParameterTypeAndValue(search: string) {
+    const params = new URLSearchParams(search);
+
+    if (params.has("wallet")) {
+      return { type: "wallet", value: params.get("wallet") };
+    } else if (params.has("username")) {
+      return { type: "username", value: params.get("username") };
+    } else {
+      return null;
+    }
+  }
+  const info = getParameterTypeAndValue(location.search);
+  console.log({ info });
   return (
     <div className="h-auto mt-3 mb-8">
       <Banner />
@@ -28,6 +42,7 @@ function Profile() {
         <span>{shortenAddressOrEns(account as string, 16)}</span>
         <FaCopy />
       </div>
+      <QRCode value={"https://openguild-app-frontend.vercel.app/user?wallet=" + account} style={{ margin: "10px auto 10px" }} />
       <Settings />
     </div>
   );

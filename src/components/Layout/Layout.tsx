@@ -77,6 +77,14 @@ function Layout({ children }: any) {
   } catch (error) {
     console.log({ error });
   }
+  useEffect(() => {
+    if (document) {
+      if ((document as any)?.querySelector(".particle-connect-wallet-btn")?.firstChild?.nodeValue === "Connect Wallet") {
+        const element: any = (document as any)?.querySelector(".particle-connect-wallet-btn")?.firstChild;
+        element.textContent = "Log In";
+      }
+    }
+  });
 
   return (
     <main className="bg-white min-h-screen pb-12">
@@ -132,7 +140,7 @@ function Layout({ children }: any) {
         <div
           className={clsx(
             "fixed top-0 z-40 h-screen p-4 overflow-y-auto transition-transform  bg-white w-[350px] left-0",
-            !isSideMenuOpened && "-translate-x-full"
+            !isSideMenuOpened && "-translate-x-full",
           )}
         >
           <Link href={MISSIONS_PATH}>
