@@ -11,12 +11,12 @@ export const metadata: Metadata = {
   openGraph: {
     title: "OpenGuild",
     description: "An open community driven by Web 3.0 builders elevating Polkadot",
-    images: ["https://openguild-app-frontend.vercel.app/assets/images/banner.webp"],
+    images: ["/assets/images/banner.webp"],
   },
   twitter: {
     title: "OpenGuild",
     description: "An open community driven by Web 3.0 builders elevating Polkadot",
-    images: ["https://openguild-app-frontend.vercel.app/assets/images/banner.webp"],
+    images: ["/assets/images/banner.webp"],
   },
 };
 

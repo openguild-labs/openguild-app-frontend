@@ -1,6 +1,5 @@
 "use client";
 import CommonInfo from "./components/CommonInfo";
-import { useMediaQuery } from "@mantine/hooks";
 import HeaderDetails from "@/components/HeaderDetails";
 import { useGetReward } from "@/supabase/api/reward/services";
 import DescriptionDetails from "@/components/DescriptionDetails";
@@ -15,7 +14,6 @@ interface IRewardDetailsProps {
 }
 
 function RewardDetail({ params: { id } }: IRewardDetailsProps) {
-  const isDesktop = useMediaQuery("(min-width: 1024px)");
   const { value } = useContext(MyContext) as MyContextType;
   const { data, isLoading } = useGetReward(id, value?.id || 0);
 
@@ -37,14 +35,18 @@ function RewardDetail({ params: { id } }: IRewardDetailsProps) {
   return (
     <div className="mt-[30px] pb-10">
       <div className="flex gap-8 flex-col lg:flex-row">
-        {!isDesktop && <HeaderDetails title={data.name} />}
+        <div className="lg:hidden block">
+          <HeaderDetails title={data.name} />
+        </div>
         <div className="w-full md:w-1/2 shrink-0">
           <div className="rounded-xl shadow-lg bg-white p-3 w-full flex flex-col gap-y-3 relative">
             <img loading="lazy" src={data.imageURL} alt="image" className="object-cover aspect-square rounded-lg" />
           </div>
         </div>
         <div className="w-full flex flex-col gap-y-8 order-1">
-          {isDesktop && <HeaderDetails title={data.name} />}
+          <div className="lg:block hidden">
+            <HeaderDetails title={data.name} />
+          </div>
           <CommonInfo reward={data} user={value} rewardID={data.id} rewardName={data.name} />
           <DescriptionDetails description={data.description} />
         </div>

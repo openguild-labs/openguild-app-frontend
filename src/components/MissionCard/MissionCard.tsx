@@ -13,12 +13,18 @@ function MissionCard({ mission }: IMissionCardProps) {
     <div className="shrink-0 w-full">
       <Link
         href={`${MISSIONS_PATH}/${mission?.id}`}
-        className="block rounded-lg w-full hover:scale-[102%] duration-200 transition p-2"
+        className="block rounded-lg w-full hover:scale-[102%] duration-200 transition p-2 relative"
         style={{
           backgroundColor: mission.isFeatured === "true" ? "rgb(107 63 253 / 0.08)" : "transparent",
         }}
       >
-        <div className="w-full aspect-square relative">
+        {mission.isFeatured === "true" && (
+          <div className="absolute shadow top-0 left-0 bg-pink-500 text-xs text-white px-2 py-1 rounded">
+            <span>Featured</span>
+          </div>
+        )}
+
+        <div className="w-full aspect-square">
           <img alt="thumbnail" src={mission?.bannerURL} className="w-full h-full rounded-md object-cover" />
         </div>
         <div className="flex flex-col w-full gap-y-2 mt-2">

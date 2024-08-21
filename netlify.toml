@@ -7,3 +7,14 @@
 
 [build.environment]
   NETLIFY_NEXT_PLUGIN_SKIP = "true"
+
+[functions]
+  [functions.___netlify-server-handler]
+    included_files = [
+      "./public/**"
+    ]
+
+[functions]
+  included_files = [
+    "./public/**"
+  ]
