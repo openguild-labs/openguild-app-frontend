@@ -13,8 +13,3 @@
     included_files = [
       "./public/**"
     ]
-
-[functions]
-  included_files = [
-    "./public/**"
-  ]
