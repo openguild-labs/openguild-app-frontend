@@ -1,5 +1,6 @@
 type TDiscordCreateThreadRequest = {
   user_id: string;
+  discord_name: string;
   proof: string;
   mission_name: string;
   task_name: string;

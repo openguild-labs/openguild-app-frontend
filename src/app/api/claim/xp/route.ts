@@ -1,5 +1,6 @@
-import { DISCORD_API_BASE_URL, DISCORD_BOT_TOKEN, DISCORD_CLAIM_CHANNEL_ID } from "@/constants/discord";
+import { DISCORD_API_BASE_URL, DISCORD_BOT_TOKEN, DISCORD_CLAIM_CHANNEL_ID, MAX_THREAD_NAME_LENGTH } from "@/constants/discord";
 import { NextRequest } from "next/server";
+import { shortenString } from "@/utils/stringUtils";
 
 export async function POST(request: NextRequest) {
   const data = (await request.json()) as TDiscordCreateClaimXPRequest;
@@ -12,7 +13,7 @@ export async function POST(request: NextRequest) {
       Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
     },
     body: JSON.stringify({
-      name: `[Claim Request][Mission] ${data.missionName}`,
+      name: `${shortenString(`[XP] ${data.missionName}`, MAX_THREAD_NAME_LENGTH - 3)}`,
       message: {
         content: `<@${data.userID}> completed the **${data.missionName}** mission with **${data.xp}** XP!`,
       },

@@ -355,6 +355,7 @@ function Tasks({ tasks, isEnded, isNotStart, missionName, totalXP, missionID }: 
                         const taskName = tasks.find((task) => task.id === taskID)?.name || "";
                         sendDiscordPoW({
                           user_id: userInfo?.discord_id || "",
+                          discord_name: userInfo?.discord || "",
                           mission_name: missionName,
                           task_name: taskName,
                           proof: md,
