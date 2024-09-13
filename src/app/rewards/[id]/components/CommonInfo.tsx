@@ -24,7 +24,7 @@ function CommonInfo({ reward, user, rewardName, rewardID }: TCommonInfoProps) {
   const router = useRouter();
   const { mutate: sendClaimRequest, isPending: isPendingClaim } = useSendClaimRewardRequest();
 
-  const { data: isSent, refetch } = useCheckClaimRequest({ user_id: user?.id || 0, object_id: rewardID, type: REWARD_TYPE });
+  const { data: isSent, refetch } = useCheckClaimRequest({ discord_id: user?.discord_id || "", object_id: rewardID, type: REWARD_TYPE });
   const { mutate: storeClaimRequest, isPending: isPendingStore } = useCreateClaimRequest();
   const handleClaim = () => {
     if (!canClaim) return;
@@ -40,7 +40,7 @@ function CommonInfo({ reward, user, rewardName, rewardID }: TCommonInfoProps) {
       {
         onSuccess: () => {
           storeClaimRequest(
-            { user_id: user?.id || 0, object_id: rewardID, type: REWARD_TYPE },
+            { discord_id: user?.discord_id || "", object_id: rewardID, type: REWARD_TYPE },
             {
               onSuccess: (resp) => {
                 if (resp) {

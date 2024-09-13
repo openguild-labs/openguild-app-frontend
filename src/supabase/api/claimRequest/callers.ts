@@ -6,6 +6,7 @@ export const checkClaimRequest = async (req: TClaimRequest) => {
     .select<string, TClaimRequestModel>()
     .eq("object_id", req.object_id)
     .eq("type", req.type)
+    .eq("discord_id", req.discord_id)
     .is("deleted_at", null);
   if (error !== null || data === null) {
     console.error(error.message || "Error checking claim request");
