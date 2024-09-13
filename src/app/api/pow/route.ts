@@ -1,5 +1,6 @@
-import { DISCORD_API_BASE_URL, DISCORD_BOT_TOKEN, DISCORD_POW_CHANNEL_ID } from "@/constants/discord";
+import { DISCORD_API_BASE_URL, DISCORD_BOT_TOKEN, DISCORD_POW_CHANNEL_ID, MAX_THREAD_NAME_LENGTH } from "@/constants/discord";
 import { NextRequest } from "next/server";
+import { shortenString } from "@/utils/stringUtils";
 
 export async function POST(request: NextRequest) {
   const data = (await request.json()) as TDiscordCreateThreadRequest;
@@ -12,9 +13,9 @@ export async function POST(request: NextRequest) {
       Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
     },
     body: JSON.stringify({
-      name: `[Proof of Work][${data.mission_name}][${data.task_name}]`,
+      name: `${shortenString(`[PoW][@${data.discord_name}] ${data.task_name}`, MAX_THREAD_NAME_LENGTH - 3)}`,
       message: {
-        content: `<@${data.user_id}> completed the task **${data.task_name}** in the mission **${data.mission_name}**!`,
+        content: `<@${data.user_id}> completed the task: **${data.task_name}** \n\nMission: **${data.mission_name}**!`,
         embeds: [
           {
             description: data.proof,

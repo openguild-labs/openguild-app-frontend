@@ -1,5 +1,6 @@
-import { DISCORD_API_BASE_URL, DISCORD_BOT_TOKEN, DISCORD_CLAIM_CHANNEL_ID } from "@/constants/discord";
+import { DISCORD_API_BASE_URL, DISCORD_BOT_TOKEN, DISCORD_CLAIM_CHANNEL_ID, MAX_THREAD_NAME_LENGTH } from "@/constants/discord";
 import { NextRequest } from "next/server";
+import { shortenString } from "@/utils/stringUtils";
 
 export async function POST(request: NextRequest) {
   const data = (await request.json()) as TDiscordCreateClaimRewardRequest;
@@ -12,9 +13,9 @@ export async function POST(request: NextRequest) {
       Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
     },
     body: JSON.stringify({
-      name: `[Claim Request][Reward] ${data.rewardName}`,
+      name: `${shortenString(`[Reward] ${data.rewardName}`, MAX_THREAD_NAME_LENGTH - 3)}`,
       message: {
-        content: `<@${data.userID}> completed all missions in the **${data.rewardName}** reward!`,
+        content: `<@${data.userID}> completed all missions to claim the **${data.rewardName}** reward!`,
       },
     }),
   });
