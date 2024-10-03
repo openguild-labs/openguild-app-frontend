@@ -5,8 +5,8 @@ function Banner() {
         <span className="text-primary-color">Mission</span> System
       </div>
       <img
-        className="h-[300px] md:h-[300px] lg:h-[300px]  object-cover z-0 w-full relative rounded-lg"
-        src={"/assets/images/banner.webp"}
+        className="h-[300px] md:h-[300px] lg:h-[300px] object-cover z-0 w-full relative rounded-lg"
+        src={"/assets/images/community-banner.png"}
         style={{
           backgroundPosition: "center",
         }}

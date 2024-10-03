@@ -19,13 +19,18 @@ function MissionCard({ mission }: IMissionCardProps) {
         }}
       >
         {mission.isFeatured === "true" && (
-          <div className="absolute shadow top-0 left-0 bg-pink-500 text-xs text-white px-2 py-1 rounded">
-            <span>Featured</span>
+          <div className="absolute shadow top-0 left-0 bg-pink-500 text-xs text-white font-bold px-2 py-1 rounded">
+            <span>🔥 Featured</span>
           </div>
         )}
 
         <div className="w-full aspect-square">
-          <img alt="thumbnail" src={mission?.bannerURL} className="w-full h-full rounded-md object-cover" />
+          <img
+            alt="thumbnail"
+            src={mission?.bannerURL}
+            className="w-full h-full  rounded-md object-contain"
+            style={{ background: "linear-gradient(91.1deg, rgb(57, 31, 105) -2.3%, rgb(115, 43, 155) 44.4%, rgb(231, 75, 184) 103.4%)" }}
+          />
         </div>
         <div className="flex flex-col w-full gap-y-2 mt-2">
           <div className="w-full text-black">

@@ -21,7 +21,7 @@ function HeaderDetails({ title }: IHeaderDetailsProps) {
         </div>
         <ShareButton />
       </div> */}
-      <h1 className="text-[2rem] lg:text-[40px] mt-4 text-primary-color">{title}</h1>
+      <h1 className="text-2xl font-medium mt-4 text-primary-color">{title}</h1>
     </>
   );
 }

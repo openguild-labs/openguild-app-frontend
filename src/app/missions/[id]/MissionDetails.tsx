@@ -6,6 +6,7 @@ import Tasks from "./components/Tasks";
 import HeaderDetails from "@/components/HeaderDetails";
 import DescriptionDetails from "@/components/DescriptionDetails";
 import { getMission } from "@/supabase/api/mission/callers";
+import Tag from "@/components/Tag/Tag";
 
 interface IMissionDetailsProps {
   params: {
@@ -39,11 +40,15 @@ async function MissionDetails({ params: { id } }: IMissionDetailsProps) {
           <HeaderDetails title={data.title} />
         </div>
         <div className="w-full md:w-[40%] shrink-0">
-          <CommonInfo imgSrc={data.bannerURL} category={data.category} participants={data.participants} totalXP={totalXP} />
+          <CommonInfo imgSrc={data.bannerURL} participants={data.participants} />
         </div>
         <div className="flex flex-col gap-y-8 flex-1">
           <div className="lg:block hidden">
             <HeaderDetails title={data.title} />
+          </div>
+          <div className="flex gap-x-2">
+            <Tag value={data.category} isWholeWord className=" bg-[#6b3ffdae] text-white border-transparent font-bold" />
+            <Tag value={`🎉 ${totalXP} XP`} className="w-fit font-bold" />
           </div>
           <Tasks
             tasks={data.tasks || []}

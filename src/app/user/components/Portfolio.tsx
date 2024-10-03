@@ -73,7 +73,7 @@ function Portfolio() {
       <div className="block md:flex justify-center items-center mt-3 gap-x-8">
         <SearchInput placeholder="Search items name..." />
       </div>
-      <img src={"/assets/images/banner.webp"} alt="nothing" className="text-center mx-auto w-[400px] mt-12" />
+      <img src={"/assets/images/community-banner.png"} alt="nothing" className="text-center mx-auto w-[400px] mt-12" />
       <div
         className="font-semibold text-center"
         style={{
@@ -89,7 +89,7 @@ function Portfolio() {
           <Filter />
         </div>
       </div>
-      <img src={"/assets/images/banner.webp"} alt="nothing" className="text-center mx-auto w-[400px] mt-12" />
+      <img src={"/assets/images/community-banner.png"} alt="nothing" className="text-center mx-auto w-[400px] mt-12" />
       <div
         className="font-semibold text-center"
         style={{

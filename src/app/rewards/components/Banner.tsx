@@ -13,7 +13,7 @@ const Banner = () => {
         width={1068}
         height={300}
         className="h-[300px] md:h-[300px] lg:h-[300px]  object-cover z-0 w-full relative rounded-lg"
-        src={"/assets/images/banner.webp"}
+        src={"/assets/images/community-banner.png"}
         style={{
           backgroundPosition: "center",
         }}

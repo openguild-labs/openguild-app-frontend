@@ -31,9 +31,6 @@ const muiTheme = createTheme({
       main: "#6b3ffd",
     },
   },
-  typography: {
-    fontFamily: "Space Grotesk",
-  },
 });
 
 const Providers = ({ children }: IProvidersProps) => {
