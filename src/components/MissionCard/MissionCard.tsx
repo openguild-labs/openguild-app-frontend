@@ -28,13 +28,13 @@ function MissionCard({ mission }: IMissionCardProps) {
           <img
             alt="thumbnail"
             src={mission?.bannerURL}
-            className="w-full h-full  rounded-md object-contain"
+            className="w-full h-full rounded-md object-contain"
             style={{ background: "linear-gradient(91.1deg, rgb(57, 31, 105) -2.3%, rgb(115, 43, 155) 44.4%, rgb(231, 75, 184) 103.4%)" }}
           />
         </div>
         <div className="flex flex-col w-full gap-y-2 mt-2">
           <div className="w-full text-black">
-            <h3 className="text-ellipsis font-bold line-clamp-1">{mission.title}</h3>
+            <h4 className="text-ellipsis font-medium text-sm line-clamp-2">{mission.title}</h4>
           </div>
           <div className="w-full flex items-center text-black gap-x-2">
             <span className="text-sm">{statusMap[0]}</span>
@@ -42,7 +42,7 @@ function MissionCard({ mission }: IMissionCardProps) {
           </div>
           <div className="w-full">
             <div className="flex w-full overflow-hidden gap-x-1 text-black">
-              <Tag value={mission.category} isWholeWord className=" bg-primary-color text-white border-transparent" />
+              <Tag value={mission.category} isWholeWord className="bg-primary-color text-white border-transparent" />
               <Tag value={`${mission.xp} XP`} />
             </div>
           </div>

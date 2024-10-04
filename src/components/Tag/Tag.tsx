@@ -13,10 +13,10 @@ function Tag({ value, size = "medium", isWholeWord, className, ...props }: ITagP
   const restWords = words.slice(1).join(" ");
   return (
     <div
-      className={clsx("flex gap-1 rounded-md border border-gray-300 w-auto px-3 py-[6px] leading-6", className)}
+      className={clsx("flex gap-1 font-medium rounded-2xl border border-gray-300 w-auto px-2 py-[4px] leading-6", className)}
       {...props}
       style={{
-        fontSize: size === "large" ? "1.25rem" : "0.875rem",
+        fontSize: size === "large" ? "1rem" : "0.675rem",
       }}
     >
       {isWholeWord ? (

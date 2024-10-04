@@ -54,7 +54,7 @@ function Disclosure({ title, description }: IDisclosureProps) {
       </AccordionSummary>
       {haveDescription && (
         <AccordionDetails>
-          <div className="p-1 text-sm text-wrap tiptap" dangerouslySetInnerHTML={{ __html: description }} />
+          <div style={{ lineHeight: 2 }} className="p-1 text-sm text-wrap tiptap" dangerouslySetInnerHTML={{ __html: description }} />
         </AccordionDetails>
       )}
     </Accordion>

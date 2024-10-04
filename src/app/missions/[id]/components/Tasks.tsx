@@ -181,7 +181,7 @@ function Tasks({ tasks, isEnded, isNotStart, missionName, totalXP, missionID }: 
               key={index}
               title={
                 <div className="flex items-center justify-between w-full">
-                  <h3 className="text-ellipsis line-clamp-1 text-start font-bold">{task.name}</h3>
+                  <h3 className="text-ellipsis text-start text-sm font-bold">{task.name}</h3>
                   {!isEnded && !isNotStart && userInfo !== undefined && (
                     <div className="flex items-center gap-x-2 shrink-0 ml-2">
                       {/* completion button */}
