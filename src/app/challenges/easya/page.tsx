@@ -1,4 +1,6 @@
 import { Divider } from "antd";
+import Courses from "./polkadot.json";
+import CourseCard from "./CourseCard";
 
 export default function EasyAChallenge() {
   return (
@@ -23,6 +25,10 @@ export default function EasyAChallenge() {
             Powered by the open-source data from EasyA Web3 Content
           </a>
         </div>
+        <Divider />
+        {Courses.map((course) => (
+          <CourseCard {...course} key={`course-${course.index}`} />
+        ))}
       </div>
     </div>
   );
