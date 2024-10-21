@@ -42,7 +42,7 @@ function MissionCard({ mission }: IMissionCardProps) {
           </div>
           <div className="w-full">
             <div className="flex w-full overflow-hidden gap-x-1 text-black">
-              <Tag value={mission.category} isWholeWord className="bg-primary-color text-white border-transparent" />
+              {mission.category && <Tag value={mission.category} isWholeWord className="bg-primary-color text-white border-transparent" />}
               <Tag value={`${mission.xp} XP`} />
             </div>
           </div>
