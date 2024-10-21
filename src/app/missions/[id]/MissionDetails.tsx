@@ -47,7 +47,7 @@ async function MissionDetails({ params: { id } }: IMissionDetailsProps) {
             <HeaderDetails title={data.title} />
           </div>
           <div className="flex gap-x-2">
-            <Tag value={data.category} isWholeWord className=" bg-[#6b3ffdae] text-white border-transparent font-bold" />
+            {data.category && <Tag value={data.category} isWholeWord className=" bg-[#6b3ffdae] text-white border-transparent font-bold" />}
             <Tag value={`🎉 ${totalXP} XP`} className="w-fit font-bold" />
           </div>
           <Tasks

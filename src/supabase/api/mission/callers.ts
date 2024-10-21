@@ -148,7 +148,7 @@ export const getMission = async (id: string) => {
     ...mission,
     bannerURL,
     tasks: tasksData,
-    category: subInfoData[0].category,
+    category: subInfoData.length != 0 ? subInfoData[0].category : "",
     participants: participantQuantityData[0]?.quantity || 0,
   } as TMissionDetailResponse;
 };
