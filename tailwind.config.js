@@ -4,7 +4,7 @@ const colors = require("tailwindcss/colors");
 const { fontFamily } = require("tailwindcss/defaultTheme");
 
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}", "./node_modules/flowbite/**/*.js"],
   theme: {
     extend: {
       backgroundImage: {
@@ -49,5 +49,4 @@ export default {
       },
     },
   },
-  plugins: [],
 };
